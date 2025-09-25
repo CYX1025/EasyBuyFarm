@@ -1,83 +1,269 @@
-/* Navbar */
+/* 預設 */
+body {
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(to right, #fdfbfb, #ebedee); /* 背景漸層 */
+}
+
+/* 頂部導覽列 */
 .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, #2992fa, #ffffff); 
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo {
+  width: 120px;          /* 容器固定寬度，可調整 */
+  display: flex;          /* 讓 img 在容器內水平置中 */
+  align-items: center;    /* 垂直置中 */
+  overflow: hidden;       /* 防止容器溢出 */
+}
+
+.logo img {
+  width: 100%;            /* 讓圖片寬度撐滿容器 */
+  height: auto;           /* 自動高度，保持比例 */
+  display: block;         /* 移除下方空隙 */
+}
+.navbar-left {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
-  background: #ffdab7;
-  color: rgb(255, 255, 255);
+  gap: 0px; /* logo 和搜尋框間距 */
 }
-.navbar a { color: rgb(3, 3, 3); margin: 0 10px; text-decoration: none; }
-
-/* 登入表單 */
-.login-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-}
-.login-container input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-.btn {
-  width: 100%;
-  padding: 12px;
-  background: #e2b286;
-  color: #fff;
+.search-box {
+  width: 300px; /* 搜尋框固定寬度，不會撐破父容器 */
+  padding: 8px 12px;
+  border-radius: 4px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  font-size: 14px;
 }
-.btn:hover { background: #e2b286; }
-
-/* 商品卡片 */
-.products { display: flex; gap: 20px; padding: 20px; }
-.product-card {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
-  width: 200px;
-}
-.product-card img { max-width: 100%; border-radius: 5px; }
-.price { color: #e2b286; font-weight: bold; }
-
-/* 會員中心 */
-.member-container { max-width: 600px; margin: 50px auto; }
-.member-container ul { list-style: none; padding: 0; }
-.member-container li { margin: 10px 0; }
-
-/* 購物車 */
-.cart-container { max-width: 600px; margin: 50px auto; }
-#cart-list li { margin: 8px 0; }
-
-/*底標*/
-.footer {
-  background: #333;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  margin-top: 40px;
-}
-.footer a {
-  color: #ffcc80;
+.navbar-right a {
+  color: white;
+  margin-left: 10px;
   text-decoration: none;
-  margin: 0 8px;
 }
-.footer a:hover { text-decoration: underline; }
-/*中間*/
-main.home {
-  max-width: 2000px;   /* 內容最大寬度 */
-  margin: 10px auto;   /* 與上方間距，左右置中 */
-  padding: 20px;       /* 內距，讓內容不會貼邊 */
-  background-color: #ffffff; /* 背景色，區隔外部 */
-  border-radius: 12px; /* 圓角 */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* 陰影 */
-  min-height: 2000px;   /* 預留足夠高度 */
+
+/* 導覽列按鈕 */
+.nav-icons a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    transition: color 0.3s;
 }
+
+.nav-icons a:hover {
+    color: #ffd7c2; /* hover 時文字變淺 */
+}
+
+/* 分類選單 */
+.categories {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to right, #ff9966, #ff5e62); /* 紅橘漸層 */
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.categories a {
+    margin: 0 15px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.categories a:hover {
+    color: #ffe082;
+    transform: scale(1.1);
+}
+
+
+
+.product-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 15px;
+    width: 160px;
+    height: 300px;
+    text-align: center;
+    transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.product-card:hover {
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.price {
+    color: #ee4d2d;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* 按鈕樣式 */
+button {
+    background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 5px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    transform: scale(1.05);
+}
+
+/* 購物車頁面 */
+.cart-page {
+    padding: 20px;
+    background: white;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+#cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+#cart-table th, #cart-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.total {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ee4d2d;
+}
+
+/* 頁腳 */
+.footer {
+    background: linear-gradient(to right, #232526, #414345); /* 黑灰漸層 */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* 連結樣式 */
+.footer-links a {
+    color: white;          /* 預設白色 */
+    text-decoration: none; /* 不要底線 */
+    transition: color 0.3s;
+}
+
+.footer-links a:visited {
+    color: white;          /* 點過也維持白色 */
+}
+
+.footer-links a:hover {
+    color: #ffd700;        /* 滑鼠移過變金色 */
+    text-decoration: underline; /* 顯示底線 */
+}
+
+.footer-links a:active {
+    color: #ccc;           /* 點擊時顯示淺灰 */
+}
+
+/* 表單容器 */
+.form-container {
+  width: 320px;
+  margin: 50px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container label {
+  margin: 8px 0 4px;
+  font-weight: bold;
+}
+
+.form-container input {
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-container button {
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.form-container button:hover {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+}
+
+.form-container p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* 購物車數字徽章 */
+#cart-count {
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    margin-left: 4px;
+}
+
+/* 繼續購物連結 */
+.continue-shopping {
+    font-size: 16px;
+    color: #185a9d;
+    text-decoration: none;
+}
+
+.continue-shopping:hover {
+    text-decoration: underline;
+}
+
+.home {
+  min-height: 200px; /* 給它足夠空間 */
+  padding: 10px;
+  background: linear-gradient(to bottom, #ffffff, #ffffff, #a8e063, #fae6a1); 
+  /* 從白色漸層到草綠色、再到米黃 */
+
+  display: flex;          /* 啟用 flex 排版 */
+  justify-content: center;/* 水平置中 */
+  flex-wrap: wrap;        /* 超出時換行 */
+  gap: 20px;              /* 卡片間距 */
+  height: 1200px;
+}
+
