@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>購物車 | MyShop</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header class="navbar">
+  <div class="logo"><a href="index.html">MyShop</a></div>
+  <nav>
+    <a href="products.html">商品分類</a>
+    <a href="cart.html" class="active">🛒 購物車 <span id="cart-count">0</span></a>
+  </nav>
+</header>
+
+<main class="cart-container">
+  <h2>購物車</h2>
+  <ul id="cart-items"></ul>
+  <p id="cart-total">總金額: $0</p>
+  <button onclick="clearCart()">清空購物車</button>
+  <button class="btn">結帳</button>
+</main>
+</body>
+</html>
