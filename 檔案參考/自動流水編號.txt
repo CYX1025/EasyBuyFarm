@@ -1,0 +1,68 @@
+public class auto_numbering {
+	
+	private static Connection conn = DbConnection.getDb();
+
+    public static String OrderNo() {
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        int count = 0;
+        
+        String sql = "SELECT COUNT(*) FROM porder WHERE order_no LIKE ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, today + "%");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return today + String.format("%04d", count + 1);
+    }
+    
+    public static String EmployeeNo() {
+    	String prefix = "E";
+    	int nextNo = 1;
+    	
+    	String sql = "SELECT MAX(employee_no) FROM employee";
+    	try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+            	String maxNo = rs.getString(1);
+            	if (maxNo != null) {
+                    int num = Integer.parseInt(maxNo.substring(1)); // 去掉 E，轉成數字
+                    nextNo = num + 1;
+                }
+            }
+            
+    	} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return prefix + String.format("%04d", nextNo);
+    }
+    
+    public static String MemberNo() {
+        String prefix = "M"; // 會員編號用 M 開頭
+        int nextNo = 1;
+
+        String sql = "SELECT MAX(member_no) FROM member";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String maxNo = rs.getString(1);
+                if (maxNo != null) {
+                    int num = Integer.parseInt(maxNo.substring(1)); // 去掉 M，轉成數字
+                    nextNo = num + 1;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prefix + String.format("%04d", nextNo);
+    }
+   
+}
