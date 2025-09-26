@@ -2,45 +2,46 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>註冊 | EastBuyFarm好農易</title>
-  <!-- 引入 CSS -->
+  <title>EastBuyFarm好農易</title>
+  <!-- 連結外部 CSS 檔案，用於網頁樣式 -->
   <link rel="stylesheet" href="style.css">
-  <!-- 引入 JavaScript，defer 確保 HTML 解析完才執行 -->
+  <!-- 連結外部 JS 檔案，用於網頁互動功能 (購物車、登入等) -->
   <script src="script.js" defer></script>
 </head>
 <body>
-  <!-- ======================================
-       頂部導覽列 (Navbar)
-       ====================================== -->
+  <!-- 頂部導覽列 (Navbar) -->
   <header class="navbar">
-    <!-- 左側：Logo + 搜尋框 -->
+    <!-- 左側區塊：Logo + 搜尋框 -->
     <div class="navbar-left">
       <div class="logo">
-        <!-- 點擊 Logo 回首頁 -->
+        <!-- 點擊 Logo 回到首頁 -->
         <a href="index.html"><img src="images/logo_02.png" alt="MyShop"></a>
       </div>  
-      <!-- 搜尋框 -->
+      <!-- 商品搜尋框 -->
       <input type="text" class="search-box" placeholder="搜尋商品、品牌...">
     </div>
-
-    <!-- 右側：會員選單 + 購物車 -->
+    <a href="storelist.html" class="btn">賣場列表</a>
+    <!-- 右側區塊：會員選單 + 購物車 -->
     <div class="navbar-right">
+      <!-- 下拉選單區塊 -->
       <div class="dropdown">
         <!-- 下拉按鈕 -->
-        <button class="dropbtn">會員選單 ▼</button>
+        <button class="dropbtn" >會員選單 ▼</button>
+        <!-- 下拉選單內容 -->
         <div class="dropdown-content">
           <!-- 登入連結 -->
           <a href="login.html" id="login-link">登入</a>
           <!-- 註冊連結 -->
           <a href="register.html" id="register-link">註冊</a>
-          <!-- 會員中心，登入後顯示 -->
+          <!-- 會員中心，預設隱藏，登入後顯示 -->
           <a href="member.html" id="member-btn" style="display:none;">會員中心</a>
-          <!-- 登出，登入後顯示，呼叫 logoutUser() -->
-          <a href="#" onclick="logoutUser()" id="logout-link" style="display:none;">登出</a>
+          <!-- 登出按鈕，預設隱藏，登入後顯示 -->
+          <a href="index.html" onclick="logoutUser()" id="logout-link" style="display:none;">登出</a>
         </div>
       </div>
-      <!-- 購物車按鈕，右側顯示購物車數量 -->
+      <!-- 獨立購物車按鈕，顯示購物車數量 -->
       <a href="cart.html" class="cart">🛒 購物車 <span id="cart-count">0</span></a>
+      <button id="be-seller-btn">成為賣家</button>
     </div>
   </header>
 

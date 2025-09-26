@@ -45,43 +45,51 @@
     </div>
   </header>
 
-  <!-- 主要商品區 (Main Content) -->
-  <main class="home">
-    <!-- 單個商品卡片 -->
-    <div class="product-card">
-      <!-- 商品圖片 -->
-      <img src="images/computer.jpeg" alt="電腦">
-      <!-- 商品名稱 -->
-      <h3>高效能電腦</h3>
-      <!-- 商品價格 -->
-      <p class="price">$30,000</p>
-      <!-- 加入購物車按鈕，點擊會呼叫 addToCart() JS 函數 -->
-      <button onclick="addToCart('高效能電腦', 30000)">加入購物車</button>
+  <!-- 賣場列表區 -->
+  <main class="seller-list-container">
+    <h2>賣場列表</h2>
+
+    <div class="seller-cards">
+      <!-- 單個賣場卡片 -->
+      <div class="seller-card">
+        <img src="images/seller1.jpg" alt="賣家A">
+        <h3>賣家A的農場</h3>
+        <p>評價：★★★★☆</p>
+        <p>商品數量：120件</p>
+        <a href="seller-shop.html?shop=1" class="view-shop-btn">進入賣場</a>
+      </div>
+
+      <div class="seller-card">
+        <img src="images/seller2.jpg" alt="賣家B">
+        <h3>賣家B的果園</h3>
+        <p>評價：★★★☆☆</p>
+        <p>商品數量：80件</p>
+        <a href="seller-shop.html?shop=2" class="view-shop-btn">進入賣場</a>
+      </div>
+
+      <div class="seller-card">
+        <img src="images/seller3.jpg" alt="賣家C">
+        <h3>賣家C的小農場</h3>
+        <p>評價：★★★★★</p>
+        <p>商品數量：200件</p>
+        <a href="seller-shop.html?shop=3" class="view-shop-btn">進入賣場</a>
+      </div>
     </div>
 
-    <!-- 第二個商品卡片 -->
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200" alt="手機">
-      <h3>智慧手機</h3>
-      <p class="price">$15,000</p>
-      <button onclick="addToCart('智慧手機', 15000)">加入購物車</button>
-    </div>
-
-    <!-- 第三個商品卡片 -->
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200" alt="耳機">
-      <h3>藍牙耳機</h3>
-      <p class="price">$2,000</p>
-      <button onclick="addToCart('藍牙耳機', 2000)">加入購物車</button>
+    <!-- 分頁 -->
+    <div class="pagination">
+      <a href="#">«</a>
+      <a href="#" class="active">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">»</a>
     </div>
   </main>
 
   <!-- 網頁底部 (Footer) -->
   <footer class="footer">
     <div class="footer-content">
-      <!-- 版權資訊 -->
       <p>© 2025 EastBuyFarm. All Rights Reserved.</p>
-      <!-- 網頁相關連結 -->
       <nav class="footer-links">
         <a href="#">關於我們</a> |
         <a href="#">隱私政策</a> |

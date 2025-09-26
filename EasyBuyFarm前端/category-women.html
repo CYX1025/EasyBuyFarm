@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>女裝 - MyShop</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header class="navbar">
+  <div class="logo"><a href="index.html">MyShop</a></div>
+  <input type="text" class="search-box" placeholder="搜尋商品...">
+  <div class="nav-icons">
+    <a href="login.html">登入</a> | <a href="register.html">註冊</a>
+    <a href="cart.html" class="cart">🛒 購物車</a>
+  </div>
+</header>
+
+<nav class="categories">
+  <a href="category-women.html" class="active">女裝</a>
+</nav>
+
+<main class="products">
+  <div class="product-card">
+    <img src="https://via.placeholder.com/200" alt="洋裝">
+    <h3>夏日洋裝</h3>
+    <p class="price">$800</p>
+    <button onclick="addToCart('夏日洋裝', 800)">加入購物車</button>
+  </div>
+  <div class="product-card">
+    <img src="https://via.placeholder.com/200" alt="牛仔褲">
+    <h3>牛仔褲</h3>
+    <p class="price">$1200</p>
+    <button onclick="addToCart('牛仔褲', 1200)">加入購物車</button>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 MyShop. 練習用蝦皮風格 UI。</p>
+</footer>
+</body>
+</html>

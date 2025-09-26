@@ -15,7 +15,7 @@ body {
     display: flex;                  /* 水平排列子元素 */
     justify-content: space-between; /* 左右兩邊分開 */
     align-items: center;            /* 垂直置中 */
-    background: linear-gradient(to bottom, #8ab2f8); /* 藍色漸層背景 */
+    background: linear-gradient(to bottom, #8ab2f8); /* 藍色背景 */
     padding: 10px 20px;
     color: white;
 }
@@ -374,4 +374,238 @@ button:hover {
 /* 下拉連結 hover */
 .dropdown-content a:hover {
     background-color: #ddd;
+}
+/* 會員中心容器 */
+.member-container {
+  display: flex;
+  margin: 20px;
+  gap: 20px;
+}
+
+/* 側邊導航欄 */
+.member-sidebar {
+  width: 200px;
+  background: linear-gradient(to bottom, #8ab2f8, #94b8f7);
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+}
+.member-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.member-sidebar ul li {
+  margin: 10px 0;
+}
+.member-sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  display: block;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+.member-sidebar ul li a:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* 主內容區 */
+.member-main {
+  flex-grow: 1;
+}
+
+/* 區塊樣式 */
+.section {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 個人資料 */
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.profile-info .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.profile-info button {
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.profile-info button:hover {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+}
+
+/* 訂單表格 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+table th, table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+table th {
+  background: #f7f7f7;
+}
+
+/* 優惠券區塊 */
+.coupon {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+.coupon button {
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.coupon button:hover {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+}
+
+/* 帳戶設定表單 */
+form input {
+  width: 50%;
+  padding: 8px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+form button {
+  margin-top: 10px;
+}
+/* 賣場列表容器 */
+.seller-list-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+/* 賣場卡片容器 */
+.seller-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* 單個賣場卡片 */
+.seller-card {
+  width: 250px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.seller-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.seller-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.seller-card h3 {
+  font-size: 18px;
+  margin: 10px 0 5px;
+}
+
+.seller-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* 進入賣場按鈕 */
+.view-shop-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  transition: background 0.3s;
+}
+
+.view-shop-btn:hover {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+}
+
+/* 分頁 */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 8px 12px;
+  background: #eee;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.pagination a.active {
+  background: #ff7e5f;
+  color: white;
+}
+
+.pagination a:hover {
+  background: #ff9966;
+  color: white;
+}
+.btn {
+  display: inline-block;               /* 讓 a 可以像按鈕 */
+  padding: 8px 16px;
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  color: white;                        /* 文字白色 */
+  text-decoration: none;               /* 移除底線 */
+  border-radius: 20px;                 /* 圓角 */
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+  transform: scale(1.05);
+}
+
+/* 移除訪問後的藍色 */
+.btn:visited {
+  color: white;
+}
+
+/* active / focus 狀態也保持一致 */
+.btn:active, .btn:focus {
+  color: white;
+  outline: none;
 }
