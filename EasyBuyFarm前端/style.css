@@ -11,7 +11,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(to bottom, #2992fa, #ffffff); 
+    background: linear-gradient(to bottom, #8ab2f8); 
     padding: 10px 20px;
     color: white;
 }
@@ -255,9 +255,9 @@ button:hover {
 }
 
 .home {
-  min-height: 200px; /* 給它足夠空間 */
+  min-height: 200px; 
   padding: 10px;
-  background: linear-gradient(to bottom, #ffffff, #ffffff, #a8e063, #fae6a1); 
+  background: linear-gradient(to bottom, #8ab2f8, #1bdee8,#49e97e, #efa417); 
   /* 從白色漸層到草綠色、再到米黃 */
 
   display: flex;          /* 啟用 flex 排版 */
@@ -267,3 +267,61 @@ button:hover {
   height: 1200px;
 }
 
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* 水平置中 */
+  justify-content: center; /* 垂直置中 (若想整頁居中可以加 min-height) */
+  min-height: 60vh; /* 讓區域有高度，方便置中 */
+  text-align: center;
+}
+
+/* 表單本身 */
+.login-container form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 300px; /* 限制表單寬度 */
+}
+
+/* 表單元素美化 */
+.login-container label {
+  display: block;
+  text-align: left; /* 標籤靠左 */
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* 按鈕 */
+.login-container .btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* 註冊/忘記密碼連結 */
+.login-links {
+  margin-top: 15px;
+  color: white; 
+}
+.login-links a {
+  color: #185a9d;
+  text-decoration: none;
+  margin: 0 10px;
+}
