@@ -1,64 +1,77 @@
-/* 預設 */
+/* ======================================
+   預設全局樣式 (Global Styles)
+   ====================================== */
 body {
-    font-family: "Microsoft JhengHei", Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    background: linear-gradient(to right, #fdfbfb, #ebedee); /* 背景漸層 */
+    font-family: "Microsoft JhengHei", Arial, sans-serif; /* 中文與英文字型 */
+    margin: 0;               /* 移除預設 margin */
+    min-height: 100vh;       /* 頁面最小高度填滿視窗 */
+    background: linear-gradient(to right, #fdfbfb, #ebedee); /* 淺灰漸層背景 */
 }
 
-/* 頂部導覽列 */
+/* ======================================
+   頂部導覽列 Navbar
+   ====================================== */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to bottom, #8ab2f8); 
+    display: flex;                  /* 水平排列子元素 */
+    justify-content: space-between; /* 左右兩邊分開 */
+    align-items: center;            /* 垂直置中 */
+    background: linear-gradient(to bottom, #8ab2f8); /* 藍色漸層背景 */
     padding: 10px 20px;
     color: white;
 }
 
+/* Logo 容器 */
 .logo {
-  width: 120px;          /* 容器固定寬度，可調整 */
-  display: flex;          /* 讓 img 在容器內水平置中 */
-  align-items: center;    /* 垂直置中 */
-  overflow: hidden;       /* 防止容器溢出 */
+    width: 120px;       /* 固定寬度 */
+    display: flex;
+    align-items: center; /* 垂直置中 */
+    overflow: hidden;    /* 防止圖片溢出 */
 }
 
+/* Logo 圖片 */
 .logo img {
-  width: 100%;            /* 讓圖片寬度撐滿容器 */
-  height: auto;           /* 自動高度，保持比例 */
-  display: block;         /* 移除下方空隙 */
-}
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 0px; /* logo 和搜尋框間距 */
-}
-.search-box {
-  width: 300px; /* 搜尋框固定寬度，不會撐破父容器 */
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: none;
-  font-size: 14px;
-}
-.navbar-right a {
-  color: white;
-  margin-left: 10px;
-  text-decoration: none;
+    width: 100%;   /* 撐滿容器寬度 */
+    height: auto;  /* 保持比例 */
+    display: block; /* 移除下方空隙 */
 }
 
-/* 導覽列按鈕 */
+/* 導覽列左側區塊：Logo + 搜尋框 */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0px; /* logo 和搜尋框間距 */
+}
+
+/* 搜尋框樣式 */
+.search-box {
+    width: 300px;           /* 固定寬度 */
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+}
+
+/* 導覽列右側連結樣式 */
+.navbar-right a {
+    color: white;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+/* 導覽列圖示按鈕 hover 效果 */
 .nav-icons a {
     color: white;
     margin-left: 15px;
     text-decoration: none;
     transition: color 0.3s;
 }
-
 .nav-icons a:hover {
-    color: #ffd7c2; /* hover 時文字變淺 */
+    color: #ffd7c2; /* hover 文字顏色變淺 */
 }
 
-/* 分類選單 */
+/* ======================================
+   分類選單 Categories
+   ====================================== */
 .categories {
     display: flex;
     justify-content: center;
@@ -74,14 +87,14 @@ body {
     font-weight: bold;
     transition: transform 0.2s, color 0.2s;
 }
-
 .categories a:hover {
-    color: #ffe082;
-    transform: scale(1.1);
+    color: #ffe082;        /* hover 文字變金黃色 */
+    transform: scale(1.1);  /* hover 放大 */
 }
 
-
-
+/* ======================================
+   商品卡片 Product Card
+   ====================================== */
 .product-card {
     background: white;
     border: 1px solid #ddd;
@@ -93,17 +106,14 @@ body {
     text-align: center;
     transition: box-shadow 0.3s, transform 0.2s;
 }
-
 .product-card:hover {
     box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* hover 上移 */
 }
-
 .product-card img {
     max-width: 100%;
     border-radius: 5px;
 }
-
 .price {
     color: #ee4d2d;
     font-weight: bold;
@@ -121,39 +131,39 @@ button {
     margin-top: 5px;
     transition: background 0.3s, transform 0.2s;
 }
-
 button:hover {
     background: linear-gradient(to right, #ff9966, #ff5e62);
     transform: scale(1.05);
 }
 
-/* 購物車頁面 */
+/* ======================================
+   購物車頁面樣式
+   ====================================== */
 .cart-page {
     padding: 20px;
     background: white;
     margin: 20px;
     border-radius: 5px;
 }
-
 #cart-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 15px;
 }
-
 #cart-table th, #cart-table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
-
 .total {
     font-size: 18px;
     font-weight: bold;
-    color: #ee4d2d;
+    color: #ee4d2d; /* 總金額紅色 */
 }
 
-/* 頁腳 */
+/* ======================================
+   頁腳 Footer
+   ====================================== */
 .footer {
     background: linear-gradient(to right, #232526, #414345); /* 黑灰漸層 */
     color: white;
@@ -161,79 +171,71 @@ button:hover {
     padding: 15px;
     margin-top: 20px;
 }
-
-/* 連結樣式 */
 .footer-links a {
-    color: white;          /* 預設白色 */
-    text-decoration: none; /* 不要底線 */
+    color: white;
+    text-decoration: none;
     transition: color 0.3s;
 }
-
 .footer-links a:visited {
-    color: white;          /* 點過也維持白色 */
+    color: white;
 }
-
 .footer-links a:hover {
-    color: #ffd700;        /* 滑鼠移過變金色 */
-    text-decoration: underline; /* 顯示底線 */
+    color: #ffd700; /* hover 金色 */
+    text-decoration: underline;
 }
-
 .footer-links a:active {
-    color: #ccc;           /* 點擊時顯示淺灰 */
+    color: #ccc;
 }
 
-/* 表單容器 */
+/* ======================================
+   表單樣式 (登入 / 註冊)
+   ====================================== */
 .form-container {
-  width: 320px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    width: 320px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
 }
-
 .form-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
-
 .form-container form {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
-
 .form-container label {
-  margin: 8px 0 4px;
-  font-weight: bold;
+    margin: 8px 0 4px;
+    font-weight: bold;
 }
-
 .form-container input {
-  padding: 8px;
-  margin-bottom: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
-
 .form-container button {
-  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.3s;
+    background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
-
 .form-container button:hover {
-  background: linear-gradient(to right, #ff9966, #ff5e62);
+    background: linear-gradient(to right, #ff9966, #ff5e62);
 }
-
 .form-container p {
-  text-align: center;
-  margin-top: 10px;
+    text-align: center;
+    margin-top: 10px;
 }
 
-/* 購物車數字徽章 */
+/* ======================================
+   購物車數字徽章
+   ====================================== */
 #cart-count {
     background: red;
     color: white;
@@ -249,79 +251,127 @@ button:hover {
     color: #185a9d;
     text-decoration: none;
 }
-
 .continue-shopping:hover {
     text-decoration: underline;
 }
 
+/* ======================================
+   首頁商品區排版 Home
+   ====================================== */
 .home {
-  min-height: 200px; 
-  padding: 10px;
-  background: linear-gradient(to bottom, #8ab2f8, #1bdee8,#49e97e, #efa417); 
-  /* 從白色漸層到草綠色、再到米黃 */
-
-  display: flex;          /* 啟用 flex 排版 */
-  justify-content: center;/* 水平置中 */
-  flex-wrap: wrap;        /* 超出時換行 */
-  gap: 20px;              /* 卡片間距 */
-  height: 1200px;
+    min-height: 200px; 
+    padding: 10px;
+    background: linear-gradient(to bottom, #8ab2f8, #1bdee8,#49e97e, #efa417); 
+    display: flex;          
+    justify-content: center; /* 水平置中 */
+    flex-wrap: wrap;         /* 超出時換行 */
+    gap: 20px;               /* 卡片間距 */
+    height: 1200px;          /* 固定高度 */
 }
 
+/* 登入頁容器 */
 .login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;  /* 水平置中 */
-  justify-content: center; /* 垂直置中 (若想整頁居中可以加 min-height) */
-  min-height: 60vh; /* 讓區域有高度，方便置中 */
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;        /* 水平置中 */
+    justify-content: center;    /* 垂直置中 */
+    min-height: 60vh;           /* 區域高度 */
+    text-align: center;
 }
 
-/* 表單本身 */
 .login-container form {
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 300px; /* 限制表單寬度 */
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 300px;
 }
 
-/* 表單元素美化 */
 .login-container label {
-  display: block;
-  text-align: left; /* 標籤靠左 */
-  margin-top: 15px;
-  font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    font-weight: bold;
 }
 
 .login-container input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-/* 按鈕 */
 .login-container .btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
-  border: none;
-  border-radius: 25px;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-/* 註冊/忘記密碼連結 */
+/* 註冊 / 忘記密碼連結 */
 .login-links {
-  margin-top: 15px;
-  color: white; 
+    margin-top: 15px;
 }
 .login-links a {
-  color: #185a9d;
-  text-decoration: none;
-  margin: 0 10px;
+    color: #185a9d;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+/* ======================================
+   下拉選單 Dropdown
+   ====================================== */
+.dropdown {
+    position: relative;
+    display: inline-block; /* 允許下拉內容絕對定位 */
+}
+
+.dropbtn {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+/* 下拉內容 */
+.dropdown-content {
+    display: none;           /* 預設隱藏 */
+    position: absolute;      /* 絕對定位 */
+    right: 0;                /* 右對齊父元素 */
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;              /* 疊放順序 */
+}
+
+/* 下拉連結樣式 */
+.dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 滑過顯示下拉內容 */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 下拉按鈕 hover */
+.dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+/* 下拉連結 hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
 }

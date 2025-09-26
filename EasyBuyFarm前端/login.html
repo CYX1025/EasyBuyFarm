@@ -3,38 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <title>登入 | EastBuyFarm好農易</title>
+  <!-- 引入 CSS -->
   <link rel="stylesheet" href="style.css">
+  <!-- 引入 JavaScript，defer 確保 HTML 解析完才執行 -->
   <script src="script.js" defer></script>
 </head>
 <body>
-  <!-- 頂部導覽列 -->
+  <!-- ======================================
+       頂部導覽列 (Navbar)
+       ====================================== -->
   <header class="navbar">
+    <!-- 左側：Logo + 搜尋框 -->
     <div class="navbar-left">
       <div class="logo">
+        <!-- 點擊 Logo 回首頁 -->
         <a href="index.html"><img src="images/logo_02.png" alt="MyShop"></a>
       </div>  
+      <!-- 搜尋框 -->
       <input type="text" class="search-box" placeholder="搜尋商品、品牌...">
     </div>
 
+    <!-- 右側：會員選單 + 購物車 -->
     <div class="navbar-right">
-      <a href="login.html" class="active">登入</a> | 
-      <a href="register.html">註冊</a>
+      <div class="dropdown">
+        <!-- 下拉按鈕 -->
+        <button class="dropbtn">會員選單 ▼</button>
+        <div class="dropdown-content">
+          <!-- 登入連結 -->
+          <a href="login.html" id="login-link">登入</a>
+          <!-- 註冊連結 -->
+          <a href="register.html" id="register-link">註冊</a>
+          <!-- 會員中心，登入後顯示 -->
+          <a href="member.html" id="member-btn" style="display:none;">會員中心</a>
+          <!-- 登出，登入後顯示，呼叫 logoutUser() -->
+          <a href="#" onclick="logoutUser()" id="logout-link" style="display:none;">登出</a>
+        </div>
+      </div>
+      <!-- 購物車按鈕，右側顯示購物車數量 -->
       <a href="cart.html" class="cart">🛒 購物車 <span id="cart-count">0</span></a>
-      <a href="member.html" id="member-btn" style="display:none;">會員中心</a>
     </div>
   </header>
 
-  <!-- 登入區 -->
+  <!-- ======================================
+       登入區 (Login Form)
+       ====================================== -->
   <main class="login-container">
     <h2>會員登入</h2>
+    <!-- 登入表單 -->
     <form onsubmit="return loginUser(event)">
+      <!-- 使用者帳號輸入 -->
       <label for="username">電話 / Email</label>
       <input type="text" id="username" required>
 
+      <!-- 密碼輸入 -->
       <label for="password">密碼</label>
       <input type="password" id="password" required>
 
+      <!-- 登入按鈕 -->
       <button type="submit" class="btn">登入</button>
+
+      <!-- 註冊 / 忘記密碼連結 -->
       <div class="login-links">
         <a href="register.html">註冊新會員</a> | 
         <a href="forgot-password.html">忘記密碼？</a>
@@ -42,10 +70,14 @@
     </form>
   </main>
 
-  <!-- 頁腳 -->
+  <!-- ======================================
+       頁腳 (Footer)
+       ====================================== -->
   <footer class="footer">
     <div class="footer-content">
+      <!-- 版權資訊 -->
       <p>© 2025 EastBuyFarm. All Rights Reserved.</p>
+      <!-- 頁腳連結 -->
       <nav class="footer-links">
         <a href="#">關於我們</a> |
         <a href="#">隱私政策</a> |
