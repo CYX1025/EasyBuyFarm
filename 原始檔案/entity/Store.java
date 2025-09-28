@@ -17,66 +17,76 @@ public class Store {
 	private int id;
 	
 	@Column(name="store_id")
-	private String storeid;
+	private String storeId;
 	
 	@Column(name="member_id")
-	private String memberid;
+	private String memberId;
 	
-	@Column(name="store_name")
-	private String storename;
+	private String name;
 	
-	@Column(name="store_inreoduce")
-	private String storeinreoduce;
+	
+	private String introduce;
 	
 	@Column(name="store_img")
-	private String storeimg;
-	public Store(String storeid, String memberid, String storename, String storeinreoduce, String storeimg) {
-		this.storeid = storeid;
-		this.memberid = memberid;
-		this.storename = storename;
-		this.storeinreoduce = storeinreoduce;
-		this.storeimg = storeimg;
+	private String storeImg;
+
+	public Store(String storeId, String memberId, String name, String introduce, String storeImg) {
+		this.storeId = storeId;
+		this.memberId = memberId;
+		this.name = name;
+		this.introduce = introduce;
+		this.storeImg = storeImg;
 	}
+
 	public Store() {
 		
 	}
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getStoreid() {
-		return storeid;
-	}
-	public void setStoreid(String storeid) {
-		this.storeid = storeid;
-	}
-	public String getMemberid() {
-		return memberid;
-	}
-	public void setMemberid(String memberid) {
-		this.memberid = memberid;
-	}
-	public String getStorename() {
-		return storename;
-	}
-	public void setStorename(String storename) {
-		this.storename = storename;
-	}
-	public String getStoreinreoduce() {
-		return storeinreoduce;
-	}
-	public void setStoreinreoduce(String storeinreoduce) {
-		this.storeinreoduce = storeinreoduce;
-	}
-	public String getStoreimg() {
-		return storeimg;
-	}
-	public void setStoreimg(String storeimg) {
-		this.storeimg = storeimg;
-	}
-	
-	
 
+	public String getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(String storeId) {
+		this.storeId = storeId;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
+	public String getStoreImg() {
+		return storeImg;
+	}
+
+	public void setStoreImg(String storeImg) {
+		this.storeImg = storeImg;
+	}
 }
