@@ -28,11 +28,11 @@ CREATE TABLE `store` (
   `id` int NOT NULL AUTO_INCREMENT,
   `store_id` varchar(10) NOT NULL,
   `member_id` varchar(45) NOT NULL,
-  `store_name` varchar(100) NOT NULL,
-  `store_inreoduce` varchar(255) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `introduce` varchar(255) DEFAULT NULL,
   `store_img` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `store` (
 
 LOCK TABLES `store` WRITE;
 /*!40000 ALTER TABLE `store` DISABLE KEYS */;
+INSERT INTO `store` VALUES (1,'S001','sn202509240001','好水果賣場','水果好吃',NULL),(2,'S002','sn202509240001','蔬菜賣場','蔬菜好吃',NULL),(3,'S003','sn202509240002','神秘綠色葉子','會帶來快樂喔',NULL);
 /*!40000 ALTER TABLE `store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-26 21:32:46
+-- Dump completed on 2025-09-28 15:10:25
