@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>新增商店測試</title>
+</head>
+<body>
+    <h2>新增商店測試表單</h2>
+    <form action="http://localhost:8080/easybuyfarm/api/stores" method="post">
+        <label>Store ID：</label>
+        <input type="text" name="storeid" value="S001"><br><br>
+
+        <label>Member ID：</label>
+        <input type="text" name="memberid" value="M001"><br><br>
+
+        <label>Store Name：</label>
+        <input type="text" name="storename" value="MyShop"><br><br>
+
+        <label>Store Introduce：</label>
+        <input type="text" name="storeintroduce" value="This is a test shop"><br><br>
+
+        <label>Store Img (檔名)：</label>
+        <input type="text" name="storeimg" value="test.png"><br><br>
+
+        <button type="submit">送出</button>
+    </form>
+</body>
+</html>
