@@ -1,11 +1,23 @@
 package service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import entity.Store;
 import dao.StoreDAO;
@@ -14,10 +26,85 @@ import dao.StoreDAO;
 public class StoreService {
 	StoreDAO dao =new StoreDAO();
 	    
-	    @GET
-	    @Produces(MediaType.APPLICATION_JSON)
-	    public List<Store> getAll(){
-	    	List<Store> data= dao.getAllStore();
-	    	return data;
-	    }
+	 @GET
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public List<Store> getAll()
+	 {
+	   List<Store> data= dao.getAllStore();
+	   return data;
+	 }
+	 
+	 @POST
+	 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response createStore(
+				 @FormParam("storeid") String storeId,
+				 @FormParam("memberid") String memberId,
+				 @FormParam("storename") String storeName,
+				 @FormParam("storeintroduce") String storeintroduce, 
+				 @FormParam("storeimg")String storeImg)
+		 {
+			 try 
+			 {
+		     Store store = new Store(storeId, memberId, storeName, storeintroduce,storeImg);
+			 boolean flag=dao.addStore(store);
+			 	if(flag)
+			 	{
+			 		return Response.ok(store).build();
+			 	}
+			 	else
+			 	{
+			 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+	                     .entity("Upload failed").build();
+			 	}
+			 } 
+			 catch (Exception e) 
+			 {
+				e.printStackTrace();
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+		                .entity("Upload failed: " + e.getMessage()).build();
+			 }
+			
+		 }
+	 
+	 //試做圖片上傳，但功能有問題先註解掉
+	/*@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createStore(
+			 @FormParam("storeid") String storeId,
+			 @FormParam("memberid") String memberId,
+			 @FormParam("storename") String storeName,
+			 @FormParam("storeintroduce") String storeintroduce, 
+			 @FormDataParam("storeimg") InputStream uploadedInputStream,       // 圖片內容
+			 @FormDataParam("storeimg") FormDataContentDisposition fileDetail  // 檔案資訊
+			 )
+	 {
+		 try 
+		 {
+		 String uploadDir = "C:/images/";
+	     String storeImg = fileDetail.getFileName();
+	     String filePath = uploadDir + storeImg;
+	 
+	     Files.copy(uploadedInputStream, new File(filePath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+	     Store store = new Store(storeId, memberId, storeName, storeintroduce,storeImg);
+		 boolean flag=dao.addStore(store);
+		 	if(flag)
+		 	{
+		 		return Response.ok(store).build();
+		 	}
+		 	else
+		 	{
+		 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                     .entity("Upload failed").build();
+		 	}
+		 } 
+		 catch (IOException e) 
+		 {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+	                .entity("Upload failed: " + e.getMessage()).build();
+		 }
+		
+	 }*/
 }
