@@ -3,71 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <title>EastBuyFarm好農易</title>
-  <!-- 連結外部 CSS 檔案，用於網頁樣式 -->
   <link rel="stylesheet" href="style.css">
-  <!-- 連結外部 JS 檔案，用於網頁互動功能 (購物車、登入等) -->
   <script src="script.js" defer></script>
 </head>
 <body>
-  <!-- 頂部導覽列 (Navbar) -->
+  <!-- Navbar -->
   <header class="navbar">
-    <!-- 左側區塊：Logo + 搜尋框 -->
     <div class="navbar-left">
       <div class="logo">
-        <!-- 點擊 Logo 回到首頁 -->
         <a href="index.html"><img src="images/logo_02.png" alt="MyShop"></a>
-      </div>  
-      <!-- 商品搜尋框 -->
+      </div>
       <input type="text" class="search-box" placeholder="搜尋商品、品牌...">
     </div>
     <a href="storelist.html" class="btn">賣場列表</a>
-    <!-- 右側區塊：會員選單 + 購物車 -->
     <div class="navbar-right">
-      <!-- 下拉選單區塊 -->
       <div class="dropdown">
-        <!-- 下拉按鈕 -->
-        <button class="dropbtn" >會員選單 ▼</button>
-        <!-- 下拉選單內容 -->
+        <button class="dropbtn">會員選單 ▼</button>
         <div class="dropdown-content">
-          <!-- 登入連結 -->
           <a href="login.html" id="login-link">登入</a>
-          <!-- 註冊連結 -->
           <a href="register.html" id="register-link">註冊</a>
-          <!-- 會員中心，預設隱藏，登入後顯示 -->
           <a href="member.html" id="member-btn" style="display:none;">會員中心</a>
-          <!-- 登出按鈕，預設隱藏，登入後顯示 -->
           <a href="index.html" onclick="logoutUser()" id="logout-link" style="display:none;">登出</a>
         </div>
       </div>
-      <!-- 獨立購物車按鈕，顯示購物車數量 -->
       <a href="cart.html" class="cart">🛒 購物車 <span id="cart-count">0</span></a>
       <button id="be-seller-btn">成為賣家</button>
     </div>
   </header>
 
-  <!-- 主要商品區 (Main Content) -->
+  <!-- 主要內容 -->
   <main class="home">
-    <!-- 單個商品卡片 -->
     <div class="product-card">
-      <!-- 商品圖片 -->
       <img src="images/computer.jpeg" alt="電腦">
-      <!-- 商品名稱 -->
       <h3>高效能電腦</h3>
-      <!-- 商品價格 -->
       <p class="price">$30,000</p>
-      <!-- 加入購物車按鈕，點擊會呼叫 addToCart() JS 函數 -->
       <button onclick="addToCart('高效能電腦', 30000)">加入購物車</button>
     </div>
-
-    <!-- 第二個商品卡片 -->
     <div class="product-card">
       <img src="https://via.placeholder.com/200" alt="手機">
       <h3>智慧手機</h3>
       <p class="price">$15,000</p>
       <button onclick="addToCart('智慧手機', 15000)">加入購物車</button>
     </div>
-
-    <!-- 第三個商品卡片 -->
     <div class="product-card">
       <img src="https://via.placeholder.com/200" alt="耳機">
       <h3>藍牙耳機</h3>
@@ -76,12 +53,10 @@
     </div>
   </main>
 
-  <!-- 網頁底部 (Footer) -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
-      <!-- 版權資訊 -->
       <p>© 2025 EastBuyFarm. All Rights Reserved.</p>
-      <!-- 網頁相關連結 -->
       <nav class="footer-links">
         <a href="#">關於我們</a> |
         <a href="#">隱私政策</a> |
