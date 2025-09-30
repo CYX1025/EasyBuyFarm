@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Test</title>
+</head>
+<body>
+  <h2>登入測試表單</h2>
+  <form id="loginForm">
+    <label for="keyword">帳號：</label>
+    <input type="text" id="keyword" name="keyword" required /><br /><br />
+    <label for="password">密碼：</label>
+    <input type="password" id="password" name="password" required /><br /><br />
+    <button type="submit">登入</button>
+  </form>
+
+  <div id="result" style="margin-top:20px; color: red;"></div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = new URLSearchParams();
+      formData.append('keyword', form.keyword.value);
+      formData.append('password', form.password.value);
+
+      try {
+        const response = await fetch('http://localhost:8080/easybuyfarm/api/members/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'
+          },
+          body: formData.toString()
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          resultDiv.style.color = 'green';
+          resultDiv.textContent = '登入成功！會員資料：' + JSON.stringify(data);
+        } else if (response.status === 401) {
+          const text = await response.text();
+          resultDiv.style.color = 'red';
+          resultDiv.textContent = text;
+        } else {
+          resultDiv.style.color = 'red';
+          resultDiv.textContent = '發生未知錯誤，狀態碼：' + response.status;
+        }
+      } catch (error) {
+        resultDiv.style.color = 'red';
+        resultDiv.textContent = '網路錯誤：' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
