@@ -27,18 +27,20 @@ DROP TABLE IF EXISTS `member`;
 CREATE TABLE `member` (
   `id` int NOT NULL AUTO_INCREMENT,
   `member_id` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(20) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `address` varchar(200) DEFAULT NULL,
+  `firstName` varchar(100) NOT NULL,
+  `lastName` varchar(100) NOT NULL,
   `birthday` date DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
   `role` enum('BUYER','SELLER','ADMIN') DEFAULT 'BUYER',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone_UNIQUE` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +49,7 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (1,'sn202509240001','abc123@ggggg.com','0912345678','12345','台北市中正區公園路30號3樓','1911-10-10','BUYER',1,'2025-09-24 15:32:18');
+INSERT INTO `member` VALUES (1,'sn202509240001','abc123@ggggg.com','0912345678','12345','Dennis','Chang','1911-10-10','台北市中正區公園路30號3樓','BUYER',1,'2025-09-24 15:32:18');
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-25 13:47:47
+-- Dump completed on 2025-09-30 17:07:14
