@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>會員登入與刪除</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 2rem auto;
+    }
+    label, input {
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    input {
+      padding: 0.5rem;
+    }
+    button {
+      padding: 0.5rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #error {
+      margin-top: 1rem;
+      color: red;
+    }
+    #message {
+      margin-top: 1rem;
+      color: green;
+    }
+    #deleteSection {
+      margin-top: 2rem;
+    }
+    #deleteSuccess {
+      color: green;
+    }
+    #deleteError {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<h2>會員登入</h2>
+
+<form id="loginForm">
+  <label for="keyword">帳號（手機號碼或電子郵件）:</label>
+  <input type="text" id="keyword" name="keyword" placeholder="輸入帳號" required />
+
+  <label for="password">密碼:</label>
+  <input type="password" id="password" name="password" placeholder="輸入密碼" required />
+
+  <button type="submit">登入</button>
+</form>
+
+<div id="error"></div>
+<div id="message"></div>
+
+<!-- 刪除會員按鈕，登入後才顯示 -->
+<div id="deleteSection" style="display:none;">
+  <h3>刪除會員帳號</h3>
+  <button id="deleteBtn" style="background-color: red;">刪除我的帳號</button>
+  <div id="deleteError" style="color: red;"></div>
+  <div id="deleteSuccess" style="color: green;"></div> <!-- 刪除成功訊息 -->
+</div>
+
+<script>
+  const apiBaseLogin = 'http://localhost:8080/easybuyfarm/api/members/login'; // 登入 API
+  const apiBaseDelete = 'http://localhost:8080/easybuyfarm/api/members/deleteMember'; // 刪除會員 API
+
+  // 登入表單處理
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault(); // 防止表單提交刷新頁面
+
+    const keyword = document.getElementById('keyword').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch(apiBaseLogin, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', // 表單提交的編碼方式
+        },
+        body: new URLSearchParams({
+          keyword: keyword,
+          password: password,
+        }),
+        credentials: 'include' // 確保會攜帶 Session Cookie
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // 登入成功，將資料存入 localStorage，並顯示刪除會員功能
+        localStorage.setItem('member', JSON.stringify(result));
+        document.getElementById('message').textContent = '登入成功！';
+        document.getElementById('deleteSection').style.display = 'block'; // 顯示刪除按鈕
+        document.getElementById('error').textContent = ''; // 清除錯誤訊息
+      } else {
+        // 登入失敗，顯示錯誤訊息
+        document.getElementById('error').textContent = result.message || '登入失敗，請檢查帳號或密碼';
+        document.getElementById('message').textContent = '';
+      }
+    } catch (error) {
+      document.getElementById('error').textContent = `錯誤：${error.message}`;
+      document.getElementById('message').textContent = '';
+    }
+  });
+
+  // 刪除會員帳號
+  document.getElementById('deleteBtn').addEventListener('click', async function () {
+    const member = JSON.parse(localStorage.getItem('member'));
+
+    if (!member) {
+      document.getElementById('deleteError').textContent = '尚未登入，無法刪除帳號。';
+      return;
+    }
+
+    try {
+      const response = await fetch(apiBaseDelete, {
+        method: 'DELETE',
+        credentials: 'include', // 攜帶 session 資訊
+      });
+
+      if (response.ok) {
+        // 刪除成功，顯示成功訊息並清除 localStorage
+        localStorage.removeItem('member');
+        document.getElementById('deleteSuccess').textContent = '帳號已刪除成功！';
+        document.getElementById('deleteError').textContent = ''; // 清除錯誤訊息
+        document.getElementById('deleteSection').style.display = 'none'; // 隱藏刪除按鈕
+      } else {
+        const errorData = await response.json();
+        document.getElementById('deleteError').textContent = errorData.message || '刪除失敗，請稍後再試。';
+        document.getElementById('deleteSuccess').textContent = ''; // 清除成功訊息
+      }
+    } catch (error) {
+      document.getElementById('deleteError').textContent = `錯誤：${error.message}`;
+      document.getElementById('deleteSuccess').textContent = ''; // 清除成功訊息
+    }
+  });
+</script>
+
+</body>
+</html>

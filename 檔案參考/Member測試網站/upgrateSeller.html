@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>會員登入與升級測試</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        input { margin: 5px 0; padding: 5px; width: 250px; }
+        button { padding: 6px 12px; margin-top: 10px; cursor: pointer; }
+        #message { margin-top: 15px; color: #333; white-space: pre-line; }
+    </style>
+</head>
+<body>
+
+<h2>會員登入測試</h2>
+
+<label>帳號 (email 或 phone)：</label><br>
+<input type="text" id="keyword" placeholder="輸入 email 或 phone"><br>
+
+<label>密碼：</label><br>
+<input type="password" id="password" placeholder="輸入密碼"><br>
+
+<button onclick="login()">登入</button>
+<div id="message"></div>
+
+<hr>
+
+<h2>升級為賣家測試</h2>
+<button id="upgradeBtn" onclick="upgradeSeller()" disabled>升級為 SELLER</button>
+<button id="showUserBtn" onclick="showCurrentUser()" disabled>顯示目前登入者</button>
+<div id="userInfo"></div>
+
+<script>
+let currentMember = null;
+
+function login() {
+    const keyword = document.getElementById('keyword').value;
+    const password = document.getElementById('password').value;
+
+    fetch('http://localhost:8080/easybuyfarm/api/members/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `keyword=${encodeURIComponent(keyword)}&password=${encodeURIComponent(password)}`,
+        credentials: 'include'
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("登入失敗，帳號或密碼錯誤");
+        return res.json();
+    })
+    .then(data => {
+        currentMember = data;
+        document.getElementById('message').innerText = "✅ 登入成功！會員ID：" + data.memberId;
+        document.getElementById('upgradeBtn').disabled = false;
+        document.getElementById('showUserBtn').disabled = false;
+    })
+    .catch(err => {
+        document.getElementById('message').innerText = "❌ " + err.message;
+    });
+}
+
+function upgradeSeller() {
+    fetch('http://localhost:8080/easybuyfarm/api/members/upgradeSeller', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}',  // 空 JSON
+        credentials: 'include'
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("升級失敗或未登入");
+        return res.text();
+    })
+    .then(msg => {
+        document.getElementById('message').innerText = "✅ " + msg;
+        if (currentMember) currentMember.role = "SELLER";
+    })
+    .catch(err => {
+        document.getElementById('message').innerText = "❌ " + err.message;
+    });
+}
+
+function showCurrentUser() {
+    if (!currentMember) {
+        document.getElementById('userInfo').innerText = "未登入";
+    } else {
+        document.getElementById('userInfo').innerText =
+            `會員ID: ${currentMember.memberId}\n` +
+            `電話/Email: ${currentMember.phone || currentMember.email}\n` +
+            `角色: ${currentMember.role}\n` +
+            `狀態: ${currentMember.status ? '啟用' : '停用'}`;
+    }
+}
+</script>
+
+</body>
+</html>

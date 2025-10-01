@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>修改會員資料</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 400px; margin: 2rem auto; }
+    label, input, button { display: block; width: 100%; margin-top: 1rem; }
+    input, button { padding: 0.5rem; }
+    #message { margin-top: 1rem; color: green; }
+    #error { margin-top: 1rem; color: red; }
+  </style>
+</head>
+<body>
+
+<h2>修改會員資料</h2>
+<form id="updateForm">
+  <label>會員帳號（不可修改）:
+    <input type="text" id="memberId" disabled />
+  </label>
+  <label>密碼:
+    <input type="password" id="password" placeholder="不修改請留空" />
+  </label>
+  <label>名字:
+    <input type="text" id="firstName" />
+  </label>
+  <label>姓氏:
+    <input type="text" id="lastName" />
+  </label>
+  <label>地址:
+    <input type="text" id="address" />
+  </label>
+  <label>生日:
+    <input type="date" id="birthday" />
+  </label>
+  <button type="submit">送出修改</button>
+</form>
+
+<div id="message"></div>
+<div id="error"></div>
+<button id="logoutBtn" style="margin-top: 2rem;">登出</button>
+
+<script>
+  const apiBase = 'http://localhost:8080/easybuyfarm/api/members/updateMember';
+
+  // 讀取登入會員資料
+  const member = JSON.parse(localStorage.getItem('member'));
+  if (!member) {
+    alert('尚未登入，請先登入');
+    window.location.href = 'login.html';  // 如果沒有登入，跳轉回登入頁面
+  } else {
+    // 自動填入會員資料
+    document.getElementById('memberId').value = member.memberId || '';
+    document.getElementById('firstName').value = member.firstName || '';
+    document.getElementById('lastName').value = member.lastName || '';
+    document.getElementById('address').value = member.address || '';
+    if (member.birthday) {
+      document.getElementById('birthday').value = member.birthday.split('T')[0];
+    }
+  }
+
+  // 提交修改資料
+  document.getElementById('updateForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const updatedMember = {
+      password: document.getElementById('password').value || member.password,
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      address: document.getElementById('address').value,
+      birthday: document.getElementById('birthday').value,
+      role: member.role,
+      status: member.status
+    };
+
+    try {
+      const response = await fetch(apiBase, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(updatedMember)
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        document.getElementById('error').textContent = `修改失敗：${errText}`;
+        document.getElementById('message').textContent = '';
+        return;
+      }
+
+      const updatedData = await response.json();
+      localStorage.setItem('member', JSON.stringify(updatedData));
+      document.getElementById('message').textContent = '修改成功！';
+      document.getElementById('error').textContent = '';
+      document.getElementById('password').value = '';
+    } catch (err) {
+      document.getElementById('error').textContent = `修改錯誤：${err.message}`;
+      document.getElementById('message').textContent = '';
+    }
+  });
+
+  // 登出功能
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+      // 向後端發送登出請求，若後端已處理 session 清除
+      const response = await fetch('http://localhost:8080/easybuyfarm/api/members/logout', {
+        method: 'POST',
+        credentials: 'include' // 如果有需要的話，這樣可以帶上 session cookie
+      });
+
+      if (response.ok) {
+        // 登出成功後，清除本地存儲，並導向登入頁面
+        localStorage.removeItem('member');
+        window.location.href = 'login.html';  // 登出後跳轉到登入頁
+      } else {
+        alert('登出失敗，請稍後再試');
+      }
+    } catch (err) {
+      alert('登出時發生錯誤：' + err.message);
+    }
+  });
+</script>
+
+</body>
+</html>

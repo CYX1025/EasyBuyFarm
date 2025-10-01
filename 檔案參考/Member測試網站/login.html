@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>會員登入</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 400px; margin: 2rem auto; }
+  label, input, button { display: block; width: 100%; margin-top: 1rem; }
+  input, button { padding: 0.5rem; }
+  #message { margin-top: 1rem; color: red; }
+</style>
+</head>
+<body>
+
+<h2>會員登入</h2>
+<form id="loginForm">
+  <label>帳號 (keyword):
+    <input type="text" id="keyword" value="0987654321" required />
+  </label>
+  <label>密碼:
+    <input type="password" id="password" value="7788" required />
+  </label>
+  <button type="submit">登入</button>
+</form>
+<div id="message"></div>
+
+<script>
+  const apiBase = 'http://localhost:8080/easybuyfarm/api/members';
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const keyword = document.getElementById('keyword').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append('keyword', keyword);
+      formData.append('password', password);
+
+      const response = await fetch(`${apiBase}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        document.getElementById('message').textContent = `登入失敗：${errText}`;
+        return;
+      }
+
+      const member = await response.json();
+      localStorage.setItem('member', JSON.stringify(member));
+      window.location.href = 'updateMember.html'; // 跳轉修改頁
+    } catch (err) {
+      document.getElementById('message').textContent = `錯誤：${err.message}`;
+    }
+  });
+</script>
+
+</body>
+</html>
