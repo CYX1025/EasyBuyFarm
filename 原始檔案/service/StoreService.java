@@ -11,13 +11,18 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+
 
 import entity.Store;
 import dao.StoreDAO;
@@ -34,20 +39,20 @@ public class StoreService {
 	   return data;
 	 }
 	 
-	 @POST
+	/*@POST
 	 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public Response createStore(
-				 @FormParam("storeid") String storeId,
-				 @FormParam("memberid") String memberId,
 				 @FormParam("storename") String storeName,
 				 @FormParam("storeintroduce") String storeintroduce, 
-				 @FormParam("storeimg")String storeImg)
+				 @FormParam("storeimg")String storeImg,
+				 @FormParam("member") String memberId)
 		 {
 			 try 
 			 {
-		     Store store = new Store(storeId, memberId, storeName, storeintroduce,storeImg);
-			 boolean flag=dao.addStore(store);
+			
+		     Store store = new Store(storeName, storeintroduce,storeImg);
+			 boolean flag=dao.addStore(store,memberId);
 			 	if(flag)
 			 	{
 			 		return Response.ok(store).build();
@@ -65,7 +70,7 @@ public class StoreService {
 		                .entity("Upload failed: " + e.getMessage()).build();
 			 }
 			
-		 }
+		 }*/
 	 
 	 //試做圖片上傳，但功能有問題先註解掉
 	/*@POST
@@ -107,4 +112,59 @@ public class StoreService {
 		 }
 		
 	 }*/
+	 
+	 //使用id找賣場
+	 @GET
+	 @Path("/{Id}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response findStoreById(@PathParam("Id") int id) 
+	 {
+			Store s1 = dao.findById(id);
+			if(s1!=null) 
+			{
+				return Response.ok().entity(s1).build();
+			}
+			else 
+			{
+				return Response.noContent().build();
+			}
+	 }
+	 
+	 
+	 //使用會員ID查找賣場
+	 //功能有問題要找一下為啥
+	/* @GET
+	 @Path("/{memberId}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response findStoreByMemberId(@PathParam("memberId") String memberId) 
+	 {
+		Store s1 = dao.findByMemberId(memberId);
+		if(s1!=null) 
+		{
+			return Response.ok().entity(s1).build();
+		}
+		else 
+		{
+			return Response.noContent().build();
+		}
+	 }*/
+	 
+	 //用商店id修改賣場
+	 @PUT
+	 @Path("/{Id}")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response updateStore(@PathParam("Id") int id, Store updatestore) 
+	 {
+		Store store = dao.updateStore(id, updatestore);
+		if(store!=null) 
+		{
+			return Response.ok(store).build();
+		}
+		else 
+		{
+			return Response.status(Response.Status.NOT_FOUND)
+					.entity("store not found or update failed").build();
+		}
+	 }
 }
