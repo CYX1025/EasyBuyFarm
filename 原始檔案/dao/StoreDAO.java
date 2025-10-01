@@ -131,8 +131,9 @@ public class StoreDAO {
 			 updatestore.setName(store.getName());
 			 updatestore.setIntroduce(store.getIntroduce());
 			 updatestore.setStoreImg(store.getStoreImg());
-			 mgr.getTransaction().commit();
 			 Store mergedStore = mgr.merge(updatestore);
+			 mgr.getTransaction().commit();
+			
 
 		     return mergedStore;
 		 } 
@@ -145,6 +146,35 @@ public class StoreDAO {
 		 finally 
 		 {
 		     mgr.close();
+		 }
+	 }
+	 
+	 //根據ID刪除賣場
+	 public boolean deleteStore(int id)
+	 {
+		 EntityManager mgr=createConnection();
+		 try
+		 {
+			 Store store=mgr.find(Store.class,id);
+			 if(store==null)
+			 {
+				 return false;
+			 }
+			 mgr.getTransaction().begin();
+			 mgr.remove(store);
+			 mgr.getTransaction().commit();
+			 return true;
+		 }
+		 catch(Exception e)
+		 {
+			 mgr.getTransaction().rollback();
+			 e.printStackTrace();
+		     System.out.println("Delete Store error: " + e.getMessage());
+		     return false;
+		 }
+		 finally
+		 {
+			 mgr.close();
 		 }
 	 }
 }

@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -149,7 +150,7 @@ public class StoreService {
 		}
 	 }*/
 	 
-	 //用商店id修改賣場
+	 //用id修改賣場
 	 @PUT
 	 @Path("/{Id}")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -166,5 +167,24 @@ public class StoreService {
 			return Response.status(Response.Status.NOT_FOUND)
 					.entity("store not found or update failed").build();
 		}
+	 }
+	 
+	 //用id刪除賣場
+	 @DELETE
+	 @Path("/{Id}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response deleteStore(@PathParam("id") int id)
+	 {
+		 boolean deleted=dao.deleteStore(id);
+		 if(deleted)
+		 {
+			 return Response.ok("{\"message\": \"Store deleted successfully\"}").build(); 
+		 }
+		 else
+		 {
+			 return Response.status(Response.Status.NOT_FOUND)
+					 .entity("{\"error\": \"Store not found or delete failed\"}")
+					 .build();
+		 }
 	 }
 }
