@@ -1,20 +1,43 @@
 package dao;
 
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import entity.Member;
+import util.AutoNumber;
 import util.DbConnection;
 
 public class MemberDAO {
 	
 	public static void main(String[] args) {
 		//System.out.println(new MemberDAO().findMemberByMemberId("sn202509240001"));
+		System.out.println(new MemberDAO().addMember("0987654321","zxc@fku.com","7788"));
 	}
 	
 	private static EntityManager con = new DbConnection().createConnection();
+	
+	public boolean addMember(String phone, String email, String password){
+	    try {
+	        con.getTransaction().begin();
+	        String memberId = AutoNumber.generateMemberNo();
+	        Member member = new Member(memberId, phone, email, password);
+	        member.setRole("BUYER");
+	        member.setStatus(true);
+	        member.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+	        con.persist(member);
+	        con.getTransaction().commit();
+	        System.out.println("新增成功：" + member); // Debug 資訊
+	        return true;
+	    } catch(Exception e) {
+	        System.out.println("Add Member Error: " + e.getMessage());
+	        return false;
+	    }
+	}
+
 
 	
 	public List<Member> getAllMembers(){
@@ -53,9 +76,9 @@ public class MemberDAO {
 	        con.getTransaction().begin();
 
 	        // 把要更新的欄位複製到 existingMember（你可以用 Setter）
-	        existingMember.setEmail(updateMember.getEmail());
-	        existingMember.setPhone(updateMember.getPhone());
 	        existingMember.setPassword(updateMember.getPassword());
+	        existingMember.setFirstName(updateMember.getFirstName());
+	        existingMember.setLastName(updateMember.getLastName());
 	        existingMember.setAddress(updateMember.getAddress());
 	        existingMember.setBirthday(updateMember.getBirthday());
 	        existingMember.setRole(updateMember.getRole());
@@ -71,8 +94,7 @@ public class MemberDAO {
 	        System.out.println("Update Member error: " + e.getMessage());
 	        return null;
 	    }
-		
-		
+	    
 		/*
 		Member m1 = findMemberByMemberId(MemberId);
 		if(m1!=null) {

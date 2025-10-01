@@ -32,6 +32,19 @@ public class MemberService {
 		
 	}
 	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addMember(String phone, String email, String password) {
+		boolean flag = dao.addMember(phone, email, password);
+		if(flag) {
+			return Response.status(Response.Status.CREATED).build();
+		}else {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+	}
+	
+	
+	
 	@GET
 	@Path("/{memberId}")
 	@Produces(MediaType.APPLICATION_JSON)
