@@ -2,47 +2,68 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>EastBuyFarm好農易 - 登入</title>
+  <title>EastBuyFarm好農易</title>
+  <!-- 連結外部 CSS 檔案，用於網頁樣式 -->
   <link rel="stylesheet" href="style.css">
+  <!-- 連結外部 JS 檔案，用於網頁互動功能 (購物車、登入等) -->
   <script src="script.js" defer></script>
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- 頂部導覽列 (Navbar) -->
   <header class="navbar">
+    <!-- 左側區塊：Logo + 搜尋框 -->
     <div class="navbar-left">
       <div class="logo">
+        <!-- 點擊 Logo 回到首頁 -->
         <a href="index.html"><img src="images/logo_02.png" alt="MyShop"></a>
-      </div>
+      </div>  
+      <!-- 商品搜尋框 -->
       <input type="text" class="search-box" placeholder="搜尋商品、品牌...">
     </div>
     <a href="storelist.html" class="btn">賣場列表</a>
+    <!-- 右側區塊：會員選單 + 購物車 -->
     <div class="navbar-right">
+      <!-- 下拉選單區塊 -->
       <div class="dropdown">
-        <button class="dropbtn">會員選單 ▼</button>
+        <!-- 下拉按鈕 -->
+        <button class="dropbtn" >會員選單 ▼</button>
+        <!-- 下拉選單內容 -->
         <div class="dropdown-content">
+          <!-- 登入連結 -->
           <a href="login.html" id="login-link">登入</a>
+          <!-- 註冊連結 -->
           <a href="register.html" id="register-link">註冊</a>
+          <!-- 會員中心，預設隱藏，登入後顯示 -->
           <a href="member.html" id="member-btn" style="display:none;">會員中心</a>
+          <!-- 登出按鈕，預設隱藏，登入後顯示 -->
           <a href="index.html" onclick="logoutUser()" id="logout-link" style="display:none;">登出</a>
         </div>
       </div>
+      <!-- 獨立購物車按鈕，顯示購物車數量 -->
       <a href="cart.html" class="cart">🛒 購物車 <span id="cart-count">0</span></a>
       <button id="be-seller-btn">成為賣家</button>
     </div>
   </header>
 
-  <!-- 登入表單 -->
+  <!-- ======================================
+       登入區 (Login Form)
+       ====================================== -->
   <main class="login-container">
     <h2>會員登入</h2>
-    <form id="login-form">
+    <!-- 登入表單 -->
+    <form onsubmit="return loginUser(event)">
+      <!-- 使用者帳號輸入 -->
       <label for="username">電話 / Email</label>
       <input type="text" id="username" required>
 
+      <!-- 密碼輸入 -->
       <label for="password">密碼</label>
       <input type="password" id="password" required>
 
+      <!-- 登入按鈕 -->
       <button type="submit" class="btn">登入</button>
 
+      <!-- 註冊 / 忘記密碼連結 -->
       <div class="login-links">
         <a href="register.html">註冊新會員</a> | 
         <a href="forgot-password.html">忘記密碼？</a>
@@ -50,9 +71,14 @@
     </form>
   </main>
 
+  <!-- ======================================
+       頁腳 (Footer)
+       ====================================== -->
   <footer class="footer">
     <div class="footer-content">
+      <!-- 版權資訊 -->
       <p>© 2025 EastBuyFarm. All Rights Reserved.</p>
+      <!-- 頁腳連結 -->
       <nav class="footer-links">
         <a href="#">關於我們</a> |
         <a href="#">隱私政策</a> |
@@ -61,37 +87,5 @@
       </nav>
     </div>
   </footer>
-
-  <script>
-  // 登入送出
-  document.getElementById("login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const keyword = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    try {
-      const res = await fetch("http://localhost:8080/easybuyfarm/api/members/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `keyword=${encodeURIComponent(keyword)}&password=${encodeURIComponent(password)}`
-      });
-
-      if (res.ok) {
-        const member = await res.json();
-        localStorage.setItem("loggedInUser", JSON.stringify(member));
-        alert(`登入成功，歡迎 ${member.email || member.phone}`);
-        updateNavbar();
-        window.location.href = "index.html"; // 可改成會員中心頁
-      } else {
-        const msg = await res.text();
-        alert(msg);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("伺服器錯誤，請稍後再試");
-    }
-  });
-  </script>
 </body>
 </html>
