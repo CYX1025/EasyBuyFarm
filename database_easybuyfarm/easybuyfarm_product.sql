@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `easybuyfarm` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `easybuyfarm`;
 -- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: localhost    Database: easybuyfarm
@@ -36,7 +34,7 @@ CREATE TABLE `product` (
   `product_img` varchar(100) DEFAULT NULL,
   `category_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +43,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'s001','p001','番茄',30,'10','150','這是一顆好吃的番茄','tomto.png',1),(2,'s001','p002','柳丁',50,'100','200','這是一顆好吃的柳丁','02.png',1),(3,'s001','p003','拔辣',20,'50','400','拔辣巴巴巴巴','03.png',1),(4,'s002','p004','高麗菜',190,'10','1200','高麗菜好好吃喔','04.png',2),(5,'s002','p005','青江菜',100,'10','150','綠油油的喔','05.png',2);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-28 15:10:25
+-- Dump completed on 2025-10-01 15:59:29

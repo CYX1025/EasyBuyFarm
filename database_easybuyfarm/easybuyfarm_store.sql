@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `easybuyfarm` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `easybuyfarm`;
 -- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: localhost    Database: easybuyfarm
@@ -41,7 +39,7 @@ CREATE TABLE `store` (
 
 LOCK TABLES `store` WRITE;
 /*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES (1,'S001','sn202509240001','好水果賣場','水果好吃',NULL),(2,'S002','sn202509240001','蔬菜賣場','蔬菜好吃',NULL),(3,'S003','sn202509240002','神秘綠色葉子','會帶來快樂喔',NULL);
+INSERT INTO `store` VALUES (1,'s001','sn202509240001','好水果賣場','水果好吃',NULL),(2,'s002','sn202509240001','蔬菜賣場','蔬菜好吃',NULL),(3,'s003','sn202509240002','神秘綠色葉子','會帶來快樂喔',NULL);
 /*!40000 ALTER TABLE `store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-28 15:10:25
+-- Dump completed on 2025-10-01 15:59:29
