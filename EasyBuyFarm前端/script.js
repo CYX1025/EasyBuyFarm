@@ -194,16 +194,34 @@ function initRegisterForm() {
             registerMessage.style.color = 'red';
             registerMessage.textContent = '';
             if(!phone || !email || !password){
-                registerMessage.textContent = '請填寫所有欄位'; return;
+                registerMessage.textContent = '請填寫所有欄位'; 
+                return;
             }
             const phoneRegex = /^09\d{8}$/;
-            if(!phoneRegex.test(phone)){ registerMessage.textContent = '請輸入正確電話號碼'; return; }
+            if(!phoneRegex.test(phone)){ 
+                registerMessage.textContent = '請輸入正確電話號碼'; 
+                return; 
+            }
 
             try{
-                // 檢查電話是否已註冊
-                const checkRes = await fetch(`/easybuyfarm/api/members/${phone}`);
-                if(checkRes.status === 200){ registerMessage.textContent = '此電話已被註冊'; return; }
+                // 先呼叫 addMemberCheck 判斷是否已存在
+                const checkParams = new URLSearchParams();
+                checkParams.append('phone', phone);
+                checkParams.append('email', email);
 
+                const checkRes = await fetch('/easybuyfarm/api/members/addMemberCheck', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                    body: checkParams.toString()
+                });
+
+                if(checkRes.status === 409){ // 有重複
+                    const text = await checkRes.text();
+                    registerMessage.textContent = text || '電話或信箱已被註冊';
+                    return;
+                }
+
+                // 如果沒重複，才送出註冊請求
                 const params = new URLSearchParams();
                 params.append('phone', phone);
                 params.append('email', email);
@@ -223,6 +241,7 @@ function initRegisterForm() {
                     const text = await res.text();
                     registerMessage.textContent = text || '註冊失敗';
                 }
+
             } catch(err){
                 console.error('註冊請求失敗:', err);
                 registerMessage.textContent = '網路連線錯誤，無法完成註冊';
@@ -230,6 +249,7 @@ function initRegisterForm() {
         });
     }
 }
+
 
 // ======================================
 // 下拉選單功能
