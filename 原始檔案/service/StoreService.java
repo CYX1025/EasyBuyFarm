@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -133,22 +134,20 @@ public class StoreService {
 	 
 	 
 	 //使用會員ID查找賣場
-	 //功能有問題要找一下為啥
-	/* @GET
-	 @Path("/{memberId}")
+	 @GET
+	 @Path("/member/{memberId}")
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public Response findStoreByMemberId(@PathParam("memberId") String memberId) 
 	 {
-		Store s1 = dao.findByMemberId(memberId);
-		if(s1!=null) 
-		{
-			return Response.ok().entity(s1).build();
-		}
-		else 
-		{
-			return Response.noContent().build();
-		}
-	 }*/
+		List<Store> stores=dao.findByMemberId(memberId);
+		if (stores == null || stores.isEmpty()) {
+	        return Response.status(Response.Status.NOT_FOUND)
+	                       .entity(Collections.singletonMap("error", "No stores found for memberId: " + memberId))
+	                       .build();
+	    }
+
+	    return Response.ok(stores).build();
+	 }
 	 
 	 //用id修改賣場
 	 @PUT
@@ -173,7 +172,7 @@ public class StoreService {
 	 @DELETE
 	 @Path("/{Id}")
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public Response deleteStore(@PathParam("id") int id)
+	 public Response deleteStore(@PathParam("Id") int id)
 	 {
 		 boolean deleted=dao.deleteStore(id);
 		 if(deleted)
