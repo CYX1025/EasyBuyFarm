@@ -38,6 +38,18 @@
   </div>
 </header>
 
+<main class="home">
+    
+    <div class="product-card" th:each="product : ${products}">
+      
+      <img th:src="@{${product.imagePath}}" th:alt="${product.name}">
+      
+      <h3 th:text="${product.name}">商品名稱</h3>
+      
+      <p class="price" th:text="'$' + ${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></p>
+      
+      <button th:onclick="'addToCart(\'' + ${product.name} + '\', ' + ${product.price} + ')'">加入購物車</button>
+
 <!-- 合約書彈窗 -->
 <div id="contract-modal" class="modal">
   <div class="modal-content">
@@ -60,8 +72,9 @@
   </div>
 </div>
 
-<div id="modal-overlay"></div>
 
+<div id="modal-overlay"></div>
+</main>
   <!-- ======================================
        頁腳 Footer
        ====================================== -->
