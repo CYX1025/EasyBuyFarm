@@ -17,7 +17,9 @@ public class MemberDAO {
 		//System.out.println(new MemberDAO().findMemberByMemberId("sn202509240001"));
 		//System.out.println(new MemberDAO().addMember("0987654321","zxc@fku.com","7788"));
 		//System.out.println(new MemberDAO().upgradeToSeller("sn202510010001"));
-		System.out.println(new MemberDAO().deleteMember("sn202510020001"));
+		//System.out.println(new MemberDAO().deleteMember("sn202510020001"));
+		//System.out.println(new MemberDAO().findMemberByMemberEmail("zxc@fku.com"));
+		//System.out.println(new MemberDAO().findMemberByMemberPhone("0932165498"));
 	}
 	
 	private static EntityManager con = new DbConnection().createConnection();
@@ -54,6 +56,18 @@ public class MemberDAO {
 	        "SELECT m FROM Member m WHERE m.memberId = :memberId", Member.class);
 	    query.setParameter("memberId", memberId);
 	    return query.getResultStream().findFirst().orElse(null);
+	}
+	
+	public Member findMemberByMemberEmail(String email) {
+		TypedQuery<Member> query = con.createQuery("SELECT m FROM Member m WHERE m.email = :email",Member.class);
+		query.setParameter("email", email);
+		return query.getResultStream().findFirst().orElse(null);
+	}
+	
+	public Member findMemberByMemberPhone(String phone) {
+		TypedQuery<Member> query = con.createQuery("SELECT m FROM Member m WHERE m.phone = :phone",Member.class);
+		query.setParameter("phone", phone);
+		return query.getResultStream().findFirst().orElse(null);
 	}
 
 	
