@@ -11,6 +11,15 @@ import entity.Member;
 import entity.Store;
 
 public class StoreDAO {
+	public static void main(String[] args) 
+	{
+		List<Store> test=new StoreDAO().findByMemberId("sn202509240001");
+		for(Store i:test)
+		{
+			System.out.println("找到這個惹"+i.getName()+i.getIntroduce());
+		}
+		
+	}
 	EntityManager createConnection() 
 	{
     	EntityManagerFactory factory=Persistence.createEntityManagerFactory("easybuyfarm");
@@ -83,19 +92,22 @@ public class StoreDAO {
 		 EntityManager mgr = createConnection(); 
 		    try {
 		        return mgr.find(Store.class, id);
-		    } finally {
-		        mgr.close();
-		    }
+		    } 
+		    catch(Exception e )
+		    {
+		    	System.out.println("Find Store error: " + e.getMessage());
+		    	return null; 
+		    } 
 	 }
 	 
 	 //使用會員id找尋賣場
-	 public Store findByMemberId(String memberId)
+	 public List<Store> findByMemberId(String memberId)
 	 {
 		 EntityManager mgr = createConnection();
 		 TypedQuery<Store> query = mgr.createQuery(
 			        "SELECT s FROM Store s WHERE s.memberId = :memberId", Store.class);
 			    query.setParameter("memberId", memberId);
-			    return query.getResultStream().findFirst().orElse(null);
+			    return query.getResultList();
 	 }
 	 
 	 //使用賣場名稱找賣場，模糊搜尋，前後都加了萬用字元
@@ -155,9 +167,11 @@ public class StoreDAO {
 		 EntityManager mgr=createConnection();
 		 try
 		 {
-			 Store store=mgr.find(Store.class,id);
+			 Store store = mgr.find(Store.class, id);
+			 
 			 if(store==null)
 			 {
+				 System.out.println("store null");
 				 return false;
 			 }
 			 mgr.getTransaction().begin();
@@ -172,9 +186,6 @@ public class StoreDAO {
 		     System.out.println("Delete Store error: " + e.getMessage());
 		     return false;
 		 }
-		 finally
-		 {
-			 mgr.close();
-		 }
+		 
 	 }
 }

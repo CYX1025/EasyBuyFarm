@@ -50,18 +50,35 @@ public class MemberService {
 	}
 	
 	
-	
-	@GET
-	@Path("/{memberId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response findMemberByMemberId(@PathParam("memberId") String memberId) {
-		Member m1 = dao.findMemberByMemberId(memberId);
-		if(m1!=null) {
-			return Response.ok().entity(m1).build();
-		}else {
-			return Response.noContent().build();
-		}
+	/*
+	 * 註冊時判斷有沒有註冊過
+	 */
+	@POST
+	@Path("/addMemberCheck")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response addMemberCheck(@FormParam("phone") String phone, @FormParam("email") String email) {
+	    Member phoneIsAdd = dao.findMemberByMemberPhone(phone);
+	    Member emailIsAdd = dao.findMemberByMemberEmail(email);
+
+	    if (phoneIsAdd != null && emailIsAdd != null) {
+	        return Response.status(Response.Status.CONFLICT)
+	                       .entity("此手機和此信箱已註冊")
+	                       .build();
+	    } else if (phoneIsAdd != null) {
+	        return Response.status(Response.Status.CONFLICT)
+	                       .entity("此手機號碼已註冊")
+	                       .build();
+	    } else if (emailIsAdd != null) {
+	        return Response.status(Response.Status.CONFLICT)
+	                       .entity("此信箱已註冊")
+	                       .build();
+	    } else {
+	        // 沒有重複，可以註冊
+	        return Response.ok("可以註冊").build();
+	    }
 	}
+
 	
 	
 	/*
