@@ -3,80 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <title>EastBuyFarm好農易</title>
-  <!-- 連結外部 CSS 檔案，用於網頁樣式 -->
   <link rel="stylesheet" href="style.css">
-  <!-- 連結外部 JS 檔案，用於網頁互動功能 (購物車、登入等) -->
   <script src="script.js" defer></script>
 </head>
 <body>
-  <!-- 頂部導覽列 (Navbar) -->
   <header class="navbar">
-    <!-- 左側區塊：Logo + 搜尋框 -->
     <div class="navbar-left">
       <div class="logo">
-        <!-- 點擊 Logo 回到首頁 -->
         <a href="index.html"><img src="images/logo_02.png" alt="MyShop"></a>
       </div>  
-      <!-- 商品搜尋框 -->
       <input type="text" class="search-box" placeholder="搜尋商品、品牌...">
     </div>
     <a href="storelist.html" class="btn">賣場列表</a>
-    <!-- 右側區塊：會員選單 + 購物車 -->
     <div class="navbar-right">
-      <!-- 下拉選單區塊 -->
       <div class="dropdown">
-        <!-- 下拉按鈕 -->
         <button class="dropbtn" >會員選單 ▼</button>
-        <!-- 下拉選單內容 -->
         <div class="dropdown-content">
-          <!-- 登入連結 -->
           <a href="login.html" id="login-link">登入</a>
-          <!-- 註冊連結 -->
           <a href="register.html" id="register-link">註冊</a>
-          <!-- 會員中心，預設隱藏，登入後顯示 -->
-          <a href="member.html" id="member-btn" style="display:none;">會員中心</a>
-          <!-- 登出按鈕，預設隱藏，登入後顯示 -->
-          <a href="index.html" onclick="logoutUser()" id="logout-link" style="display:none;">登出</a>
+          <a href="member.html" id="member-btn">會員中心</a>
+          <a href="index.html" id="logout-link">登出</a>
         </div>
       </div>
-      <!-- 獨立購物車按鈕，顯示購物車數量 -->
       <a href="cart.html" class="cart">🛒 購物車 <span id="cart-count">0</span></a>
       <button id="be-seller-btn">成為賣家</button>
     </div>
   </header>
 
-  <!-- 賣場列表區 -->
   <main class="seller-list-container">
     <h2>賣場列表</h2>
 
     <div class="seller-cards">
-      <!-- 單個賣場卡片 -->
-      <div class="seller-card">
-        <img src="images/seller1.jpg" alt="賣家A">
-        <h3>賣家A的農場</h3>
-        <p>評價：★★★★☆</p>
-        <p>商品數量：120件</p>
-        <a href="seller-shop.html?shop=1" class="view-shop-btn">進入賣場</a>
+      <div class="seller-card" th:each="seller : ${sellers}">
+        
+        <img th:src="@{${seller.imagePath}}" th:alt="${seller.shopName}">
+        
+        <h3 th:text="${seller.shopName}"></h3>
+        
+        <p>評價：<span th:text="${seller.rating}"></span></p>
+        
+        <p>商品數量：<span th:text="${seller.productCount}"></span>件</p>
+        
+        <a th:href="@{/seller-shop.html(shop=${seller.id})}" class="view-shop-btn">進入賣場</a>
       </div>
 
-      <div class="seller-card">
-        <img src="images/seller2.jpg" alt="賣家B">
-        <h3>賣家B的果園</h3>
-        <p>評價：★★★☆☆</p>
-        <p>商品數量：80件</p>
-        <a href="seller-shop.html?shop=2" class="view-shop-btn">進入賣場</a>
+      <div th:if="${#lists.isEmpty(sellers)}">
+          <p>目前沒有賣場資料可顯示。</p>
       </div>
-
-      <div class="seller-card">
-        <img src="images/seller3.jpg" alt="賣家C">
-        <h3>賣家C的小農場</h3>
-        <p>評價：★★★★★</p>
-        <p>商品數量：200件</p>
-        <a href="seller-shop.html?shop=3" class="view-shop-btn">進入賣場</a>
-      </div>
+      
     </div>
 
-    <!-- 分頁 -->
     <div class="pagination">
       <a href="#">«</a>
       <a href="#" class="active">1</a>
@@ -86,7 +62,6 @@
     </div>
   </main>
 
-  <!-- 網頁底部 (Footer) -->
   <footer class="footer">
     <div class="footer-content">
       <p>© 2025 EastBuyFarm. All Rights Reserved.</p>

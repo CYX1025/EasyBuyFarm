@@ -3,85 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <title>EastBuyFarm好農易</title>
-  <!-- 連結外部 CSS 檔案，用於網頁樣式 -->
   <link rel="stylesheet" href="style.css">
-  <!-- 連結外部 JS 檔案，用於網頁互動功能 (購物車、登入等) -->
   <script src="script.js" defer></script>
 </head>
 <body>
-  <!-- 頂部導覽列 (Navbar) -->
   <header class="navbar">
-    <!-- 左側區塊：Logo + 搜尋框 -->
     <div class="navbar-left">
       <div class="logo">
-        <!-- 點擊 Logo 回到首頁 -->
         <a href="index.html"><img src="images/logo_02.png" alt="MyShop"></a>
       </div>  
-      <!-- 商品搜尋框 -->
       <input type="text" class="search-box" placeholder="搜尋商品、品牌...">
     </div>
     <a href="storelist.html" class="btn">賣場列表</a>
-    <!-- 右側區塊：會員選單 + 購物車 -->
+    
+    <span id="welcome-message" style="margin-right: 15px;">
+        <span th:if="${member != null}" th:text="${member.lastname} + ' 您好'">
+            </span>
+    </span>
     <div class="navbar-right">
-      <!-- 下拉選單區塊 -->
       <div class="dropdown">
-        <!-- 下拉按鈕 -->
         <button class="dropbtn" >會員選單 ▼</button>
-        <!-- 下拉選單內容 -->
         <div class="dropdown-content">
-          <!-- 登入連結 -->
           <a href="login.html" id="login-link">登入</a>
-          <!-- 註冊連結 -->
           <a href="register.html" id="register-link">註冊</a>
-          <!-- 會員中心，預設隱藏，登入後顯示 -->
-          <a href="member.html" id="member-btn" style="display:none;">會員中心</a>
-          <!-- 登出按鈕，預設隱藏，登入後顯示 -->
-          <a href="index.html" onclick="logoutUser()" id="logout-link" style="display:none;">登出</a>
+          <a href="member.html" id="member-btn">會員中心</a>
+          <a href="index.html" id="logout-link">登出</a>
         </div>
       </div>
-      <!-- 獨立購物車按鈕，顯示購物車數量 -->
       <a href="cart.html" class="cart">🛒 購物車 <span id="cart-count">0</span></a>
       <button id="be-seller-btn">成為賣家</button>
     </div>
   </header>
 
-  <!-- 主要商品區 (Main Content) -->
   <main class="home">
-    <!-- 單個商品卡片 -->
-    <div class="product-card">
-      <!-- 商品圖片 -->
-      <img src="images/computer.jpeg" alt="電腦">
-      <!-- 商品名稱 -->
-      <h3>高效能電腦</h3>
-      <!-- 商品價格 -->
-      <p class="price">$30,000</p>
-      <!-- 加入購物車按鈕，點擊會呼叫 addToCart() JS 函數 -->
-      <button onclick="addToCart('高效能電腦', 30000)">加入購物車</button>
+    
+    <div class="product-card" th:each="product : ${products}">
+      
+      <img th:src="@{${product.imagePath}}" th:alt="${product.name}">
+      
+      <h3 th:text="${product.name}">商品名稱</h3>
+      
+      <p class="price" th:text="'$' + ${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></p>
+      
+      <button th:onclick="'addToCart(\'' + ${product.name} + '\', ' + ${product.price} + ')'">加入購物車</button>
     </div>
 
-    <!-- 第二個商品卡片 -->
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200" alt="手機">
-      <h3>智慧手機</h3>
-      <p class="price">$15,000</p>
-      <button onclick="addToCart('智慧手機', 15000)">加入購物車</button>
+    <div th:if="${#lists.isEmpty(products)}">
+        <p>目前沒有商品上架。</p>
     </div>
 
-    <!-- 第三個商品卡片 -->
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200" alt="耳機">
-      <h3>藍牙耳機</h3>
-      <p class="price">$2,000</p>
-      <button onclick="addToCart('藍牙耳機', 2000)">加入購物車</button>
-    </div>
   </main>
 
-  <!-- 網頁底部 (Footer) -->
+    <div id="contract-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal-btn">&times;</span>
+            
+            <h2>EastBuyFarm 賣家合作協議書</h2>
+            
+            <div class="contract-text">
+                <p><strong>第一條：合作範圍</strong></p>
+                <p>本協議確立 EastBuyFarm（以下稱「平台」）與賣家之間，關於農產品銷售及相關服務的合作關係。賣家同意在平台上架符合法規之農產品，並確保產品品質與來源合法。</p>
+                
+                <p><strong>第二條：費用與結算</strong></p>
+                <p>賣家同意支付平台每筆交易金額的 3 % 作為服務費。平台將於每月 30 日 進行結算，並將款項匯入賣家指定帳戶。</p>
+                
+                <p><strong>第三條：產品責任</strong></p>
+                <p>賣家須獨立承擔所有產品的品質、包裝、運輸及食品安全責任。如因產品問題導致消費者權益受損，賣家應全權處理並負擔法律責任。</p>
+                
+                <p><strong>第四條：協議生效與終止</strong></p>
+                <p>本協議經賣家點擊「同意」後立即生效。任一方若需終止合作，須提前三十天以書面通知對方。</p>
+                
+                <p style="margin-top: 20px;">**[ 此為模擬合約內容，實際內容請依據法律顧問建議 ]**</p>
+            </div>
+            
+            <div class="modal-actions" style="text-align: center; margin-top: 20px;">
+                <button id="agree-contract-btn" class="btn">我同意並申請成為賣家</button>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
   <footer class="footer">
     <div class="footer-content">
-      <!-- 版權資訊 -->
       <p>© 2025 EastBuyFarm. All Rights Reserved.</p>
-      <!-- 網頁相關連結 -->
       <nav class="footer-links">
         <a href="#">關於我們</a> |
         <a href="#">隱私政策</a> |

@@ -120,7 +120,7 @@ body {
     font-size: 18px;
 }
 
-/* 按鈕樣式 */
+/* 按鈕樣式 (通用) */
 button {
     background: linear-gradient(to right, #ff7e5f, #ee4d2d);
     color: white;
@@ -326,55 +326,8 @@ button:hover {
 }
 
 /* ======================================
-   下拉選單 Dropdown
+   會員中心頁面樣式
    ====================================== */
-.dropdown {
-    position: relative;
-    display: inline-block; /* 允許下拉內容絕對定位 */
-}
-
-.dropbtn {
-    background-color: #333;
-    color: white;
-    padding: 10px 15px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-}
-
-/* 下拉內容 */
-.dropdown-content {
-    display: none;           /* 預設隱藏 */
-    position: absolute;      /* 絕對定位 */
-    right: 0;                /* 右對齊父元素 */
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;              /* 疊放順序 */
-}
-
-/* 下拉連結樣式 */
-.dropdown-content a {
-    color: black;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-}
-
-/* 滑過顯示下拉內容 */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* 下拉按鈕 hover */
-.dropdown:hover .dropbtn {
-    background-color: #555;
-}
-
-/* 下拉連結 hover */
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
 /* 會員中心容器 */
 .member-container {
   display: flex;
@@ -494,6 +447,10 @@ form input {
 form button {
   margin-top: 10px;
 }
+
+/* ======================================
+   賣場列表頁面樣式
+   ====================================== */
 /* 賣場列表容器 */
 .seller-list-container {
   max-width: 1200px;
@@ -584,6 +541,8 @@ form button {
   background: #ff9966;
   color: white;
 }
+
+/* 導覽列輔助按鈕 (賣場列表、成為賣家等) */
 .btn {
   display: inline-block;               /* 讓 a 可以像按鈕 */
   padding: 8px 16px;
@@ -608,4 +567,156 @@ form button {
 .btn:active, .btn:focus {
   color: white;
   outline: none;
+}
+
+/* ======================================
+   ↓↓↓↓↓↓ 下拉選單 Dropdown 美化版 (最終修正) ↓↓↓↓↓↓
+   ====================================== */
+
+/* 容器 */
+.dropdown {
+    position: relative;
+    display: inline-block; 
+    z-index: 1000; /* 確保在最上層 */
+}
+
+/* 下拉按鈕 (會員選單 ▼) */
+.dropbtn {
+    background-color: #ff6347; 
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(255, 99, 71, 0.4); 
+    transition: background-color 0.3s;
+}
+
+.dropbtn:hover {
+    background-color: #e55337; 
+}
+
+/* 下拉選單內容容器 */
+.dropdown-content {
+    display: none;           /* 預設隱藏 */
+    position: absolute;      
+    top: 100%;               
+    right: 0;                
+    min-width: 150px;
+    margin-top: 10px;        
+    background-color: #ffffff; 
+    border-radius: 8px;      
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.15); 
+    z-index: 1;              
+    overflow: hidden;        
+    animation: fadeIn 0.3s ease-out; 
+}
+
+/* 選單項目樣式 */
+.dropdown-content a {
+    color: #333;             
+    padding: 12px 15px;      
+    text-decoration: none;
+    display: block;          
+    transition: background-color 0.2s, color 0.2s, padding-left 0.2s;
+    border-bottom: 1px solid #f0f0f0; 
+    margin-left: 0; 
+}
+
+/* 登入狀態連結隱藏/顯示的 CSS (由 JS 控制 display 屬性) */
+#member-btn, 
+#logout-link {
+    display: none; 
+}
+#register-link {
+    border-bottom: 2px solid #ddd; 
+}
+.dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+/* 選單項目 hover 效果 */
+.dropdown-content a:hover {
+    background-color: #fff0f0; 
+    color: #ff6347; 
+    padding-left: 18px; 
+}
+
+/* -------------------------------------
+   JS 控制的顯示 Class (關鍵)
+   ------------------------------------- */
+.dropdown-content.show {
+  /* 使用 !important 確保 display: block 生效 */
+  display: block !important; 
+}
+
+/* 漸入動畫 (用於下拉選單出現時) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); } 
+  to { opacity: 1; transform: translateY(0); }
+}
+/* 顯示選單 (***此段已移除 CSS :hover 控制，改為 JS 控制***) 
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+*/
+
+/* -------------------------------------
+   JS 控制的顯示 Class (新增)
+   ------------------------------------- */
+/* 彈出視窗容器樣式 */
+.modal {
+    display: none; /* 預設隱藏 */
+    position: fixed; /* 固定在視口上 */
+    z-index: 100; /* 確保它在其他內容之上 */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; /* 如果內容過多，允許滾動 */
+    background-color: rgba(0,0,0,0.6); /* 半透明黑色背景 */
+    justify-content: center; /* 使用 Flexbox 讓內容水平居中 */
+    align-items: center; /* 使用 Flexbox 讓內容垂直居中 */
+}
+
+/* 彈出視窗內容框樣式 */
+.modal-content {
+    background-color: #fefefe;
+    padding: 30px;
+    border: 1px solid #ddd;
+    width: 90%; 
+    max-width: 800px; /* 限制最大寬度 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    max-height: 90vh; /* 限制最大高度 */
+    overflow-y: auto; /* 內容超出時，只在內容框內滾動 */
+}
+
+/* 關閉按鈕樣式 */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1; /* 確保 X 符號不被截斷 */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 合約文字區塊樣式 */
+.contract-text {
+    line-height: 1.8;
+    color: #333;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin: 20px 0;
+    text-align: justify;
 }
