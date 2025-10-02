@@ -32,7 +32,8 @@ import dao.StoreDAO;
 @Path("/stores")
 public class StoreService {
 	StoreDAO dao =new StoreDAO();
-	    
+	 
+	//瀏覽所有賣場   
 	 @GET
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public List<Store> getAll()
@@ -41,7 +42,8 @@ public class StoreService {
 	   return data;
 	 }
 	 
-	/*@POST
+	 //新增賣場
+	 @POST
 	 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public Response createStore(
@@ -72,7 +74,7 @@ public class StoreService {
 		                .entity("Upload failed: " + e.getMessage()).build();
 			 }
 			
-		 }*/
+		 }
 	 
 	 //試做圖片上傳，但功能有問題先註解掉
 	/*@POST

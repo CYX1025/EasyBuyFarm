@@ -13,11 +13,27 @@ import entity.Store;
 public class StoreDAO {
 	public static void main(String[] args) 
 	{
-		List<Store> test=new StoreDAO().findByMemberId("sn202509240001");
-		for(Store i:test)
-		{
-			System.out.println("找到這個惹"+i.getName()+i.getIntroduce());
-		}
+		StoreDAO dao = new StoreDAO();
+
+        // 建立要新增的 Store 物件（id 自動生成，storeId 會在 DAO 內設定）
+        Store newStore = new Store();
+        newStore.setName("測試商店");
+        newStore.setIntroduce("這是一家測試用的商店");
+        newStore.setStoreImg("test_store.jpg");
+
+        // 測試的 memberId (請確認資料庫裡已經有這個會員)
+        String testMemberId = "sn202509240001";
+
+        boolean result = dao.addStore(newStore, testMemberId);
+
+        if (result) {
+            System.out.println("新增商店成功！");
+            System.out.println("自動生成的 StoreId: " + newStore.getStoreId());
+            System.out.println("所屬會員: " + newStore.getMemberId());
+            System.out.println("商店名稱: " + newStore.getName());
+        } else {
+            System.out.println("新增商店失敗！");
+        }
 		
 	}
 	EntityManager createConnection() 
