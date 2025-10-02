@@ -669,16 +669,25 @@ form button {
 /* 彈出視窗容器樣式 */
 .modal {
     display: none; /* 預設隱藏 */
-    position: fixed; /* 固定在視口上 */
-    z-index: 100; /* 確保它在其他內容之上 */
+    position: fixed;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%; 
     height: 100%; 
-    overflow: auto; /* 如果內容過多，允許滾動 */
-    background-color: rgba(0,0,0,0.6); /* 半透明黑色背景 */
-    justify-content: center; /* 使用 Flexbox 讓內容水平居中 */
-    align-items: center; /* 使用 Flexbox 讓內容垂直居中 */
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.6); 
+    justify-content: center; 
+    align-items: center;
+    /* 不要再寫 display: flex 了 */
+}
+
+/* JS 控制彈出時加 class */
+.modal.show {
+    display: flex;
+}
+.modal, #modal-overlay {
+  z-index: 1000; /* 保證在會員選單之上 */
 }
 
 /* 彈出視窗內容框樣式 */
@@ -687,13 +696,12 @@ form button {
     padding: 30px;
     border: 1px solid #ddd;
     width: 90%; 
-    max-width: 800px; /* 限制最大寬度 */
+    max-width: 800px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     border-radius: 10px;
-    max-height: 90vh; /* 限制最大高度 */
-    overflow-y: auto; /* 內容超出時，只在內容框內滾動 */
+    max-height: 90vh;
+    overflow-y: auto;
 }
-
 /* 關閉按鈕樣式 */
 .close-btn {
     color: #aaa;
@@ -719,4 +727,43 @@ form button {
     border-bottom: 1px solid #eee;
     margin: 20px 0;
     text-align: justify;
+}
+body.modal-open {
+    overflow: hidden; /* 禁止背景滾動 */
+}
+
+body.modal-open #member-btn,
+body.modal-open .dropbtn,
+body.modal-open .dropdown-content,
+body.modal-open #cart-btn,
+body.modal-open #be-seller-btn {
+    pointer-events: none;
+    opacity: 0.5; /* 可加：讓用戶知道按鈕被禁用 */
+}
+
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4); /* 半透明黑 */
+    z-index: 999; /* 比 navbar 高 */
+    display: none; /* 預設隱藏 */
+}
+/* 預設會員選單 z-index */
+.dropdown-content {
+  position: absolute;
+  right: 0;
+  background: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  transition: opacity 0.3s;
+}
+
+/* 被蓋掉時 */
+.dropdown-content.disabled {
+  z-index: 0 !important;  /* 強制放到後面 */
+  pointer-events: none;   /* 無法點擊 */
 }
