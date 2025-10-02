@@ -17,45 +17,40 @@ public class Member implements Serializable {
 
 	@Id
 	private int id;
-	
-	@Column(name="member_id")
-	private String memberId;
-	
-	private String email;
-	
-	private String phone;
-	
-	private String password;
 
 	private String address;
 
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
-	
-	private String role;
-	
-	private boolean status;
 
 	@Column(name="created_at")
 	private Timestamp createdAt;
 
-	
-	/*
-	 * Register
-	 */
-	public Member(String memberId, String email, String phone, String password) {
-		super();
-		this.memberId = memberId;
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
-	}
+	private String email;
 
-	public Member(String keyword, String password) {
+	private String firstName;
+
+	private String lastName;
+
+	@Column(name="member_id")
+	private String memberId;
+
+	private String password;
+
+	private String phone;
+
+	private String role;
+
+	private boolean status;
+	
+
+
+	public Member(String memberId, String phone, String email, String password) {
 		super();
-		this.email = keyword;
-		
+		this.email = email;
+		this.memberId = memberId;
 		this.password = password;
+		this.phone = phone;
 	}
 
 	public Member() {
@@ -99,6 +94,22 @@ public class Member implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getFirstName() {
+		return this.firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getMemberId() {
