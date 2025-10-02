@@ -1,0 +1,18 @@
+QA問題目前的內容、分類：(內容以"description"架構)
+  └── member
+      ├── password_forget
+      ├── update_info
+      ├── email
+      └── join_benefits
+
+  └── shop
+      └── how_to_shop
+
+  └── payment
+
+  └── order
+      ├── check_success
+      ├── delivery_time
+      ├── shipping_method
+      ├── returns_refunds
+      └── update_order
