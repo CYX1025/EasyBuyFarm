@@ -8,6 +8,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -25,7 +27,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-
+import entity.Member;
 import entity.Store;
 import dao.StoreDAO;
 
@@ -44,36 +46,36 @@ public class StoreService {
 	 
 	 //新增賣場
 	 @POST
+	 @Path("/addstore")
 	 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public Response createStore(
 				 @FormParam("storename") String storeName,
-				 @FormParam("storeintroduce") String storeintroduce, 
+				 @FormParam("storeintroduce") String storeIntroduce, 
 				 @FormParam("storeimg")String storeImg,
-				 @FormParam("member") String memberId)
+				 @Context HttpServletRequest request)
 		 {
-			 try 
-			 {
-			
-		     Store store = new Store(storeName, storeintroduce,storeImg);
-			 boolean flag=dao.addStore(store,memberId);
-			 	if(flag)
-			 	{
-			 		return Response.ok(store).build();
-			 	}
-			 	else
-			 	{
-			 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-	                     .entity("Upload failed").build();
-			 	}
-			 } 
-			 catch (Exception e) 
-			 {
-				e.printStackTrace();
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-		                .entity("Upload failed: " + e.getMessage()).build();
-			 }
-			
+		 HttpSession session = request.getSession(false);
+		    if(session == null) return Response.status(401).entity("尚未登入").build();
+
+		    Member loginUser = (Member) session.getAttribute("loginUser");
+		    if(loginUser == null) return Response.status(401).entity("尚未登入").build();
+
+		    if(storeName == null || storeIntroduce == null)
+		        return Response.status(400).entity("資料不完整").build();
+
+		    Store store = new Store();
+		    store.setName(storeName);
+		    store.setIntroduce(storeIntroduce);
+		    store.setMemberId(loginUser.getMemberId());
+
+		    try {
+		        Store newStore = dao.addStore(store);
+		        return Response.ok(newStore).build();
+		    } catch(Exception e){
+		        e.printStackTrace();
+		        return Response.status(500).entity("新增賣場失敗: " + e.getMessage()).build();
+		    }
 		 }
 	 
 	 //試做圖片上傳，但功能有問題先註解掉

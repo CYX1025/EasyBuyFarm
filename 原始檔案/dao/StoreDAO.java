@@ -24,9 +24,9 @@ public class StoreDAO {
         // 測試的 memberId (請確認資料庫裡已經有這個會員)
         String testMemberId = "sn202509240001";
 
-        boolean result = dao.addStore(newStore, testMemberId);
+        Store store1 = dao.addStore(newStore);
 
-        if (result) {
+        if (store1!=null) {
             System.out.println("新增商店成功！");
             System.out.println("自動生成的 StoreId: " + newStore.getStoreId());
             System.out.println("所屬會員: " + newStore.getMemberId());
@@ -44,7 +44,7 @@ public class StoreDAO {
 	
 	//產生商店id流水號
 		private String generateStoreId(EntityManager mgr) {
-	        String prefix = "S";
+	        String prefix = "s";
 	        String lastId = mgr.createQuery(
 	                "SELECT MAX(s.storeId) FROM Store s", String.class)
 	                .getSingleResult();
@@ -68,37 +68,30 @@ public class StoreDAO {
 	 }
 	 
 	//新增賣場
-	 public boolean addStore(Store store,String memberId)
+	 public Store addStore(Store store)
 	 {
 		 EntityManager mgr=createConnection();
 		 try
 		 {
 			 mgr.getTransaction().begin();
-			
-			 //帶入memberId
-			 MemberDAO memberDao=new MemberDAO();
-			 Member member = memberDao.findMemberByMemberId(memberId);
-		        if (member == null) {
-		            throw new RuntimeException("Member not found: " + memberId);
-		        }
+	
 			 
 			 String newId = generateStoreId(mgr);
 		     store.setStoreId(newId);
-		     store.setMemberId(memberId);
 			 mgr.persist(store);
 			 mgr.getTransaction().commit();
-			 return true;
+			 return store;
 		 }
 		 
 		 catch(Exception ex)
 		 {
-			 System.out.println("Add Store Error "+ex.getMessage());
+			 mgr.getTransaction().rollback();
+		        throw ex;
 		 }
 		 finally 
 		 {
 			 mgr.close();
 		 }
-		 return false ;
 	 }
 	 
 	 //使用主鍵id找尋資料
