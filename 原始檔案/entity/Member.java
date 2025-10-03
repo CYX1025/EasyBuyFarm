@@ -41,7 +41,7 @@ public class Member implements Serializable {
 
 	private String role;
 
-	private boolean status;
+	private Boolean status;
 	
 
 
@@ -144,12 +144,12 @@ public class Member implements Serializable {
 		this.role = role;
 	}
 
-	public boolean getStatus() {
-		return this.status;
+	public Boolean getStatus() {
+	    return this.status;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setStatus(Boolean status) {
+	    this.status = status;
 	}
 
 }
