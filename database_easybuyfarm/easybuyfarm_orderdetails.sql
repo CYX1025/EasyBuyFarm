@@ -26,16 +26,17 @@ DROP TABLE IF EXISTS `orderdetails`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orderdetails` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `order_id` bigint NOT NULL,
+  `order_id` varchar(50) NOT NULL,
   `product_id` varchar(50) NOT NULL,
   `product_name` varchar(255) NOT NULL,
+  `store_name` varchar(100) NOT NULL,
   `unit_price` decimal(10,2) NOT NULL,
   `quantity` int NOT NULL,
   `subtotal` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_id` (`order_id`),
-  CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_orderdetails_orderNumber` (`order_id`),
+  CONSTRAINT `fk_orderdetails_orderNumber` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_number`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +45,7 @@ CREATE TABLE `orderdetails` (
 
 LOCK TABLES `orderdetails` WRITE;
 /*!40000 ALTER TABLE `orderdetails` DISABLE KEYS */;
+INSERT INTO `orderdetails` VALUES (1,'ORD-20251003-79158714','P002','有機小黃瓜','蔬菜賣場',80.00,1,80.00),(2,'ORD-20251003-79158714','P001','新鮮番茄','好水果賣場',50.00,2,100.00);
 /*!40000 ALTER TABLE `orderdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-03 11:24:21
+-- Dump completed on 2025-10-03 16:21:02
