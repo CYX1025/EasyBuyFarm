@@ -116,35 +116,64 @@ public class MemberDAO {
 
 	
 	public Member updateMember(String MemberId, Member updateMember) {
-		Member existingMember = findMemberByMemberId(MemberId);
+	    Member existingMember = findMemberByMemberId(MemberId);
 	    if (existingMember == null) {
 	        return null; // 找不到會員
-	    }else {
-	    	try {
-		        con.getTransaction().begin();
+	    } else {
+	        try {
+	            con.getTransaction().begin();
 
-		        // 把要更新的欄位複製到 existingMember（你可以用 Setter）
-		        existingMember.setPassword(updateMember.getPassword());
-		        existingMember.setFirstName(updateMember.getFirstName());
-		        existingMember.setLastName(updateMember.getLastName());
-		        existingMember.setAddress(updateMember.getAddress());
-		        existingMember.setBirthday(updateMember.getBirthday());
-		        existingMember.setRole(updateMember.getRole());
-		        existingMember.setStatus(updateMember.getStatus());
+	            // 💡 修正邏輯：只更新 updateMember 中非 null 的欄位
+	            
+	            // 姓名
+	            if (updateMember.getFirstName() != null) {
+	                existingMember.setFirstName(updateMember.getFirstName());
+	            }
+	            if (updateMember.getLastName() != null) {
+	                existingMember.setLastName(updateMember.getLastName());
+	            }
+	            
+	            // 密碼 (通常前端只會在輸入新密碼時傳遞)
+	            // 額外檢查是否為空字串，避免前端誤傳 ""
+	            if (updateMember.getPassword() != null && !updateMember.getPassword().isEmpty()) {
+	                existingMember.setPassword(updateMember.getPassword());
+	            }
+	            
+	            // 地址與生日
+	            if (updateMember.getAddress() != null) {
+	                existingMember.setAddress(updateMember.getAddress());
+	            }
+	            if (updateMember.getBirthday() != null) {
+	                existingMember.setBirthday(updateMember.getBirthday());
+	            }
+	            
+	            /*
+	             * ⚠️ 警告：以下欄位（Role, Status）通常不應由使用者 API 更新。
+	             * 若非必要，建議保持它們的原始邏輯或直接移除。
+	             */
+	            if (updateMember.getRole() != null) {
+	                existingMember.setRole(updateMember.getRole());
+	            }
+	            if (updateMember.getStatus() != null) {
+	                existingMember.setStatus(updateMember.getStatus());
+	            }
+	            
+	            // ⚠️ 警告：Phone/Email 也應獨立於此 API 之外，以確保資料驗證和唯一性。
+	            
+	            
+	            Member mergedMember = con.merge(existingMember);
 
-		        Member mergedMember = con.merge(existingMember);
-
-		        con.getTransaction().commit();
-
-		        return mergedMember;
-		    } catch (Exception e) {
-		        con.getTransaction().rollback();
-		        System.out.println("Update Member error: " + e.getMessage());
-		        return null;
-		    }
+	            con.getTransaction().commit();
+	            System.out.println("會員資料更新成功: " + MemberId);
+	            return mergedMember;
+	        } catch (Exception e) {
+	            con.getTransaction().rollback();
+	            // 將錯誤訊息輸出到伺服器日誌
+	            System.err.println("Update Member error: " + e.getMessage());
+	            e.printStackTrace(); // 打印完整堆棧追蹤，方便除錯
+	            return null;
+	        }
 	    }
-	    
-	    
 	}
 	
 	
