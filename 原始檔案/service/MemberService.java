@@ -30,10 +30,17 @@ public class MemberService {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Member> getAllMembers(){
-		return dao.getAllMembers();
-		
-	}
+public Response getCurrentMember(@Context HttpServletRequest request) {
+        Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+        if (loginUser == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("尚未登入").build();
+        }
+        Member currentMember = dao.findMemberByMemberId(loginUser.getMemberId()); 
+        if (currentMember == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("會員資料不存在").build();
+        }
+        return Response.ok(currentMember).build();
+    } 
 	
 	/*
 	 * 註冊
