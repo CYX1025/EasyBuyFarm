@@ -262,11 +262,11 @@ button:hover {
     min-height: 200px; 
     padding: 10px;
     background: linear-gradient(to bottom, #8ab2f8, #1bdee8,#49e97e, #efa417); 
-    display: flex;          
+             
     justify-content: center; /* 水平置中 */
     flex-wrap: wrap;         /* 超出時換行 */
     gap: 20px;               /* 卡片間距 */
-    height: 1200px;          /* 固定高度 */
+    height: 600px;          /* 固定高度 */
 }
 
 /* 登入頁容器 */
@@ -847,4 +847,76 @@ body.modal-open-independent > *:not(.modal-independent) {
     border-bottom: 1px solid #eee;
     margin: 20px 0;
     text-align: justify;
+}
+/* 1. 設定主容器使用 Flexbox 佈局 */
+.seller-list-container {
+    display: flex; /* 啟用 Flex 佈局，讓子元素左右排列 */
+    max-width: 1200px; /* 限制頁面內容最大寬度 */
+    margin: 20px auto; /* 居中 */
+    padding: 20px;
+}
+
+/* 2. 設定左側賣場按鈕區的樣式 */
+.store-buttons-container {
+    /* 設置左側區域寬度（例如：25%） */
+    width: 250px; 
+    min-width: 200px; /* 確保最小寬度 */
+    height: 300px; 
+    min-height: 250px; /* 保持高度 */
+    
+    /* 這是藍色格子的樣式！ */
+    background-color: #e6f7ff; /* 淺藍色背景 */
+    border: 1px solid #91d5ff; /* 藍色邊框 */
+    border-radius: 5px;
+    padding: 15px;
+    margin-right: 20px; /* 與右側內容區的間隔 */
+}
+
+/* 3. 設定右側內容區的樣式 */
+.main-content-area {
+    flex-grow: 1; /* 讓它佔據剩餘所有空間 */
+    padding: 15px;
+    /*border: 1px solid #ccc;*/ /* 方便查看邊界 */
+    border-radius: 5px;
+}
+/* 賣場按鈕的通用樣式 */
+.store-button {
+    display: flex; /* 讓按鈕佔據整行寬度 */
+    width: 90%;
+    height: 90%;
+    padding: 15px 10px;
+    margin-bottom: 8px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    align-items: center; 
+    justify-content: center;
+}
+
+/* 新增賣場按鈕的特定樣式 */
+.add-store-button {
+    background-color: #40a9ff; /* 較深的藍色 */
+    color: white;
+}
+
+.add-store-button:hover {
+    background-color: #1890ff;
+}
+/* 現有賣場按鈕（由 JS 產生） */
+.existing-store-button {
+    background-color: #f0f0f0; 
+    color: #333;
+    display: flex; /* 使用 Flexbox 讓名稱和編輯圖示並排或對齊 */
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.existing-store-button .edit-icon {
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: 5px;
+    color: #40a9ff;
 }

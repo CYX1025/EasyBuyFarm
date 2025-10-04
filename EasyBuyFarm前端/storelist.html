@@ -30,37 +30,27 @@
     </div>
   </header>
 
-  <main class="seller-list-container">
-    <h2>賣場列表</h2>
-
-    <div class="seller-cards">
-      <div class="seller-card" th:each="seller : ${sellers}">
+ <main class="home">
+    <div class="seller-list-container"> 
         
-        <img th:src="@{${seller.imagePath}}" th:alt="${seller.shopName}">
+        <div class="store-buttons-container" style="min-height: 250px;">
+            <a href="edit_store.html" class="store-button add-store-button">
+                + 新增賣場
+            </a>
+            </div>
         
-        <h3 th:text="${seller.shopName}"></h3>
-        
-        <p>評價：<span th:text="${seller.rating}"></span></p>
-        
-        <p>商品數量：<span th:text="${seller.productCount}"></span>件</p>
-        
-        <a th:href="@{/seller-shop.html(shop=${seller.id})}" class="view-shop-btn">進入賣場</a>
-      </div>
-
-      <div th:if="${#lists.isEmpty(sellers)}">
-          <p>目前沒有賣場資料可顯示。</p>
-      </div>
-      
+        <div class="main-content-area">
+        </div>
     </div>
-
+    
     <div class="pagination">
-      <a href="#">«</a>
-      <a href="#" class="active">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">»</a>
+        <a href="#">«</a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">»</a>
     </div>
-  </main>
+</main>
 
   <footer class="footer">
     <div class="footer-content">
