@@ -50,7 +50,16 @@ body {
     border: none;
     font-size: 14px;
 }
-
+.navbar-right {
+    display: flex;         /* 啟用 Flexbox 布局 */
+    align-items: center;   /* 垂直置中對齊所有子元素 */
+    gap: 15px;             /* 元素之間加入間距，比 margin-left 更現代 */
+}
+#welcome-message {
+    color: white;          /* 讓文字顏色與 Navbar 其他文字一致 */
+    font-size: 16px;       /* 保持字體大小一致 */
+    white-space: nowrap;   /* 防止長度較長時換行 */
+}
 /* 導覽列右側連結樣式 */
 .navbar-right a {
     color: white;
