@@ -6,18 +6,26 @@ body {
     margin: 0;               /* 移除預設 margin */
     min-height: 100vh;       /* 頁面最小高度填滿視窗 */
     background: linear-gradient(to right, #fdfbfb, #ebedee); /* 淺灰漸層背景 */
+	padding-top: 100px;
 }
 
 /* ======================================
    頂部導覽列 Navbar
    ====================================== */
 .navbar {
-    display: flex;                  /* 水平排列子元素 */
-    justify-content: space-between; /* 左右兩邊分開 */
-    align-items: center;            /* 垂直置中 */
-    background: linear-gradient(to bottom, #8ab2f8); /* 藍色背景 */
+    display: flex;                 
+    justify-content: space-between; 
+    align-items: center;            
+    background: linear-gradient(to bottom, #8ab2f8); 
     padding: 10px 20px;
     color: white;
+
+    /* 🌟 讓 Navbar 固定在最上方的關鍵屬性 🌟 */
+    position: fixed; /* 1. 固定元素在視窗上 */
+    top: 0;          /* 2. 貼齊視窗頂部 */
+    width: 100%;     /* 3. 確保寬度佔滿整個視窗 */
+    z-index: 100;   /* 4. 確保它在所有其他內容的最上層 */
+
 }
 
 /* Logo 容器 */
@@ -275,7 +283,7 @@ button:hover {
     justify-content: center; /* 水平置中 */
     flex-wrap: wrap;         /* 超出時換行 */
     gap: 20px;               /* 卡片間距 */
-    height: 600px;          /* 固定高度 */
+    height: 1000px;          /* 固定高度 */
 }
 
 /* 登入頁容器 */
