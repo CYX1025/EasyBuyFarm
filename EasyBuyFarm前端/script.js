@@ -72,7 +72,7 @@ function updateNavbarStatus() {
         if (beSellerBtn) {
             beSellerBtn.style.display = "block"; // 確保登入後按鈕仍顯示
 
-            if (user.role === 'SELLER') {
+            if (user.role && user.role.toUpperCase() === 'SELLER') {
                 // 賣家狀態：按鈕改為「我的賣場」，並標記角色
                 beSellerBtn.textContent = '我的賣場';
                 beSellerBtn.dataset.role = 'seller'; 
@@ -131,8 +131,8 @@ async function loginUser(event) {
                 name: member.name || member.phone || "會員",
                 phone: member.phone,
                 // 這裡可以加入其他資訊如 role
-				role: member.role || 'member',
-            });
+				role: (member.role && member.role.toUpperCase()) || 'MEMBER', 
+				            });
             alert("登入成功！");
             updateNavbarStatus();
             window.location.href = "index.html";
@@ -376,17 +376,17 @@ function initSellerButton() {
                 window.location.href = "login.html";
                 return;
             }
-			if (user.role === 'seller') {
+			if (user.role === 'seller'|| user.role === 'SELLER'){
 			                // 如果用戶物件本身就標記為 'seller'，直接導向賣家中心，阻止重複註冊
 			                alert("您已是賣家，即將導向我的賣場。");
-			                window.location.href = "seller-dashboard.html"; // 替換為你的賣家中心頁面
+			                window.location.href = "storelist.html"; // 替換為你的賣家中心頁面
 			                return; // 執行完畢，結束函式
 			            }
 
             // 🌟 關鍵修改：取得在 updateNavbarStatus 中設定的角色狀態 🌟
             const currentRole = beSellerBtn.dataset.role;
 
-            if (currentRole === 'seller') {
+            if (currentRole === 'SELLER') {
                 // 狀況一：已是賣家 (按鈕顯示「我的賣場」)
                 // 直接導向賣家儀表板
                 window.location.href = "storelist.html"; // 替換為你的賣家中心頁面
@@ -474,8 +474,8 @@ async function loadMemberProfile() {
         const member = await res.json();
         
         // 填入顯示區塊 (safeSetText)
-        safeSetText('profile-lastName', member.lastName);
         safeSetText('profile-firstName', member.firstName);
+        safeSetText('profile-lastName', member.lastName);
         safeSetText('profile-phone', member.phone);
         safeSetText('profile-email', member.email);
         safeSetText('profile-birthday', member.birthday);
@@ -538,22 +538,23 @@ function initEditProfile() {
         const password = document.getElementById('passwordEdit')?.value.trim();
 
         const updatedMember = {};
+		updatedMember.birthday = birthday || null;
+		updatedMember.address = address || null; 
 
         // 只傳遞非空值
         if (firstName) updatedMember.firstName = firstName;
         if (lastName) updatedMember.lastName = lastName;
         // phone 欄位通常不可編輯，這裡忽略
         if (email) updatedMember.email = email;
-        if (birthday) updatedMember.birthday = birthday;
-        if (address) updatedMember.address = address;
+        
         // 只有在密碼欄位有輸入新值時才傳遞
         if (password) updatedMember.password = password;
 
 
-        if (Object.keys(updatedMember).length === 0) {
-            alert("請至少填寫一個要更新的欄位。");
-            return;
-        }
+		if (Object.keys(updatedMember).length === 0 && !password) {
+		        alert("請至少填寫一個要更新的欄位。");
+		        return;
+		    }
 
         try {
             const res = await fetch('/easybuyfarm/api/members/updateMember', {
