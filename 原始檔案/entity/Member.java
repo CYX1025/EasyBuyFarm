@@ -1,8 +1,8 @@
 package entity;
-
+import com.fasterxml.jackson.annotation.JsonFormat; 
+import java.util.Date;
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 import java.sql.Timestamp;
 
 
@@ -19,8 +19,8 @@ public class Member implements Serializable {
 	private int id;
 
 	private String address;
-
-	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Taipei")
+    @Temporal(TemporalType.DATE)
 	private Date birthday;
 
 	@Column(name="created_at")
