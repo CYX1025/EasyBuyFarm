@@ -294,6 +294,7 @@ button:hover {
     justify-content: center;    /* 垂直置中 */
     min-height: 60vh;           /* 區域高度 */
     text-align: center;
+    padding: 20px 0;
 }
 
 .login-container form {
