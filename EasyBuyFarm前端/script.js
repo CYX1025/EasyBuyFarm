@@ -653,6 +653,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         initSellerButton(); // 這裡假設按鈕直接在 DOM 中
     }
 
+    // ===========================================
+    // 🌟 修正點：在 DOM 載入後，呼叫 loadFooter 載入頁腳
+    // ===========================================
+    await loadFooter(); 
+
     // 2️⃣ 頁面通用初始化 (不受 Navbar 影響的部分)
     renderCartItems();
 
@@ -673,5 +678,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-// 移除重複的 function updateNavbar() 和 function logoutUser()
-// 統一使用 updateNavbarStatus() 和 logoutUser()
+// ======================================
+// Footer 載入函式 (定義保持不變)
+// ======================================
+async function loadFooter() {
+    try {
+        const res = await fetch("footer.html");
+        
+        if (!res.ok) {
+            throw new Error(`載入 footer.html 失敗 (HTTP ${res.status})`);
+        }
+
+        const footerHtml = await res.text();
+        
+        // ID 已經修正為 'loadFooter'
+        const footerContainer = document.getElementById('loadFooter'); 
+        
+        if (footerContainer) {
+            footerContainer.innerHTML = footerHtml;
+        } else {
+            console.error("找不到 ID 為 'loadFooter' 的元素來放置 footer 內容。");
+        }
+
+    } catch (error) {
+        console.error("載入 Footer 時發生錯誤:", error);
+    }
+}
