@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -19,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,15 +25,14 @@ import javax.ws.rs.core.SecurityContext;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import entity.Member;
+
 import entity.Store;
 import dao.StoreDAO;
 
 @Path("/stores")
 public class StoreService {
 	StoreDAO dao =new StoreDAO();
-	 
-	//瀏覽所有賣場   
+	    
 	 @GET
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public List<Store> getAll()
@@ -43,40 +40,54 @@ public class StoreService {
 	   List<Store> data= dao.getAllStore();
 	   return data;
 	 }
-	 
-	 //新增賣場
-	 @POST
-	 @Path("/addstore")
+	 /**
+	     * 模糊搜尋賣場名稱
+	     * 呼叫方式：
+	     *  easybuyfarm/api/stores/search?name=水果
+	     */
+	    @GET
+	    @Path("/search")
+	    public Response search(@QueryParam("name") String name) {
+	        if (name == null || name.trim().isEmpty()) {
+	            return Response.status(Response.Status.BAD_REQUEST)
+	                           .entity("{\"message\":\"請提供查詢參數 name\"}")
+	                           .build();
+	        }
+	        List<Store> list = dao.findByStoreName(name.trim());
+	        return Response.ok(list).build();
+	    }
+	/*@POST
 	 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public Response createStore(
 				 @FormParam("storename") String storeName,
-				 @FormParam("storeintroduce") String storeIntroduce, 
+				 @FormParam("storeintroduce") String storeintroduce, 
 				 @FormParam("storeimg")String storeImg,
-				 @Context HttpServletRequest request)
+				 @FormParam("member") String memberId)
 		 {
-		 HttpSession session = request.getSession(false);
-		    if(session == null) return Response.status(401).entity("尚未登入").build();
-
-		    Member loginUser = (Member) session.getAttribute("loginUser");
-		    if(loginUser == null) return Response.status(401).entity("尚未登入").build();
-
-		    if(storeName == null || storeIntroduce == null)
-		        return Response.status(400).entity("資料不完整").build();
-
-		    Store store = new Store();
-		    store.setName(storeName);
-		    store.setIntroduce(storeIntroduce);
-		    store.setMemberId(loginUser.getMemberId());
-
-		    try {
-		        Store newStore = dao.addStore(store);
-		        return Response.ok(newStore).build();
-		    } catch(Exception e){
-		        e.printStackTrace();
-		        return Response.status(500).entity("新增賣場失敗: " + e.getMessage()).build();
-		    }
-		 }
+			 try 
+			 {
+			
+		     Store store = new Store(storeName, storeintroduce,storeImg);
+			 boolean flag=dao.addStore(store,memberId);
+			 	if(flag)
+			 	{
+			 		return Response.ok(store).build();
+			 	}
+			 	else
+			 	{
+			 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+	                     .entity("Upload failed").build();
+			 	}
+			 } 
+			 catch (Exception e) 
+			 {
+				e.printStackTrace();
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+		                .entity("Upload failed: " + e.getMessage()).build();
+			 }
+			
+		 }*/
 	 
 	 //試做圖片上傳，但功能有問題先註解掉
 	/*@POST
@@ -138,20 +149,22 @@ public class StoreService {
 	 
 	 
 	 //使用會員ID查找賣場
-	 @GET
-	 @Path("/member/{memberId}")
+	 //功能有問題要找一下為啥
+	/* @GET
+	 @Path("/{memberId}")
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public Response findStoreByMemberId(@PathParam("memberId") String memberId) 
 	 {
-		List<Store> stores=dao.findByMemberId(memberId);
-		if (stores == null || stores.isEmpty()) {
-	        return Response.status(Response.Status.NOT_FOUND)
-	                       .entity(Collections.singletonMap("error", "No stores found for memberId: " + memberId))
-	                       .build();
-	    }
-
-	    return Response.ok(stores).build();
-	 }
+		Store s1 = dao.findByMemberId(memberId);
+		if(s1!=null) 
+		{
+			return Response.ok().entity(s1).build();
+		}
+		else 
+		{
+			return Response.noContent().build();
+		}
+	 }*/
 	 
 	 //用id修改賣場
 	 @PUT
@@ -176,7 +189,7 @@ public class StoreService {
 	 @DELETE
 	 @Path("/{Id}")
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public Response deleteStore(@PathParam("Id") int id)
+	 public Response deleteStore(@PathParam("id") int id)
 	 {
 		 boolean deleted=dao.deleteStore(id);
 		 if(deleted)
