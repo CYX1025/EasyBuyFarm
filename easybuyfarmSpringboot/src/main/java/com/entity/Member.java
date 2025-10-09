@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.util.AutoNumber;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,13 +19,15 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**The persistent class for the member database table.**/
-@Entity
-@Table(name="member")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name="member")
 public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,4 +68,8 @@ public class Member {
 	@OneToMany(mappedBy = "memberToStore")
     @JsonManagedReference
     private List<Store> takeStore;
+
+
+	public Member(String phone, String email, String password) {}
+	
 }
