@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.entity.Store;
 
@@ -13,4 +14,8 @@ public interface StoreRepository extends JpaRepository<Store,Integer>{
     String findMaxStoreCode();
     
     List<Store> findByMemberToStore_MemberId(String memberId);
+    
+    //用名稱找尋賣場，模糊搜尋用
+    @Query("SELECT s FROM Store s WHERE s.name LIKE %:name%")
+    List<Store> searchByName(@Param("name") String name);
 }
