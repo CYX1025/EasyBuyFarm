@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.util.AutoNumber;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +32,7 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false,updatable=false)
 	Integer id;
-	@Column(name="member_id",length=100,nullable = false)
+	@Column(name = "member_id", length = 100, nullable = false, unique = true)
 	String memberId;
 	@Column(length=100,nullable = false)
 	String email;
@@ -57,9 +56,6 @@ public class Member {
 	//getter、setter、toString
 
 
-
-
-
 	@OneToMany(mappedBy = "memberToOrder")
     @JsonManagedReference
     private List<Order> takeOrder;
@@ -69,7 +65,7 @@ public class Member {
     @JsonManagedReference
     private List<Store> takeStore;
 
-
 	public Member(String phone, String email, String password) {}
 	
+	public Member(String memberId, String phone, String email, String password) {}
 }
