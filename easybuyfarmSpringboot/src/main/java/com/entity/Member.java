@@ -65,7 +65,14 @@ public class Member {
     @JsonManagedReference
     private List<Store> takeStore;
 
-	public Member(String phone, String email, String password) {}
-	
-	public Member(String memberId, String phone, String email, String password) {}
+
+
+	public Member(String phone, String email, String password) {
+		super();
+		this.email = email;
+		this.phone = phone;
+		this.password = password;
+	}
+
+
 }

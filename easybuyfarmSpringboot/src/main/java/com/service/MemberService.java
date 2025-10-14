@@ -63,4 +63,32 @@ public class MemberService {
 	public Member login(String keyword, String password) {
 		return memberdao.findByKeywordAndPassword(keyword, password);
 	}
+	
+	public boolean upgradeToSeller(String memberId) {
+	    Member member = findMemberByMemberId(memberId);  // 改這裡 👈
+	    if (member != null && member.getRole() != Role.SELLER) {
+	        member.setRole(Role.SELLER);
+	        memberdao.save(member);
+	        return true;
+	    }
+	    return false;
+	}
+	
+	public boolean deleteMember(String memberId) {
+	    try {
+	    	List<Member> takemember=this.getAllMembers();
+			Member find=takemember.stream().filter(m->m.getMemberId().equals(memberId)).findAny().orElse(null);
+	        if (find != null) {
+	            memberdao.delete(find);
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    } catch (Exception e) {
+	        System.out.println("Delete Member Error: " + e.getMessage());
+	        return false;
+	    }
+	}
+	
+	
 }
