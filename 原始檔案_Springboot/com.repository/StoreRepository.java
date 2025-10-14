@@ -18,4 +18,8 @@ public interface StoreRepository extends JpaRepository<Store,Integer>{
     //用名稱找尋賣場，模糊搜尋用
     @Query("SELECT s FROM Store s WHERE s.name LIKE %:name%")
     List<Store> searchByName(@Param("name") String name);
+    
+    //找出商店ID 給新增/修改產品使用
+    @Query("SELECT s FROM Store s WHERE s.storeId = :storeId")
+    Store findByStoreId(@Param("storeId") String storeId);
 }

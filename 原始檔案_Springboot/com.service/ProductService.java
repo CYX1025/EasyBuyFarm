@@ -6,10 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.entity.Product;
@@ -28,7 +30,7 @@ public class ProductService {
 	
 	private static final String UPLOAD_DIR="uploads/product/";
 	
-	//儲存商店圖片，並回傳檔名
+	//儲存產品圖片，並回傳檔名
 		public String saveProductImage(MultipartFile file) throws IOException
 		{
 			if(file.isEmpty())
@@ -73,6 +75,76 @@ public class ProductService {
 			product.setStoreId(store);
 			
 			return productdao.save(product);
+		}
+		
+		//找尋所有商品
+		public List<Product> getAllProducts()
+		{
+			return productdao.findAll();
+		}
+		
+		//用id找產品
+		public Product findById(Integer id)
+		{
+			return productdao.findById(id).orElse(null);
+		}
+		
+		//根據商店id找產品
+		public List<Product> findByStoreId(String storeId)
+		{
+			return productdao.findBystoreId_StoreId(storeId);
+		}
+		
+		//用商品名稱找商品，模糊搜尋用
+		public List<Product> findByProductName(String name)
+		{
+			return productdao.searchByName(name);
+		}
+		
+		//修改產品
+		public Product updateProduct(Integer id,String name,int price
+									,String salequantity,String weight
+									,String introduce
+									,MultipartFile productImg)
+		{
+			Product existProduct=findById(id);
+			if(existProduct == null)
+			{
+				throw new IllegalArgumentException("找不到產品ID：" + id);
+			}
+			
+			existProduct.setName(name);
+			existProduct.setPrice(price);
+			existProduct.setSalequantity(salequantity);
+			existProduct.setWeight(weight);
+			existProduct.setIntroduce(introduce);
+			
+			try 
+			{
+				String newFileName= saveProductImage(productImg);
+				existProduct.setProductImg(newFileName);
+			} 
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			return productdao.save(existProduct);
+		}
+		
+		//刪除商品
+		public boolean deleteProduct(Integer id)
+		{
+			Product product=productdao.findById(id).orElse(null);
+			if(product != null)
+			{
+				productdao.deleteById(id);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 }
