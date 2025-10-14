@@ -48,7 +48,7 @@ public class Store {
     private List<OrderDetail> orderdetailStore;
 	
 	@ManyToOne
-	@JoinColumn(name = "member_id",nullable=false)
+	@JoinColumn(name = "member_id", referencedColumnName = "member_id")
 	@JsonIgnoreProperties("takeStore")
 	private Member memberToStore;
 }
