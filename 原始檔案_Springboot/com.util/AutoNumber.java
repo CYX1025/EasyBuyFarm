@@ -48,12 +48,22 @@ public class AutoNumber {
 	//產生商店流水號
 	    public static String generateStoreNo(String maxCode) {
 	        if (maxCode == null) {
-	            return "S001";
+	            return "s001";
 	        }
 	        int num = Integer.parseInt(maxCode.substring(1)); // 去掉開頭 S
 	        num++;
 	        return String.format("s%03d", num);
 	    }
+	    
 	
+	 //產生商品流水號
+	    public static String generateProductNo(String maxCode) {
+	        if (maxCode == null) {
+	            return "p001";
+	        }
+	        int num = Integer.parseInt(maxCode.substring(1)); // 去掉開頭 S
+	        num++;
+	        return String.format("p%03d", num);
+	    }
 
 }

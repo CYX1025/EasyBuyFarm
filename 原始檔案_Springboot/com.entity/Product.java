@@ -45,8 +45,4 @@ public class Product {
 	@JoinColumn(name = "store_id",columnDefinition="VARCHAR(45)")
 	@JsonIgnoreProperties("takeStore")
 	private Store storeId;
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	@JsonIgnoreProperties("takeCategory")
-	private Category categoryId;
 }
