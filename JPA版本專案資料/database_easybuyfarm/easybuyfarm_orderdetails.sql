@@ -18,32 +18,35 @@ USE `easybuyfarm`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `store`
+-- Table structure for table `orderdetails`
 --
 
-DROP TABLE IF EXISTS `store`;
+DROP TABLE IF EXISTS `orderdetails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `store` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `store_id` varchar(10) NOT NULL,
-  `member_id` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `introduce` varchar(255) DEFAULT NULL,
-  `store_img` varchar(100) DEFAULT NULL,
+CREATE TABLE `orderdetails` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(50) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `store_name` varchar(100) NOT NULL,
+  `unit_price` decimal(10,2) NOT NULL,
+  `quantity` int NOT NULL,
+  `subtotal` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `store_id_UNIQUE` (`store_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_orderdetails_orderNumber` (`order_id`),
+  CONSTRAINT `fk_orderdetails_orderNumber` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_number`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `store`
+-- Dumping data for table `orderdetails`
 --
 
-LOCK TABLES `store` WRITE;
-/*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES (1,'s001','sn202509240001','禾田','每粒米都用心對待','d90f0529-dbdb-46a9-9057-9239fc31cc24.jpg'),(2,'s002','sn202509240001','蔬菜賣場','蔬菜好吃','02.jpg'),(3,'s003','sn202509240002','神秘綠色葉子','會帶來快樂喔','03.jpg'),(4,'s004','sn202510010002','枕頭山牧場','優質鮮乳的首選商店','faf39388-ef89-4477-8dd1-765d45345016.jpg');
-/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+LOCK TABLES `orderdetails` WRITE;
+/*!40000 ALTER TABLE `orderdetails` DISABLE KEYS */;
+INSERT INTO `orderdetails` VALUES (1,'ORD-20251003-79158714','P002','有機小黃瓜','蔬菜賣場',80.00,1,80.00),(2,'ORD-20251003-79158714','P001','新鮮番茄','好水果賣場',50.00,2,100.00);
+/*!40000 ALTER TABLE `orderdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-14 22:40:13
+-- Dump completed on 2025-10-03 16:21:02

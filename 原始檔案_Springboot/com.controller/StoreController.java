@@ -86,13 +86,23 @@ public class StoreController {
 	 
 	 //修改商店
 	 @PutMapping("/update/{id}")
-	 public ResponseEntity<Store> updateStore(@PathVariable("id") Integer id,
+	 public ResponseEntity<?> updateStore(@PathVariable("id") Integer id,
 		        @RequestParam("name") String name,
 		        @RequestParam("introduce") String introduce,
 		        @RequestParam(value = "store_img", required = false) MultipartFile storeImg )
 	 {
-		 Store updatedStore=storeservice.updateStore(id, name, introduce, storeImg);
+		try 
+		{ 
+		Store updatedStore=storeservice.updateStore(id, name, introduce, storeImg);
 		 return ResponseEntity.ok(updatedStore);
+		}
+		catch (IllegalArgumentException e) {
+	        // 如果找不到產品，回傳 404
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	    } catch (Exception e) {
+	        // 其他錯誤回傳 500
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+	    }
 	 }
 	 
 	
