@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `easybuyfarm` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `easybuyfarm`;
 -- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: localhost    Database: easybuyfarm
@@ -41,7 +39,7 @@ CREATE TABLE `member` (
   UNIQUE KEY `phone_UNIQUE` (`phone`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `member_id_UNIQUE` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +48,7 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (1,'sn202509240001','abc123@ggggg.com','0912345678','12345','Dennis','Chang','1911-10-10','台北市中正區公園路30號3樓','SELLER',_binary '','2025-09-24 15:32:18'),(8,'sn202510010001','zxc@fku.com','0987654321','7788','Pa Die','Wang',NULL,'Taipei','SELLER',_binary '','2025-10-01 05:32:31'),(9,'sn202510010002','asd@fku.com','0932165498','987654321',NULL,NULL,NULL,NULL,'BUYER',_binary '','2025-10-01 07:55:31');
+INSERT INTO `member` VALUES (1,'sn202509240001','abc123@ggggg.com','0912345678','12345','Dennis','Chang','1911-10-10','台北市中正區公園路30號3樓','SELLER',_binary '','2025-09-24 15:32:18'),(8,'sn202510010001','zxc@fku.com','0987654321','7788','Pa Die','Wang',NULL,'Taipei','SELLER',_binary '','2025-10-01 05:32:31'),(9,'sn202510010002','asd@fku.com','0932165498','987654321',NULL,NULL,NULL,NULL,'BUYER',_binary '','2025-10-01 07:55:31'),(12,'sn202510150001','0923456789','qwe@fku.com','999999999',NULL,NULL,NULL,NULL,'SELLER',_binary '','2025-10-14 16:00:54');
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-13 22:28:05
+-- Dump completed on 2025-10-15  2:28:17
