@@ -34,11 +34,8 @@ CREATE TABLE `product` (
   `weight` varchar(45) DEFAULT NULL,
   `introduce` varchar(225) DEFAULT NULL,
   `product_img` varchar(100) DEFAULT NULL,
-  `category_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK1mtsbur82frn64de7balymq9s` (`category_id`),
-  CONSTRAINT `FK1mtsbur82frn64de7balymq9s` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +44,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'s001','p001','番茄',30,'10','150','這是一顆好吃的番茄','tomto.png',1),(2,'s001','p002','柳丁',50,'100','200','這是一顆好吃的柳丁','02.png',1),(3,'s001','p003','拔辣',20,'50','400','拔辣巴巴巴巴','03.png',1),(4,'s002','p004','高麗菜',190,'10','1200','高麗菜好好吃喔','04.png',2),(5,'s002','p005','青江菜',100,'10','150','綠油油的喔','05.png',2);
+INSERT INTO `product` VALUES (1,'s001','p001','番茄',30,'10','150','這是一顆好吃的番茄','tomto.png'),(2,'s001','p002','柳丁',50,'100','200','這是一顆好吃的柳丁','02.png'),(3,'s001','p003','拔辣',20,'50','400','拔辣巴巴巴巴','03.png'),(4,'s002','p004','高麗菜',190,'10','1200','高麗菜好好吃喔','04.png'),(5,'s002','p005','青江菜',100,'10','150','綠油油的喔','05.png'),(6,'2','p006','好吃番茄',500,'2','500g','好吃啦哪次不好吃了','2f4aef8d-c5c0-4493-b826-b8bf64819524.jpg');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-08 18:25:20
+-- Dump completed on 2025-10-14 17:21:46
