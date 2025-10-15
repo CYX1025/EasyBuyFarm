@@ -25,19 +25,18 @@ DROP TABLE IF EXISTS `orderdetails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orderdetails` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `order_id` int NOT NULL,
-  `store_id` int NOT NULL,
-  `product_name` varchar(100) NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(50) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `store_name` varchar(100) NOT NULL,
+  `unit_price` decimal(10,2) NOT NULL,
   `quantity` int NOT NULL,
-  `unit_price` decimal(10,2) DEFAULT NULL,
-  `subtotal` decimal(10,2) DEFAULT NULL,
+  `subtotal` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKhnsosbuy7bhpqpnt3bjr7sh8x` (`order_id`),
-  KEY `FKm40sey9624753s32dgoidb4e2` (`store_id`),
-  CONSTRAINT `FKhnsosbuy7bhpqpnt3bjr7sh8x` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  CONSTRAINT `FKm40sey9624753s32dgoidb4e2` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_orderdetails_orderNumber` (`order_id`),
+  CONSTRAINT `fk_orderdetails_orderNumber` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_number`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +45,7 @@ CREATE TABLE `orderdetails` (
 
 LOCK TABLES `orderdetails` WRITE;
 /*!40000 ALTER TABLE `orderdetails` DISABLE KEYS */;
+INSERT INTO `orderdetails` VALUES (1,'ORD-20251003-79158714','P002','有機小黃瓜','蔬菜賣場',80.00,1,80.00),(2,'ORD-20251003-79158714','P001','新鮮番茄','好水果賣場',50.00,2,100.00),(3,'ORD-20251008-05640969','P002','有機小黃瓜','蔬菜賣場',80.00,1,80.00),(4,'ORD-20251008-05640969','P001','新鮮番茄','好水果賣場',50.00,2,100.00),(5,'ORD-20251008-05942263','P002','有機小黃瓜','蔬菜賣場',80.00,1,80.00),(6,'ORD-20251008-05942263','P001','新鮮番茄','好水果賣場',50.00,2,100.00),(7,'ORD-20251008-09331170','P002','有機小黃瓜','蔬菜賣場',80.00,1,80.00),(8,'ORD-20251008-09331170','P001','新鮮番茄','好水果賣場',50.00,2,100.00),(9,'ORD-20251015-0001','P-1001','蘋果','台北一店',35.50,3,106.50),(10,'ORD-20251015-0001','P-2002','香蕉','台北一店',25.00,2,50.00),(11,'ORD-20251015-0003','P-1001','蘋果','台北一店',50.50,3,106.50),(12,'ORD-20251015-0003','P-2002','香蕉','台北一店',25.00,2,50.00),(13,'ORD-20251015-00004','P-1001','蘋果','台北一店',509.00,3,106.50),(14,'ORD-20251015-00004','P-2002','香蕉','台北一店',25.00,2,50.00);
 /*!40000 ALTER TABLE `orderdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-08 18:25:20
+-- Dump completed on 2025-10-15 11:58:16
