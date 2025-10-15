@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>與賣家有話說</title>
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+    <div id="chat-window" class="chat-window">
+        <div id="chat-header" class="chat-header">
+            聊天：
+        </div>
+        <select id="recipient-select" class="recipient-select">
+                <!-- 這裡動態生成對象選單 -->
+            </select>
+        <div id="chat-content" class="chat-content">
+            <div class="default-message" id="defaultMessage">請找尋喜歡的商品來詳細了解</div>
+        </div>
+        <div class="chat-footer">
+            <input id="chat-input" type="text" placeholder="Type a message...">
+            <button id="send-btn">送出訊息</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.2/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>
+
+
+
+<!--下面這邊是可以直接放置在網頁裡面產生浮動視窗的
+<div id="chat-widget-container">
+    <div id="chat-window" class="chat-window">
+        <div id="chat-header" class="chat-header">
+            Chat
+            <select id="recipient-select" class="recipient-select"></select>
+        </div>
+        <div id="chat-content" class="chat-content">
+            <div class="default-message" id="defaultMessage">請找尋喜歡的商品來詳細了解</div>
+        </div>
+        <div class="chat-footer">
+            <input id="chat-input" type="text" placeholder="Type a message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+</div>
+-->
