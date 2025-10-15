@@ -113,14 +113,15 @@ async function loginUser(event) {
     }
 
     try {
-        const params = new URLSearchParams();
-        params.append("keyword", keyword);
-        params.append("password", password);
+        const params ={
+            keyword: keyword,
+            password: password
+        };
 
-        const res = await fetch("/easybuyfarm/api/members/login", {
+        const res = await fetch("http://localhost:8080/members/login", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: params.toString(),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(params),
             credentials: "include"
         });
 
@@ -153,7 +154,7 @@ async function loginUser(event) {
 async function logoutUser() {
     try {
         // 呼叫後端登出 API
-        await fetch("/easybuyfarm/api/members/logout", {
+        await fetch("http://localhost:8080/members/logout", {
             method: "POST",
             credentials: "include"
         });
@@ -200,16 +201,20 @@ function initRegisterForm() {
                 return;
             }
 
+                console.log("Phone:", phone, "Email:", email, "Password:", password);
+
+
             try {
                 // 1. 檢查電話和信箱是否重複
-                const checkParams = new URLSearchParams();
-                checkParams.append('phone', phone);
-                checkParams.append('email', email);
+                const checkParams={
+                    phone:phone,
+                    email: email
+                };
 
-                const checkRes = await fetch('/easybuyfarm/api/members/addMemberCheck', {
+                const checkRes = await fetch('http://localhost:8080/members/addMemberCheck', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                    body: checkParams.toString()
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(checkParams)
                 });
 
                 if (checkRes.status === 409) {
@@ -219,15 +224,16 @@ function initRegisterForm() {
                 }
                 
                 // 2. 執行註冊
-                const params = new URLSearchParams();
-                params.append('phone', phone);
-                params.append('email', email);
-                params.append('password', password);
+                const memberData = {
+                    phone: phone,
+                    email: email,
+                    password: password
+                };
 
-                const res = await fetch('/easybuyfarm/api/members', {
+                const res = await fetch('http://localhost:8080/members', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                    body: params.toString()
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(memberData)
                 });
 
                 if (res.ok) {

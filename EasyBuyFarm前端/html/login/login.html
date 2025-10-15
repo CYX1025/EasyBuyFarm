@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>EasyBuyFarm好農易</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/share.js" defer></script>
+  <script src="/js/script.js" defer></script>
+</head>
+<body>
+
+<div id="navbar-placeholder"></div>
+
+<main class="login-container">
+  <h2>會員登入</h2>
+  <!-- 登入表單 -->
+  <form id="login-form">
+    <label for="keyword">電話 / Email</label>
+    <input type="text" id="keyword" required>
+
+    <label for="password">密碼</label>
+    <input type="password" id="password" required>
+
+    <button type="submit" class="btn">登入</button>
+
+    <div class="login-links">
+      <a href="register.html">註冊新會員</a> | 
+      <a href="forgot-password.html">忘記密碼？</a>
+    </div>
+  </form>
+</main>
+
+<div id="loadFooter"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) loginForm.addEventListener("submit", loginUser);
+});
+</script>
+
+</body>
+</html>
