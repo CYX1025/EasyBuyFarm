@@ -25,16 +25,17 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
-  `id` int NOT NULL,
-  `order_id` varchar(20) NOT NULL,
-  `order_date` datetime(6) NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `order_number` varchar(50) NOT NULL,
+  `customer_id` varchar(50) NOT NULL,
+  `order_date` datetime NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
-  `payment_method` varchar(50) NOT NULL,
-  `member_id` int NOT NULL,
+  `payment_method` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKpktxwhj3x9m4gth5ff6bkqgeb` (`member_id`),
-  CONSTRAINT `FKpktxwhj3x9m4gth5ff6bkqgeb` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `order_number` (`order_number`),
+  KEY `fk_orders_customer` (`customer_id`),
+  CONSTRAINT `fk_orders_customer` FOREIGN KEY (`customer_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +44,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,'ORD-20251003-79158714','sn202510010002','2025-10-03 16:12:38',180.00,'CREDIT_CARD'),(2,'ORD-20251008-05640969','sn202510010002','2025-10-08 14:40:39',180.00,'CREDIT_CARD'),(3,'ORD-20251008-05942263','sn202510010002','2025-10-08 14:45:41',180.00,'CREDIT_CARD'),(4,'ORD-20251008-09331170','sn202510010002','2025-10-08 15:42:10',180.00,'CREDIT_CARD'),(5,'ORD-20251014-0001','sn202510010002','2025-10-14 16:06:56',0.00,'CASH'),(6,'ORD-20251015-0001','sn202510010002','2025-10-15 10:30:00',156.50,'CASH'),(7,'ORD-20251015-0003','sn202510010001','2025-10-15 10:30:00',156.50,'CASH'),(8,'ORD-20251015-00004','sn202510010001','2025-10-15 10:30:00',156.50,'CASH');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-08 18:25:20
+-- Dump completed on 2025-10-15 11:58:16
