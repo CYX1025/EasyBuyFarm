@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (navbarContainer) {
         try {
             // 請求 header.html
-            const headerResponse = await fetch('/html/order/header.html');
+            const headerResponse = await fetch('../../html/order/header.html');
             if (!headerResponse.ok) throw new Error(`載入 header.html 失敗 (HTTP ${headerResponse.status})`);
 
             const headerHtml = await headerResponse.text();
@@ -77,7 +77,7 @@ async function loadFooter() {
             return;
         }
 
-        const footerResponse = await fetch('/html/order/footer.html');
+        const footerResponse = await fetch('../../html/order/footer.html');
         if (!footerResponse.ok) throw new Error(`載入 footer.html 失敗 (HTTP ${footerResponse.status})`);
 
         footerContainer.innerHTML = await footerResponse.text();
@@ -179,7 +179,7 @@ async function logoutUser() {
     localStorage.removeItem("loggedInUser");
     alert("已登出");
     updateNavbarStatus();
-    window.location.href = "index.html";
+    window.location.href = "./html/index/index.html";
 }
 
 function getLoggedInUser() {
@@ -226,7 +226,7 @@ async function loginUser(event) {
         localStorage.setItem("loggedInUser", JSON.stringify(data));
         alert("登入成功");
         updateNavbarStatus();
-        window.location.href = "index.html";
+        window.location.href = "./html/index/index.html";
 
     } catch (err) {
         console.error("登入錯誤:", err);

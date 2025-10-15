@@ -1,5 +1,5 @@
 
-
+/*
 //頁頭
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("DOM 加載完成"); // 確認 DOM 加載完成
@@ -63,7 +63,7 @@ async function loadFooter() {
         console.error("載入 Footer 時發生錯誤:", error);
     }
 }
-
+*/
 // ======================================
 // 註冊功能
 // ======================================
@@ -104,7 +104,7 @@ function initRegisterForm() {
 
             try {
                 // 1. 檢查電話和信箱是否重複
-                const checkRes = await fetch('http://localhost:8080/members/addMemberCheck', {
+                const checkRes = await fetch('http://localhost:8080/easybuyfarm/members/addMemberCheck', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone, email })
@@ -117,7 +117,7 @@ function initRegisterForm() {
                 }
                 
                 // 2. 執行註冊
-                const res = await fetch('http://localhost:8080/members', {
+                const res = await fetch('http://localhost:8080/easybuyfarm/members', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone, email, password })
@@ -140,6 +140,8 @@ function initRegisterForm() {
     }
 }
 
+
+//登入
 async function loginUser(event) {
     event.preventDefault();
     const keyword = document.getElementById("username")?.value.trim();
@@ -203,7 +205,7 @@ async function loginUser(event) {
 
             alert("登入成功！");
             updateNavbarStatus();
-            window.location.href = "index.html";
+            window.location.href = "../../html/index/index.html";
         } else {
             const text = await res.text();
             alert(text || "登入失敗");
