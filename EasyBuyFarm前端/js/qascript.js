@@ -18,7 +18,7 @@ $(document).ready(function () {
         });
     });
     $("#qabodyput").show();
-    $("#qabodyput").attr("border", "1");
+    $("#qabodyput").attr("border", "0");
 });
 
 /**
