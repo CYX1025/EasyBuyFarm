@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>賣場詳情</title>
+  <link rel="stylesheet" href="./css/store_detail.css" />
+</head>
+<body>
+  <div class="store-detail-container">
+    <div class="store-header">
+      <img id="storeImg" src="./images/default.jpg" alt="賣場圖片" />
+      <h1 id="storeName">賣場名稱</h1>
+      <p id="storeIntroduce">這裡是賣場介紹文字，將由資料庫動態載入。</p>
+    </div>
+
+    <h2>商品列表</h2>
+    <div class="product-list" id="productList">
+      <!-- 商品項目由 JS 動態載入 -->
+    </div>
+
+    <a href="home.html" class="back-button">返回首頁</a>
+  </div>
+
+  <script src="./js/storedetail.js"></script>
+</body>
+</html>
