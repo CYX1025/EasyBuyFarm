@@ -30,6 +30,18 @@ public class ProductService {
 	
 	private static final String UPLOAD_DIR="uploads/product/";
 	
+	public boolean verifyStoreOwner(String storeId, String memberId) {
+        Store store = storedao.findByStoreId(storeId);
+        if (store == null)
+        {
+        	return false;
+        }
+        System.out.println("storeId=" + storeId);
+        System.out.println("memberId=" + memberId);
+        String ownerId = store.getMemberToStore().getMemberId();
+        return ownerId.equals(memberId);
+    }
+	
 	//儲存產品圖片，並回傳檔名
 		public String saveProductImage(MultipartFile file) throws IOException
 		{
