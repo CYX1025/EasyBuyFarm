@@ -28,6 +28,18 @@ public class StoreService {
 	
 	private static final String UPLOAD_DIR="uploads/store/";
 	
+	 public boolean verifyStoreOwner(Integer id, String memberId) {
+	        Store store = storedao.findById(id).orElse(null);
+	        if (store == null)
+	        {
+	        	return false;
+	        }
+	        System.out.println("storeId=" + id);
+	        System.out.println("memberId=" + memberId);
+	        String ownerId = store.getMemberToStore().getMemberId();
+	        return ownerId.equals(memberId);
+	    }
+	
 	//儲存商店圖片，並回傳檔名
 	public String saveStoreImage(MultipartFile file) throws IOException
 	{
@@ -109,15 +121,18 @@ public class StoreService {
 		 }
 		 existStore.setName(name);
 		 existStore.setIntroduce(introduce);
-		try 
-		{
-			String newFileName= saveStoreImage(storeImg);
-			existStore.setStoreImg(newFileName);
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		} 
+		 if(storeImg !=null && !storeImg.isEmpty())
+		 {
+			 try 
+			 {
+				 String newFileName= saveStoreImage(storeImg);
+				 existStore.setStoreImg(newFileName);
+			 } 
+			 catch (IOException e) 
+			 {
+				 e.printStackTrace();
+			 } 
+		 }
 		    return storedao.save(existStore); 
 	 }
 	

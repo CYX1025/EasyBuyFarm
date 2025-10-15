@@ -11,40 +11,79 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.entity.Member;
+import com.entity.Role;
 import com.entity.Store;
+import com.service.MemberService;
 import com.service.StoreService;
+import com.util.JwtUtility;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/stores")
+@RequestMapping("/easybuyfarm/stores")
 public class StoreController {
 	@Autowired
 	StoreService storeservice;
 	
+	@Autowired
+	MemberService memberservice;
+	
+	// 輔助方法：從 Authorization header 抽取 Token
+    private String extractToken(String authHeader) {
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        return null;
+    }
+	
+	
 	//新增商店
-	//member id由前端給
 	@PostMapping("/add")
-	public ResponseEntity<Store> addStore(@RequestParam("memberId") String memberId
+	public ResponseEntity<?> addStore(@RequestHeader("Authorization") String authHeader
 			,@RequestParam("name") String name,
 			@RequestParam("introduce") String introduce , 
 			@RequestParam("store_img") MultipartFile storeImg)
 	{
 		try
 		{
-		Store store=new Store();
-		store.setName(name);
-		store.setIntroduce(introduce);
+			// 1. 從 Header 取出 Token
+			String token = extractToken(authHeader);
+			if (token == null) 
+			{
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("缺少 Token");
+			}
+	        
+			String memberId = JwtUtility.validateToken(token);
+			if (memberId == null) 
+			{
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token 無效或過期");
+			}
+			
+			Member member = memberservice.findMemberByMemberId(memberId);
+	        if (member == null) 
+	        {
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("會員不存在");
+	        }
+	        if (member.getRole() != Role.SELLER) 
+	        {
+	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("只有賣家可新增商店");
+	        }
+	    
+			Store store=new Store();
+			store.setName(name);
+			store.setIntroduce(introduce);
 		
-		String fileName=storeservice.saveStoreImage(storeImg);
-		store.setStoreImg(fileName);
+			String fileName=storeservice.saveStoreImage(storeImg);
+			store.setStoreImg(fileName);
 		
-		Store newStore=storeservice.addStore(store, memberId);
-		return ResponseEntity.status(HttpStatus.CREATED).body(newStore);
+			Store newStore=storeservice.addStore(store, memberId);
+			return ResponseEntity.status(HttpStatus.CREATED).body(newStore);
 		}
 		
 		catch(Exception e)
@@ -86,36 +125,74 @@ public class StoreController {
 	 
 	 //修改商店
 	 @PutMapping("/update/{id}")
-	 public ResponseEntity<?> updateStore(@PathVariable("id") Integer id,
+	 public ResponseEntity<?> updateStore(@RequestHeader("Authorization") String authHeader,
+			 	@PathVariable("id") Integer id,
 		        @RequestParam("name") String name,
 		        @RequestParam("introduce") String introduce,
 		        @RequestParam(value = "store_img", required = false) MultipartFile storeImg )
 	 {
-		try 
-		{ 
-		Store updatedStore=storeservice.updateStore(id, name, introduce, storeImg);
-		 return ResponseEntity.ok(updatedStore);
-		}
-		catch (IllegalArgumentException e) {
-	        // 如果找不到產品，回傳 404
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-	    } catch (Exception e) {
-	        // 其他錯誤回傳 500
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-	    }
+		 try {
+	            //從 Header 中取出 Token
+	            String token = extractToken(authHeader);
+	            if (token == null) {
+	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("缺少 Token");
+	            }
+
+	            // 驗證 Token 並取得登入會員ID
+	            String memberId = JwtUtility.validateToken(token);
+	            if (memberId == null) {
+	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token 無效或過期");
+	            }
+
+	            //驗證商店所有權
+	            boolean hasPermission = storeservice.verifyStoreOwner(id, memberId);
+	            if (!hasPermission) {
+	                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("無權限修改此商店");
+	            }
+
+	            //執行更新
+	            Store updatedStore = storeservice.updateStore(id, name, introduce, storeImg);
+	            return ResponseEntity.ok(updatedStore);
+
+	        } catch (IllegalArgumentException e) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+	        }
 	 }
 	 
 	
 	//刪除商店
 	//類型定義為String是因為刪除後商店物件會消失，前端只需要接收刪除成功or失敗的訊息
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteStore(@PathVariable Integer id)
+	public ResponseEntity<String> deleteStore(@RequestHeader("Authorization") String authHeader,
+												@PathVariable Integer id)
 	{
+		//從 Header 中取出 Token
+        String token = extractToken(authHeader);
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("缺少 Token");
+        }
+
+        // 驗證 Token 並取得登入會員ID
+        String memberId = JwtUtility.validateToken(token);
+        if (memberId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token 無效或過期");
+        }
+
+        //驗證商店所有權
+        boolean hasPermission = storeservice.verifyStoreOwner(id, memberId);
+        if (!hasPermission) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("無權限修改此商店");
+        }
+        
 		boolean deleted=storeservice.deletestore(id);
 		if(deleted)
 		{
 			return ResponseEntity.ok("商店刪除成功");
 		}
+		
 		else
 		{
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
