@@ -141,7 +141,7 @@ function initRegisterForm() {
 }
 
 
-// 登入
+//登入
 async function loginUser(event) {
     event.preventDefault();
     const keyword = document.getElementById("username")?.value.trim();
@@ -174,20 +174,51 @@ async function loginUser(event) {
             // 儲存 Token
             localStorage.setItem("token", token);
 
+            async function loginUser(event) {
+    event.preventDefault();
+    const keyword = document.getElementById("username")?.value.trim();
+    const password = document.getElementById("password")?.value.trim();
+
+    if (!keyword || !password) {
+        alert("請輸入帳號與密碼");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:8080/easybuyfarm/members/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ keyword, password }),
+            credentials: "include"
+        });
+
+        if (res.ok) {
+            const responseData = await res.json();
             const member = responseData.member;
 
-            // 儲存用戶資料到 localStorage
-            localStorage.setItem("loggedInUser", JSON.stringify({
+            // 儲存用戶資料
+            setLoggedInUser({
                 name: (member.firstName || '') + " " + (member.lastName || '') || member.phone || "會員",
                 phone: member.phone,
                 role: member.role ? member.role.toUpperCase() : "MEMBER"
-            }));
+            });
 
             alert("登入成功！");
             updateNavbarStatus();
+            window.location.href = "../../html/index/index.html";
+        } else {
+            const text = await res.text();
+            alert(text || "登入失敗");
+        }
+    } catch (err) {
+        console.error("登入請求錯誤:", err);
+        alert("網路錯誤，請稍後再試");
+    }
+}
 
-            // 登入成功後跳轉到正確的頁面
-            window.location.href = "../../html/index/index.html";  // 修改成正確的路徑
+
+            alert("登入成功！");
+            window.location.href = "index.html";  // 登入成功後跳轉到主頁
         } else {
             const text = await res.text();
             alert(text || "登入失敗");
