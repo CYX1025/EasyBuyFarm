@@ -11,10 +11,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const storePreviewImg = document.getElementById("storePreviewImg");
   const result = document.getElementById("result") || document.createElement("div");
 
-  const token = localStorage.getItem("jwt");
-  const memberId = localStorage.getItem("memberId");
-
-  if (!token || !memberId) {
+  const token = localStorage.getItem("token");
+  const loginuser = localStorage.getItem("loggedInUser");
+  const memberId=loginuser.memberId;
+  if (!token||!loginuser) {
     alert("❌ 尚未登入，請先登入！");
     window.location.href = "../login/login.html";
     return;
@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const data = await response.json();
       result.textContent = `✅ 新增/更新成功！商店名稱：「${data.name}」`;
+      //要寫一個導向的語法在這邊喔
       previewImg.style.display = "none";
     } catch (err) {
       console.error(err);
