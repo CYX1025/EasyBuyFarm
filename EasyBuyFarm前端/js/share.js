@@ -191,48 +191,6 @@ function getLoggedInUser() {
     }
 }
 
-// ======================================
-// 登入
-// ======================================
-async function loginUser(event) {
-    event.preventDefault();
-
-    const usernameEl = document.getElementById("keyword");
-    const passwordEl = document.getElementById("password");
-
-    if (!usernameEl || !passwordEl) {
-        console.error("找不到帳號或密碼欄位");
-        return;
-    }
-
-    const username = usernameEl.value.trim();
-    const password = passwordEl.value.trim();
-
-    if (!username || !password) {
-        alert("請輸入帳號與密碼");
-        return;
-    }
-
-    try {
-        const response = await fetch("http://localhost:8080/easybuyfarm/api/members/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ account: username, password: password }),
-            credentials: "include"
-        });
-
-        if (!response.ok) throw new Error(`登入失敗 (HTTP ${response.status})`);
-        const data = await response.json();
-        localStorage.setItem("loggedInUser", JSON.stringify(data));
-        alert("登入成功");
-        updateNavbarStatus();
-        window.location.href = "./html/index/index.html";
-
-    } catch (err) {
-        console.error("登入錯誤:", err);
-        alert("登入失敗，請確認帳號或密碼");
-    }
-}
 
 
 
