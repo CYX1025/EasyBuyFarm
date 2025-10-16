@@ -181,12 +181,28 @@ button:hover {
 /* ======================================
    頁腳 Footer
    ====================================== */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1; /* 推開 footer 到最底 */
+  display: block;
+}
 .footer {
     background: linear-gradient(to right, #232526, #414345); /* 黑灰漸層 */
     color: white;
     text-align: center;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 20px;
+    margin-top: auto;
 }
 .footer-links a {
     color: white;
@@ -276,14 +292,13 @@ button:hover {
    首頁商品區排版 Home
    ====================================== */
 .home {
-    min-height: 200px; 
-    padding: 10px;
     background: linear-gradient(to bottom, #8ab2f8, #1bdee8,#49e97e, #efa417); 
-             
-    justify-content: center; /* 水平置中 */
-    flex-wrap: wrap;         /* 超出時換行 */
-    gap: 20px;               /* 卡片間距 */
-    height: 1400px;          /* 固定高度 */
+    display: flex;              /* 啟用 Flex */
+    flex-direction: column;     /* 垂直排列 */
+    justify-content: center;    /* 垂直置中 */
+    align-items: center;        /* 水平置中 */
+    min-height: calc(100vh - 100px); /* 扣掉 navbar 高度 */
+    padding: 20px;
 }
 
 /* 登入頁容器 */

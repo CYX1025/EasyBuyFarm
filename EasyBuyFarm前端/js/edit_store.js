@@ -1,77 +1,105 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const loadBtn = document.getElementById("loadStoreBtn");
-  const form = document.getElementById("editStoreForm");
-  const result = document.getElementById("result");
+// edit_store.js
+document.addEventListener("DOMContentLoaded", async () => {
+  const form = document.getElementById("create-marketplace-form");
+  const shopNameInput = document.getElementById("shopName");
+  const shopDescriptionInput = document.getElementById("shopDescription");
+  const storeImgInput = document.getElementById("storeImg");
   const previewImg = document.getElementById("previewImg");
 
-  // ✅ 1. 載入商店資料
-  loadBtn.addEventListener("click", async () => {
-    const id = document.getElementById("storeId").value.trim();
-    if (!id) {
-      result.textContent = "請輸入商店 ID";
-      return;
+  const storeNameDisplay = document.getElementById("storeName");
+  const storeIntroduceDisplay = document.getElementById("storeIntroduce");
+  const storePreviewImg = document.getElementById("storePreviewImg");
+  const result = document.getElementById("result") || document.createElement("div");
+
+  const token = localStorage.getItem("jwt");
+  const memberId = localStorage.getItem("memberId");
+
+  if (!token || !memberId) {
+    alert("❌ 尚未登入，請先登入！");
+    window.location.href = "../login/login.html";
+    return;
+  }
+
+  // 🔹 載入商店資料
+  try {
+    const response = await fetch(`http://localhost:8080/easybuyfarm/stores/member/${memberId}`, {
+      headers: { "Authorization": "Bearer " + token }
+    });
+    if (!response.ok) throw new Error("載入商店資料失敗");
+
+    const stores = await response.json();
+
+    if (stores.length > 0) {
+      const store = stores[0];
+      shopNameInput.value = store.name || "";
+      shopDescriptionInput.value = store.introduce || "";
+      storeNameDisplay.textContent = store.name || "賣場名稱";
+      storeIntroduceDisplay.textContent = store.introduce || "這裡是賣場介紹文字";
+      storePreviewImg.src = store.storeImg ? `/uploads/store/${store.storeImg}` : "https://placehold.co/200x150?text=No+Image";
     }
+  } catch (err) {
+    console.error(err);
+    result.textContent = "❌ 載入商店資料失敗：" + err.message;
+  }
 
-    result.textContent = "載入中...";
-    try {
-      const response = await fetch(`http://localhost:8080/stores/id/${id}`);
-      if (!response.ok) throw new Error(`找不到商店 ID：${id}`);
-
-      const store = await response.json();
-
-      // 填入表單資料
-      document.getElementById("name").value = store.name || "";
-      document.getElementById("introduce").value = store.introduce || "";
-
-      // 顯示圖片
-      if (store.storeImg) {
-        previewImg.src = `./uploads/store/${store.storeImg}`;
+  // 🔹 表單即時更新預覽
+  shopNameInput.addEventListener("input", () => {
+    storeNameDisplay.textContent = shopNameInput.value || "賣場名稱";
+  });
+  shopDescriptionInput.addEventListener("input", () => {
+    storeIntroduceDisplay.textContent = shopDescriptionInput.value || "這裡是賣場介紹文字";
+  });
+  storeImgInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        storePreviewImg.src = reader.result;
+        previewImg.src = reader.result;
         previewImg.style.display = "block";
-      } else {
-        previewImg.style.display = "none";
-      }
-
-      form.style.display = "block";
-      result.textContent = "✅ 資料載入成功";
-    } catch (error) {
-      console.error(error);
-      result.textContent = "❌ 載入失敗，請確認商店 ID 是否存在。";
-      form.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      storePreviewImg.src = "https://placehold.co/200x150?text=No+Image";
+      previewImg.style.display = "none";
     }
   });
 
-  // ✅ 2. 送出更新請求
+  // 🔹 新增/更新商店
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const name = shopNameInput.value.trim();
+    const introduce = shopDescriptionInput.value.trim();
+    const store_Img = storeImgInput.files[0];
 
-    const id = document.getElementById("id").value.trim();
-    const name = document.getElementById("name").value.trim();
-    const introduce = document.getElementById("introduce").value.trim();
-    const storeImg = document.getElementById("store_img").files[0];
+    if (!name) {
+      result.textContent = "⚠️ 請輸入賣場名稱";
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", name);
     formData.append("introduce", introduce);
-    if (storeImg) formData.append("store_img", storeImg);
+    if (store_Img) formData.append("store_img", store_Img);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/stores/update/${id}`, {
-        method: "PUT",
-        body: formData,
+      result.textContent = "⏳ 資料傳送中...";
+      const response = await fetch("http://localhost:8080/easybuyfarm/stores/add", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + token },
+        body: formData
       });
-
-      if (!response.ok) throw new Error("伺服器回傳錯誤");
-
-      const updatedStore = await response.json();
-      result.textContent = `✅ 商店「${updatedStore.name}」更新成功！`;
-
-      if (updatedStore.storeImg) {
-        previewImg.src = `./uploads/store/${updatedStore.storeImg}`;
-        previewImg.style.display = "block";
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || `伺服器回傳錯誤 ${response.status}`);
       }
-    } catch (error) {
-      console.error("更新失敗：", error);
-      result.textContent = "❌ 更新失敗，請稍後再試。";
+
+      const data = await response.json();
+      result.textContent = `✅ 新增/更新成功！商店名稱：「${data.name}」`;
+      previewImg.style.display = "none";
+    } catch (err) {
+      console.error(err);
+      result.textContent = `❌ 新增/更新失敗：${err.message}`;
     }
   });
 });
