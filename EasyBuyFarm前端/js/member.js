@@ -64,6 +64,8 @@ async function loadFooter() {
     }
 }
 */
+
+
 // ======================================
 // 註冊功能
 // ======================================
@@ -141,23 +143,28 @@ function initRegisterForm() {
 }
 
 
-//登入
+// 登入
 async function loginUser(event) {
     event.preventDefault();
+    
+    // 取得帳號和密碼
     const keyword = document.getElementById("username")?.value.trim();
     const password = document.getElementById("password")?.value.trim();
 
+    // 檢查帳號與密碼是否為空
     if (!keyword || !password) {
         alert("請輸入帳號與密碼");
         return;
     }
 
     try {
+        // 建立登入請求資料
         const loginData = {
             keyword: keyword,
             password: password
         };
 
+        // 發送登入請求
         const res = await fetch("http://localhost:8080/easybuyfarm/members/login", {
             method: "POST",
             headers: {
@@ -167,45 +174,30 @@ async function loginUser(event) {
             credentials: "include"
         });
 
+        // 檢查回應狀態
         if (res.ok) {
             const responseData = await res.json();
-            const token = responseData.token;
+            const token = responseData.token; // 取得 JWT Token
 
-            // 儲存 Token
+            // 儲存 Token 到 localStorage
             localStorage.setItem("token", token);
 
-            async function loginUser(event) {
-    event.preventDefault();
-    const keyword = document.getElementById("username")?.value.trim();
-    const password = document.getElementById("password")?.value.trim();
+            const member = responseData.member; // 取得會員資料
 
-    if (!keyword || !password) {
-        alert("請輸入帳號與密碼");
-        return;
-    }
-
-    try {
-        const res = await fetch("http://localhost:8080/easybuyfarm/members/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ keyword, password }),
-            credentials: "include"
-        });
-
-        if (res.ok) {
-            const responseData = await res.json();
-            const member = responseData.member;
-
-            // 儲存用戶資料
-            setLoggedInUser({
+            // 儲存用戶資料到 localStorage
+            localStorage.setItem("loggedInUser", JSON.stringify({
                 name: (member.firstName || '') + " " + (member.lastName || '') || member.phone || "會員",
                 phone: member.phone,
                 role: member.role ? member.role.toUpperCase() : "MEMBER"
-            });
+            }));
 
             alert("登入成功！");
+            
+            // 更新導航欄顯示登入狀態
             updateNavbarStatus();
-            window.location.href = "../../html/index/index.html";
+
+            // 登入成功後跳轉到正確的頁面
+            window.location.href = "../../html/index/index.html";  // 修改成正確的路徑
         } else {
             const text = await res.text();
             alert(text || "登入失敗");
@@ -216,18 +208,6 @@ async function loginUser(event) {
     }
 }
 
-
-            alert("登入成功！");
-            window.location.href = "index.html";  // 登入成功後跳轉到主頁
-        } else {
-            const text = await res.text();
-            alert(text || "登入失敗");
-        }
-    } catch (err) {
-        console.error("登入請求錯誤:", err);
-        alert("網路錯誤，請稍後再試");
-    }
-}
 
 
 
