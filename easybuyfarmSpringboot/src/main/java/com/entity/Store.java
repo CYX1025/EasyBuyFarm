@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +29,16 @@ public class Store {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false)
 	Integer id;
+	
 	@Column(name = "store_id",length=10,nullable=false)
 	String storeId;
+	
 	@Column(length=100,nullable=false)
 	String name;
+	
 	@Column(length=255)
 	String introduce;
+	
 	@Column(name="store_img",length=100)
 	String storeImg;
 	//getter、setter、toString
@@ -43,12 +48,24 @@ public class Store {
 	@OneToMany(mappedBy = "storeId")
     @JsonManagedReference
     private List<Product> takeStore;
+	
 	@OneToMany(mappedBy = "storeToOrder")
-    @JsonManagedReference
+    @Transient
     private List<OrderDetail> orderdetailStore;
 	
 	@ManyToOne
-	@JoinColumn(name = "member_id", referencedColumnName = "member_id")
+	@JoinColumn(name = "member_id",nullable=false,referencedColumnName = "member_id")
+	
 	@JsonIgnoreProperties("takeStore")
 	private Member memberToStore;
+
+	public Store(String storeId, String name, String introduce, String storeImg) 
+	{
+		this.storeId = storeId;
+	    this.name = name;
+	    this.introduce = introduce;
+	    this.storeImg = storeImg;
+	}
+	
+	
 }

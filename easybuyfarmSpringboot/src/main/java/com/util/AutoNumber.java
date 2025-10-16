@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.entity.Member;
-import com.service.MemberRepository;
+import com.repository.MemberRepository;
 
 @Component
 public class AutoNumber {
-
-    private final MemberRepository memberdao;
+	
+	public static void main(String[] args) {
+		
+	}
+	
+	private final MemberRepository memberdao;
 
     @Autowired
     public AutoNumber(MemberRepository memberdao) {
@@ -42,4 +46,26 @@ public class AutoNumber {
 
         return prefix + numberPart;
     }
+	
+	//產生商店流水號
+	    public static String generateStoreNo(String maxCode) {
+	        if (maxCode == null) {
+	            return "s001";
+	        }
+	        int num = Integer.parseInt(maxCode.substring(1)); // 去掉開頭 S
+	        num++;
+	        return String.format("s%03d", num);
+	    }
+	    
+	
+	 //產生商品流水號
+	    public static String generateProductNo(String maxCode) {
+	        if (maxCode == null) {
+	            return "p001";
+	        }
+	        int num = Integer.parseInt(maxCode.substring(1)); // 去掉開頭 S
+	        num++;
+	        return String.format("p%03d", num);
+	    }
+
 }

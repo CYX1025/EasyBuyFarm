@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Member;
@@ -148,6 +147,28 @@ public class MemberController {
             return ResponseEntity.ok("已升級為賣家");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("升級失敗");
+        }
+    }
+    
+    @PutMapping("/update")
+    public ResponseEntity<String> updateMember(@RequestHeader("Authorization") String authHeader, @RequestBody Map<String, String> updatedData) {
+        // 從 Token 中提取會員 ID
+        String token = extractToken(authHeader);
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("缺少 Token");
+        }
+
+        String memberId = JwtUtility.validateToken(token);
+        if (memberId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token 無效或過期");
+        }
+
+        // 更新會員資料
+        boolean isUpdated = membersrv.updateMember(memberId, updatedData);
+        if (isUpdated) {
+            return ResponseEntity.ok("會員資料更新成功");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("更新失敗，可能是資料錯誤或已經存在相同的 phone/email");
         }
     }
     

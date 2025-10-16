@@ -42,11 +42,7 @@ public class Product {
 
 	
 	@ManyToOne
-	@JoinColumn(name = "store_id",columnDefinition="VARCHAR(45)")
+	@JoinColumn(name = "store_id",columnDefinition="VARCHAR(10)",referencedColumnName = "store_id")
 	@JsonIgnoreProperties("takeStore")
 	private Store storeId;
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	@JsonIgnoreProperties("takeCategory")
-	private Category categoryId;
 }
