@@ -1,24 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   const productList = document.getElementById("productList");
-  const storeTitle = document.getElementById("storeTitle");
+  const urlParams = new URLSearchParams(window.location.search);
+  const storeId = urlParams.get("storeId");
 
-  // 呼叫後端 API
-  fetch(`http://localhost:8080/easybuyfarm/products`)
-    .then(res => {
-      if (!res.ok) throw new Error("無法取得商品列表");
-      return res.json();
-    })
+  if (!storeId) {
+    productList.innerHTML = "<p>無效的商店 ID</p>";
+    return;
+  }
+
+  fetch(`http://localhost:8080/easybuyfarm/products/store/${storeId}`)
+    .then(res => res.json())
     .then(products => {
       productList.innerHTML = "";
-
       if (products.length === 0) {
         productList.innerHTML = "<p>暫無商品資料</p>";
         return;
       }
 
-      products.forEach
-      (
-        p => {
+      products.forEach(p => {
         const div = document.createElement("div");
         div.classList.add("product-card");
         div.innerHTML = `
@@ -35,3 +34,5 @@ document.addEventListener("DOMContentLoaded", () => {
       productList.innerHTML = "<p>商品資料載入錯誤</p>";
     });
 });
+
+
