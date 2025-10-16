@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,7 +50,7 @@ public class Store {
     private List<Product> takeStore;
 	
 	@OneToMany(mappedBy = "storeToOrder")
-    @JsonManagedReference
+	@Transient
     private List<OrderDetail> orderdetailStore;
 	
 	@ManyToOne
