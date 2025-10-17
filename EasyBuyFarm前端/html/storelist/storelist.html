@@ -4,38 +4,58 @@
   <meta charset="UTF-8">
   <title>EasyBuyFarm好農易</title>
   <link rel="stylesheet" href="/css/style.css">
-  <script src="/js/script.js" defer></script>
   <link rel="stylesheet" href="/css/StoreStyle.css">
-
-  <script src="/js/store.js" defer></script>
+  <script src="/js/script.js" defer></script>
   <script src="/js/share.js" defer></script>
+  <script src="/js/store.js" defer></script>
 </head>
+
 <body>
+  <div id="navbar-placeholder"></div>
 
-<div id="navbar-placeholder"></div>
+  <main class="home"> 
+    <div class="market-layout">
+      <!-- 左側建立賣場 -->
+      <form id="create-marketplace-form" class="form-container">
+        <div id="storePreview" class="store-preview">
+          <h2 id="storeName">賣場名稱</h2>
+          <p id="storeIntroduce">這裡是賣場介紹文字</p>
+          <img id="storePreviewImg" src="https://via.placeholder.com/200x150?text=No+Image" alt="賣場預覽圖片">
+        </div>
 
-  <main class="home">
-    <div class="seller-list-container" id="storeContainer">
-      
-      <!-- 新增賣場按鈕 -->
-      <div class="store-buttons-container">
-        <a href="edit_store.html" class="store-button add-store-button">+ 新增賣場</a>
+        <div class="form-group">
+          <label for="shopName">賣場名稱 *</label>
+          <input type="text" id="shopName" required maxlength="50" placeholder="例如：快樂農場、小王果園">
+        </div>
+
+        <div class="form-group">
+          <label for="shopDescription">賣場描述</label>
+          <textarea id="shopDescription" rows="4" placeholder="介紹您的賣場特色、理念..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="storeImg">賣場封面圖片</label>
+          <input type="file" id="storeImg" accept="image/*">
+          <img id="previewImg" style="display:none; width:150px; margin-top:10px;">
+        </div>
+
+        <div class="form-actions">
+          <input type="submit" class="btn btn-primary" value="新增賣場"/>
+        </div>
+
+        <div id="result"></div>
+      </form>
+
+      <!-- 右側賣場清單 -->
+      <div class="store-list">
+        <h3>我的賣場清單</h3>
+        <div class="store-buttons-wrapper" id="storeCardsContainer">
+          <!-- 賣場卡片會由 JS 動態插入 -->
+        </div>
       </div>
-
-      <!-- ✅ 賣場卡片載入區（重點：要有 id="content"） -->
-      <div id="content" class="seller-cards"></div>
-
     </div>
-
-    <div class="pagination">
-      <a href="#">«</a>
-      <a href="#" class="active">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">»</a>
-    </div>
-    
   </main>
-<div id="loadFooter"></div>
+
+  <div id="loadFooter"></div>
 </body>
 </html>

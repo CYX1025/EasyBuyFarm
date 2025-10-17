@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/css/StoreStyle.css">
   <script src="/js/share.js" defer></script>
   <script src="/js/script.js" defer></script>
+  <script src="/js/store.js" defer></script>
 </head>
 <body>
 
@@ -37,12 +38,12 @@
   </div>
 </div>
 
-<div class="seller-list-container" id="storeContainer">
-      <div class="store-buttons-container">
-        <a href="../editstore/editstore.html" class="store-button add-store-button">+ 新增賣場</a>
+<div class="store-list">
+        <h3>賣場清單</h3>
+        <div class="store-buttons-wrapper" id="storeCardsContainer">
+          <!-- 賣場卡片會由 JS 動態插入 -->
+        </div>
       </div>
-      <div id="content" class="seller-cards"></div>
-    </div>
 
     <div class="pagination">
       <a href="#">«</a>

@@ -290,13 +290,13 @@ function initSellerButton() {
             
             if (!user) {
                 alert("請先登入會員");
-                window.location.href = "login.html";
+                window.location.href = "/html/login/login.html";
                 return;
             }
 			if (user.role === 'seller'|| user.role === 'SELLER'){
 			                // 如果用戶物件本身就標記為 'seller'，直接導向賣家中心，阻止重複註冊
 			                alert("您已是賣家，即將導向我的賣場。");
-			                window.location.href = "storelist.html"; // 替換為你的賣家中心頁面
+			                window.location.href = "/html/storelist/storelist.html"; // 替換為你的賣家中心頁面
 			                return; // 執行完畢，結束函式
 			            }
 
@@ -306,7 +306,7 @@ function initSellerButton() {
             if (currentRole === 'SELLER') {
                 // 狀況一：已是賣家 (按鈕顯示「我的賣場」)
                 // 直接導向賣家儀表板
-                window.location.href = "storelist.html"; // 替換為你的賣家中心頁面
+                window.location.href = "/html/storelist/storelist.html"; // 替換為你的賣家中心頁面
             } else {
                 // 狀況二：一般會員 (按鈕顯示「成為賣家」)
                 
@@ -318,7 +318,7 @@ function initSellerButton() {
                 } else {
                     // Modal 不存在 (如 member.html)，導向到可以處理的頁面
                     alert("請在首頁簽署賣家合約以完成升級。");
-                    window.location.href = "index.html"; 
+                    window.location.href = "/html/index/index.html";
                 }
             }
         });
@@ -349,7 +349,7 @@ function initSellerButton() {
                         logoutUser(); 
                     } else if (res.status === 401) {
                         alert("請先登入會員");
-                        window.location.href = "login.html";
+                        window.location.href = "/html/login/login.html";
                     } else {
                         const text = await res.text();
                         alert("升級失敗: " + (text || "未知錯誤"));
