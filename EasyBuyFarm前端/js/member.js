@@ -1,5 +1,4 @@
-
-
+/*
 //頁頭
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("DOM 加載完成"); // 確認 DOM 加載完成
@@ -64,7 +63,7 @@ async function loadFooter() {
     }
 }
 
-
+*/
 
 // ==============================
 // 註冊功能：處理註冊表單提交
@@ -182,6 +181,7 @@ async function loginUser(event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(loginData),
+            credentials: "include"
         });
 
         // 檢查回應狀態
@@ -195,12 +195,16 @@ async function loginUser(event) {
             const member = responseData.member; // 取得會員資料
             console.log(member);
             // 儲存用戶資料到 localStorage
-            localStorage.setItem("loggedInUser", JSON.stringify({
-                name: (member.firstName || '') + " " + (member.lastName || '') || member.phone || "會員",
-                phone: member.phone,
-                role: member.role ? member.role.toUpperCase() : "MEMBER",
-                memberId:member.memberId
-            }));
+            localStorage.setItem("loggedInUser", JSON.stringify(member)); // 儲存用戶資料
+            // localStorage.setItem("loggedInUser", JSON.stringify({
+            //     name: (member.firstName || '') + " " + (member.lastName || '') || member.phone || "會員",
+            //     phone: member.phone,
+            //     role: member.role ? member.role.toUpperCase() : "MEMBER",
+            //     memberId: member.memberId,
+            //     email: member.email,  // 假設你後端有返回 email
+            //     birthday: (member.birthday || ''),  // 假設後端有返回生日
+            //     address: (member.address || '')  // 假設後端有返回地址
+            // }));
 
             alert("登入成功！");
             
@@ -220,151 +224,187 @@ async function loginUser(event) {
 }
 
 
-// ==============================
-// 用來處理會員資料頁面的 JavaScript
-// ==============================
+//登出功能*******************
+// async function logoutUser() {
+//     try {
+//         await fetch("/easybuyfarm/api/members/logout", { method: "POST", credentials: "include" });
+//     } catch (err) {
+//         console.error("登出 API 錯誤:", err);
+//     }
+//     localStorage.removeItem("loggedInUser");
+//     alert("已登出");
+//     updateNavbarStatus();
+//     window.location.href = "/html/index/index.html";
+// }
 
-// 載入會員資料並顯示
-async function loadMemberProfile() {
-    try {
-        // 從 localStorage 取得 JWT Token
-        const token = localStorage.getItem("token");
 
-        // 如果沒有 Token，跳轉到登入頁面
-        if (!token) {
-            console.warn('用戶未登入，無法載入會員資料');
-            window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
-            return;
-        }
 
-        // 發送帶有 Token 的請求
-        const res = await fetch("http://localhost:8080/easybuyfarm/members/me", { 
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`  // 在請求標頭中加入 Token
-            }
-        });
+// // ==============================
+// // 編輯會員資料功能
+// // ==============================
 
-        // 檢查回應狀態
-        if (res.status === 401) {
-            console.warn('無效的 Token 或已過期，重新登入');
-            localStorage.removeItem('token'); // 清除過期或無效的 Token
-            window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
-            return;
-        }
+// ---- member.js：彈窗控制 ----
+// member.js
+document.addEventListener('DOMContentLoaded', () => {
+  const modal   = document.getElementById('edit-profile-modal');
+  const openBtn = document.getElementById('edit-profile-btn');
+  const form    = document.getElementById('edit-profile-form');
 
-        // 檢查其他錯誤狀況
-        if (!res.ok) {
-            console.error('API 錯誤狀態碼:', res.status);
-            throw new Error(`無法取得會員資料 (HTTP ${res.status})`);
-        }
+  if (!modal || !openBtn) {
+    console.warn('[member.js] 找不到 edit-profile-btn 或 edit-profile-modal');
+    return;
+  }
 
-        // 解析會員資料
-        const member = await res.json();
-        
-        // 填入顯示區塊 (safeSetText)
-        safeSetText('profile-firstName', member.firstName);
-        safeSetText('profile-lastName', member.lastName);
-        safeSetText('profile-phone', member.phone);
-        safeSetText('profile-email', member.email);
-        safeSetText('profile-birthday', member.birthday);
-        safeSetText('profile-address', member.address);
+  // 只在「自己的 modal」內找 close 按鈕，避免抓到 header 的 close
+  const closeX  = modal.querySelector('.close-btn');
 
-        // 填入 Modal 編輯欄位 (safeSetValue)
-        safeSetValue('firstName', member.firstName);
-        safeSetValue('lastName', member.lastName);
-        safeSetValue('phone', member.phone);
-        safeSetValue('email', member.email);
-        safeSetValue('birthday', member.birthday);
-        safeSetValue('address', member.address);
-        safeSetValue('passwordEdit', ''); // 密碼欄位清空，避免誤操作
-        
-    } catch (err) {
-        console.error('載入會員資料失敗:', err);
-        alert('載入會員資料時發生錯誤，請稍後再試');
+  // ✅ 改成 async，開啟前先預填
+const openModal = async () => {
+  try {
+    const m = await getCurrentMember();   // 這支函式你檔案下方已定義
+    if (m) {
+      setInput('lastName',  m.lastName);
+      setInput('firstName', m.firstName);
+      setInput('birthday',  toDateInputValue(m.birthday)); // 生日轉 YYYY-MM-DD
+      setInput('address',   m.address);
+      setInput('passwordEdit', ''); // 密碼不預填
     }
+  } catch (e) {
+    console.warn('預填會員資料失敗：', e);
+  }
+
+  // 顯示視窗
+  modal.classList.add('show');      // 用 class 切換，對應你的 CSS
+  document.body.classList.add('modal-open'); // 禁止背景滾動
+  modal.setAttribute('aria-hidden', 'false');
+};
+
+  const closeModal = () => {
+    modal.classList.remove('show');
+    document.body.classList.remove('modal-open');
+    modal.setAttribute('aria-hidden', 'true');
+  };
+
+  // 開啟
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal();   // ← 關鍵：呼叫 openModal()
+  });
+
+  // 關閉（X）
+  if (closeX) closeX.addEventListener('click', closeModal);
+
+  // 點遮罩關閉（點內容不關）
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // ESC 關閉
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+  });
+
+  // 送出編輯（沿用你原本的更新 API）
+  if (form) {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = "/html/login/login.html?redirect=" + encodeURIComponent("/html/member/member.html");
+      return;
+    }
+
+    // 目前會員資料（用來做 diff）
+    const current = await getCurrentMember() || {};
+
+    // 讀表單
+    const draft = {
+      lastName:  document.getElementById('lastName').value.trim(),
+      firstName: document.getElementById('firstName').value.trim(),
+      birthday:  document.getElementById('birthday').value, // date 可為空字串
+      address:   document.getElementById('address').value.trim(),
+      password:  document.getElementById('passwordEdit').value, // 空字串代表不修改
+    };
+
+    // 只擷取「非空且有變動」的欄位
+    const updatedData = {};
+    Object.entries(draft).forEach(([k, v]) => {
+      // 密碼：空字串不送；有值才送
+      if (k === 'password') {
+        if (v) updatedData[k] = v;
+        return;
+      }
+      // 其他欄位：值有變動且非空才送（若要允許清空，這裡可改成：只要與 current 不同就送）
+      const currVal = (current[k] ?? '').toString().trim();
+      const newVal  = (v ?? '').toString().trim();
+      if (newVal && newVal !== currVal) {
+        updatedData[k] = v;
+      }
+    });
+
+    if (Object.keys(updatedData).length === 0) {
+      alert('沒有變更內容可更新');
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:8080/easybuyfarm/members/update", {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updatedData)
+      });
+
+      if (!res.ok) {
+        const error = await res.text();
+        alert(`更新失敗: ${error || ('HTTP ' + res.status)}`);
+        return;
+      }
+
+      alert('資料更新成功！');
+      // 合併最新資料回 localStorage，保持前端一致
+      const merged = { ...current, ...updatedData };
+      localStorage.setItem('loggedInUser', JSON.stringify(merged));
+
+      closeModal();
+      if (typeof loadMemberProfile === 'function') await loadMemberProfile();
+    } catch (err) {
+      console.error('更新會員資料失敗:', err);
+      alert('更新會員資料時發生錯誤，請稍後再試');
+    }
+  });
+}
+});
+
+// 取得目前會員資料：優先用 localStorage，其次用 /me
+async function getCurrentMember() {
+  // 先從 localStorage 拿
+  const cached = localStorage.getItem('loggedInUser');
+  if (cached) {
+    try { return JSON.parse(cached); } catch {}
+  }
+  // 沒有就打 /me
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
+  const res = await fetch("http://localhost:8080/easybuyfarm/members/me", {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  if (!res.ok) return null;
+  const member = await res.json();
+  localStorage.setItem('loggedInUser', JSON.stringify(member));
+  return member;
 }
 
-// ==============================
-// 編輯會員資料功能
-// ==============================
+function setInput(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = (val ?? '');
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    // 確保元素存在後再添加事件處理器
-    const editProfileBtn = document.getElementById('edit-profile-btn');
-    const closeModalBtn = document.querySelector('.close-btn');
-    const editProfileForm = document.getElementById('edit-profile-form');
 
-    if (editProfileBtn) {
-        editProfileBtn.addEventListener('click', () => {
-            // 顯示編輯資料 Modal
-            document.getElementById('edit-profile-modal').style.display = 'block';
-        });
-    }
-
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', () => {
-            document.getElementById('edit-profile-modal').style.display = 'none';
-        });
-    }
-
-    if (editProfileForm) {
-        // 編輯資料表單提交
-        editProfileForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            // 從表單取得新的資料
-            const updatedData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                birthday: document.getElementById('birthday').value,
-                address: document.getElementById('address').value,
-                password: document.getElementById('passwordEdit').value,  // 可選，若不填則保持原來
-            };
-
-            try {
-                // 取得 Token
-                const token = localStorage.getItem("token");
-
-                if (!token) {
-                    console.warn('用戶未登入，無法修改資料');
-                    window.location.href = "/html/login/login.html?redirect=" + encodeURIComponent(window.location.href);
-                    return;
-                }
-
-                // 發送修改資料請求
-                const res = await fetch("http://localhost:8080/easybuyfarm/members/update", {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`  // 在請求標頭中加入 Token
-                    },
-                    body: JSON.stringify(updatedData)
-                });
-
-                if (!res.ok) {
-                    const error = await res.text();
-                    alert(`更新失敗: ${error}`);
-                    return;
-                }
-
-                // 更新成功，關閉 Modal 並刷新資料
-                alert('資料更新成功！');
-                document.getElementById('edit-profile-modal').style.display = 'none';
-                loadMemberProfile(); // 重新載入會員資料
-
-            } catch (err) {
-                console.error('更新會員資料失敗:', err);
-                alert('更新會員資料時發生錯誤，請稍後再試');
-            }
-        });
-        
-        // 初始載入會員資料
-        loadMemberProfile();
-    }
-});
 
 // ==============================
 // 用來填入 HTML 元素的安全設置函數
@@ -374,6 +414,9 @@ function safeSetText(id, text) {
     const element = document.getElementById(id);
     if (element && text) {
         element.textContent = text;
+        console.log(`已更新 ${id} 的內容為：${text}`); // 用來檢查是否正確設置
+    } else {
+        console.log(`找不到元素 ${id} 或文本為空`);
     }
 }
 
@@ -381,33 +424,30 @@ function safeSetValue(id, value) {
     const element = document.getElementById(id);
     if (element && value) {
         element.value = value;
+        console.log(`已更新 ${id} 的值為：${value}`); // 用來檢查是否正確設置
+    } else {
+        console.log(`找不到元素 ${id} 或值為空`);
     }
 }
 
 
-
-
-
-
-
-
-// 測試一下函數是否正確初始化
-function initNavbarEvents() {
-    console.log('Navbar 事件已初始化');
-    // 此處加入 navbar 相關邏輯
+function toDateInputValue(v) {
+  if (!v) return '';
+  // 支援 "2025/10/18" 或 "2025-10-18T00:00:00"
+  const d = new Date(v);
+  if (isNaN(d)) return '';
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${mm}-${dd}`;
 }
 
-function updateNavbarStatus() {
-    console.log('Navbar 狀態已更新');
-    // 更新 navbar 狀態的代碼
-}
 
-function updateCartCount() {
-    console.log('購物車數量已更新');
-    // 更新購物車數量的代碼
-}
 
-function initSellerButton() {
-    console.log('賣家按鈕已初始化');
-    // 初始化賣家按鈕的代碼
-}
+
+
+
+// 在 member.js 內，改成這樣
+window.initNavbarEvents  = window.initNavbarEvents  || function(){};
+window.updateNavbarStatus= window.updateNavbarStatus|| function(){};
+window.updateCartCount   = window.updateCartCount   || function(){};
+window.initSellerButton  = window.initSellerButton  || function(){};

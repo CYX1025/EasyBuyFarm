@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (navbarContainer) {
         try {
-            const headerResponse = await fetch('../../html/order/header.html');
+            const headerResponse = await fetch('/html/order/header.html');
             if (!headerResponse.ok) throw new Error(`載入 header.html 失敗 (HTTP ${headerResponse.status})`);
             const headerHtml = await headerResponse.text();
             navbarContainer.innerHTML = headerHtml;
@@ -53,12 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     initRegisterForm();
     initEditProfile();
 
-    // -------------------------------
-    // 4️⃣ 會員資料載入
-    // -------------------------------
-    if (document.getElementById('edit-profile-form') || document.getElementById('profile-lastName')) {
-        loadMemberProfile();
-    }
+    
 
     // -------------------------------
     // 5️⃣ 登入表單監聽
@@ -68,6 +63,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         loginForm.removeEventListener("submit", loginUser);
         loginForm.addEventListener("submit", loginUser);
     }
+
+    // 只有 member.html 才會有這個元素 → 自動載入
+    if (document.getElementById("profile-memberId")) {
+    loadMemberProfile();
+    }
+
+
 });
 
 // ======================================
@@ -81,7 +83,7 @@ async function loadFooter() {
             return;
         }
 
-        const footerResponse = await fetch('../../html/order/footer.html');
+        const footerResponse = await fetch('/html/order/footer.html');
         if (!footerResponse.ok) throw new Error(`載入 footer.html 失敗 (HTTP ${footerResponse.status})`);
 
         footerContainer.innerHTML = await footerResponse.text();
@@ -105,19 +107,95 @@ function initNavbarEvents() {
         });
     }
 
-    document.getElementById("member-btn").addEventListener("click", e=> {
-        alert('enter');
-        e.preventDefault();
-        loadMember2();
+    const memberBtn = document.getElementById("member-btn");
+    if (memberBtn) {
+    memberBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const target = "/html/member/member.html";
+    if (!token) {
+      window.location.href = "/html/login/login.html?redirect=" + encodeURIComponent(target);
+      return;
+    }
+    window.location.href = target;
     });
+    }
 
     // 下拉選單初始化
     initDropdown();
 }
 
-function loadMember2(){
-    alert('test');
-} 
+
+// -------------------------------
+    // 4️⃣ 會員資料載入
+    // -------------------------------
+async function loadMemberProfile() {
+  try {
+    const token = localStorage.getItem("token");
+    const targetUrl = "/html/member/member.html";
+
+    if (!token) {
+      window.location.href = "/html/login/login.html?redirect=" + encodeURIComponent(targetUrl);
+      return;
+    }
+
+    const res = await fetch("http://localhost:8080/easybuyfarm/members/me", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (res.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "/html/login/login.html?redirect=" + encodeURIComponent(targetUrl);
+      return;
+    }
+
+    if (!res.ok) {
+      const txt = await res.text();
+      alert(`取得會員資料失敗：${txt || "HTTP " + res.status}`);
+      return;
+    }
+
+    // /me 直接回傳 Member 物件
+    const member = await res.json();
+    const isActive = toBool(member.status);
+    // 填入欄位
+    setText("profile-memberId", member.memberId || "未設定");
+    setText("profile-firstName", member.firstName || "未設定");
+    setText("profile-lastName", member.lastName || "未設定");
+    setText("profile-phone", member.phone || "未設定");
+    setText("profile-email", member.email || "未設定");
+    setText("profile-birthday", member.birthday || "未設定");
+    setText("profile-address", member.address || "未設定");
+    setText("profile-role", member.role === "SELLER" ? "賣家" : "會員");
+    setText("profile-status", isActive ? "啟用" : "停用");
+
+    // 同步 navbar 的歡迎詞資料，避免還用舊的
+    localStorage.setItem("loggedInUser", JSON.stringify(member));
+    updateNavbarStatus();
+  } catch (err) {
+    console.error("載入會員資料失敗：", err);
+    alert("載入會員資料時發生錯誤，請稍後再試");
+  }
+}
+
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val ?? "";
+}
+
+
+// 工具：把 BIT(1) / boolean / number / string 都轉成布林
+function toBool(v) {
+  if (typeof v === 'boolean') return v;
+  if (typeof v === 'number') return v === 1;
+  if (typeof v === 'string') {
+    const s = v.trim().toLowerCase();
+    return s === '1' || s === 'true' || s === 'y' || s === 'yes';
+  }
+  return false;
+}
 
 function initDropdown() {
     const dropdownBtn = document.querySelector(".dropbtn");
@@ -150,7 +228,12 @@ function updateNavbarStatus() {
     const beSellerBtn = document.getElementById("be-seller-btn");
 
     if (user) {
-        if (welcomeMsg) welcomeMsg.textContent = `歡迎, ${user.name || "會員"}`;
+        if (welcomeMsg) {
+            const user = getLoggedInUser();
+            const displayName = ((user?.lastName || "") + (user?.firstName || "")) 
+                      || user?.phone || user?.email || "會員";
+            welcomeMsg.textContent = `歡迎, ${displayName}`;
+        }
         if (memberBtn) memberBtn.style.display = "block";
         if (logoutLink) logoutLink.style.display = "block";
         if (loginLink) loginLink.style.display = "none";
@@ -185,16 +268,21 @@ function updateNavbarStatus() {
 // 會員相關
 // ======================================
 async function logoutUser() {
-    try {
-        await fetch("/easybuyfarm/api/members/logout", { method: "POST", credentials: "include" });
-    } catch (err) {
-        console.error("登出 API 錯誤:", err);
-    }
-    localStorage.removeItem("loggedInUser");
-    alert("已登出");
-    updateNavbarStatus();
-    window.location.href = "./html/index/index.html";
+  try {
+    await fetch("http://localhost:8080/easybuyfarm/members/logout", { 
+      method: "POST",
+      credentials: "include"
+    });
+  } catch (err) {
+    console.error("登出 API 錯誤:", err);
+  }
+  localStorage.removeItem("token");
+  localStorage.removeItem("loggedInUser");
+  alert("已登出");
+  updateNavbarStatus();
+  window.location.href = "/html/index/index.html";
 }
+
 
 function getLoggedInUser() {
     const userStr = localStorage.getItem("loggedInUser");
@@ -279,7 +367,6 @@ function clearCart() {
 // ======================================
 function initRegisterForm(){}
 function initEditProfile(){}
-function loadMemberProfile(){}
 function initSellerButton(){}
 
 function initSellerButton() {
