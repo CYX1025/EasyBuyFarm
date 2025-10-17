@@ -69,7 +69,7 @@ public class MemberService {
 	}
 	
 	public boolean upgradeToSeller(String memberId) {
-	    Member member = findMemberByMemberId(memberId);  // 改這裡 👈
+	    Member member = findMemberByMemberId(memberId);  // 改這裡
 	    if (member != null && member.getRole() != Role.SELLER) {
 	        member.setRole(Role.SELLER);
 	        memberdao.save(member);

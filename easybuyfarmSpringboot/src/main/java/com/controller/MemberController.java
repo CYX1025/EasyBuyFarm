@@ -45,13 +45,18 @@ public class MemberController {
 
 	/** 註冊為買家**/
 	@PostMapping("/register")
-	public ResponseEntity<Member> addMember(@RequestBody Map<String,String> newUser) {
-	    boolean flag = membersrv.addMember(newUser.get("phone"), newUser.get("email"), newUser.get("password"));
+	public ResponseEntity<?> addMember(@RequestBody Map<String, String> newUser) {
+	    // 基本資料檢查
+	    String phone = newUser.get("phone");
+	    String email = newUser.get("email");
+	    String password = newUser.get("password");
+
+	    boolean flag = membersrv.addMember(phone, email, password);
 	    if (!flag) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("註冊失敗，請稍後再試");
 	    }
 
-	    Member checkmember = membersrv.findMemberByMemberPhone(newUser.get("phone"));
+	    Member checkmember = membersrv.findMemberByMemberPhone(phone);
 	    if (checkmember == null) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
@@ -59,7 +64,6 @@ public class MemberController {
 	    return ResponseEntity.status(HttpStatus.CREATED).body(checkmember);
 	}
 
-	
 	/** 註冊時判斷有沒有註冊過 **/
 	@PostMapping("/addMemberCheck")
 	public ResponseEntity<String> addMemberCheck(@RequestBody Map<String, String> userInfo) {
@@ -162,7 +166,7 @@ public class MemberController {
         if (memberId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token 無效或過期");
         }
-
+        
         // 更新會員資料
         boolean isUpdated = membersrv.updateMember(memberId, updatedData);
         if (isUpdated) {

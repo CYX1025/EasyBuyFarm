@@ -2,6 +2,9 @@ package com.service;
 
 import com.entity.Order;
 import com.entity.OrderDetail;
+import com.repository.OrderDetailRepository;
+import com.repository.OrderRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
