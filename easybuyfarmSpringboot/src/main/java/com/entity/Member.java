@@ -73,8 +73,6 @@ public class Member {
 		this.phone = phone;
 		this.password = password;
 	}
-	
-	
 
 
 }
