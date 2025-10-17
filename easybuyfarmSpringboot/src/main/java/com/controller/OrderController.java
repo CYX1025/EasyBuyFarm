@@ -32,6 +32,9 @@ public class OrderController {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("id", o.getId());
         body.put("orderNumber", o.getOrderNumber());
+        if (o.getMemberToOrder() != null) {
+            body.put("customer_id", o.getMemberToOrder().getMemberId());
+        }
         body.put("orderDate", o.getOrderDate());
         body.put("totalAmount", o.getTotalAmount());
         body.put("paymentMethod", o.getPaymentMethod());
