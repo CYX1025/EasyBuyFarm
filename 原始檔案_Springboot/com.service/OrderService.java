@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.entity.Member;
 import com.entity.Order;
 import com.entity.OrderDetail;
+import com.repository.OrderDetailRepository;
+import com.repository.OrderRepository;
+import com.util.AutoNumber;
 
 
 @Service
@@ -26,23 +29,7 @@ public class OrderService {
     @Autowired
     private MemberService memberService;
 
-    /** 自動生成訂單號：ORD-YYYYMMDD-xxxxx **/
-    private String generateOrderNumber() {
-        String datePart = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE); // 20251015
-        String prefix = "ORD-" + datePart + "-";
-
-        String maxCode = orderRepo.findMaxOrderCodeForDate(prefix);
-        int nextSeq = 1;
-        if (maxCode != null) {
-            try {
-                String seqStr = maxCode.substring(maxCode.lastIndexOf('-') + 1);
-                nextSeq = Integer.parseInt(seqStr) + 1;
-            } catch (Exception e) {
-                nextSeq = 1;
-            }
-        }
-        return prefix + String.format("%05d", nextSeq);
-    }
+    private AutoNumber autoNumber;    
 
     /** 新增訂單＋明細（同交易） **/
     @Transactional
@@ -51,7 +38,7 @@ public class OrderService {
         if (member == null)
             throw new IllegalArgumentException("找不到對應的會員 ID：" + memberId);
 
-        String orderNumber = generateOrderNumber();
+        String orderNumber = autoNumber.generateOrderNumber();
         order.setOrderNumber(orderNumber);
         order.setMemberToOrder(member);
 

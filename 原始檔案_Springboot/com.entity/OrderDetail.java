@@ -27,6 +27,9 @@ public class OrderDetail {
     @JsonIgnoreProperties("takeOrderDetail")
     private Order orderId;
 
+    @Column(name = "order_id", insertable = false, updatable = false)
+    private String orderIdValue;   // 👈 若 DB 是 BIGINT，改成 Long
+
     @Column(name = "product_id", length = 50, nullable = false)
     private String productId;
 
