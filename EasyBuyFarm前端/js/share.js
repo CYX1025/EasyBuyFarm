@@ -339,32 +339,39 @@ function initSellerButton() {
 
         // 點擊同意按鈕
         if (agreeBtn) {
-            agreeBtn.addEventListener("click", async () => {
-                // ... (同意升級的 AJAX 邏輯，不變)
-                try {
-                    const res = await fetch(`/easybuyfarm/api/members/upgradeSeller`, {
-                        method: "PUT",
-                        credentials: "include",
-                        headers: { "Content-Type": "application/json" }
-                    });
+    agreeBtn.addEventListener("click", async () => {
+        try {
+            const token = localStorage.getItem("token"); // 或 cookie
+            if (!token) {
+                alert("請先登入會員");
+                window.location.href = "/html/login/login.html";
+                return;
+            }
 
-                    if (res.ok) {
-                        alert("你已成功升級為賣家！請重新登入以更新權限。");
-                        closeModal();
-                        // 升級成功後，強制登出，讓下次登入能從後端取得新的 'seller' 角色
-                        logoutUser(); 
-                    } else if (res.status === 401) {
-                        alert("請先登入會員");
-                        window.location.href = "/html/login/login.html";
-                    } else {
-                        const text = await res.text();
-                        alert("升級失敗: " + (text || "未知錯誤"));
-                    }
-                } catch (err) {
-                    console.error(err);
-                    alert("網路錯誤，無法升級為賣家");
+            const res = await fetch("http://localhost:8080/easybuyfarm/members/upgradeSeller", {
+                method: "PUT",
+                credentials: "include", // 如果用 cookie 認證才需要
+                headers: { 
+                    "Authorization": `Bearer ${token}` 
                 }
             });
+
+            if (res.ok) {
+                alert("你已成功升級為賣家！請重新登入以更新權限。");
+                closeModal();
+                logoutUser(); 
+            } else if (res.status === 401) {
+                alert("Token 無效或過期，請重新登入");
+                window.location.href = "/html/login/login.html";
+            } else {
+                const text = await res.text();
+                alert("升級失敗: " + (text || "未知錯誤"));
+            }
+        } catch (err) {
+            console.error(err);
+            alert("網路錯誤，無法升級為賣家");
         }
+    });
+}
     }
 }
