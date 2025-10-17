@@ -21,17 +21,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // ========================
-  // 1️⃣ 載入現有賣場資料
-  // ========================
+  // 1️⃣ 載入現有賣場
   try {
     const response = await fetch(`http://localhost:8080/easybuyfarm/stores/member/${memberId}`, {
       headers: { "Authorization": "Bearer " + token },
     });
     if (!response.ok) throw new Error("載入商店資料失敗");
-
     const stores = await response.json();
-    renderStoreList(stores); // ✅ 顯示右側清單
+    renderStoreList(stores);
 
     if (stores.length > 0) {
       const store = stores[0];
@@ -48,17 +45,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     result.textContent = "❌ 載入商店資料失敗：" + err.message;
   }
 
-  // ========================
-  // 2️⃣ 即時預覽區更新
-  // ========================
+  // 2️⃣ 即時預覽
   shopNameInput.addEventListener("input", () => {
     storeNameDisplay.textContent = shopNameInput.value || "賣場名稱";
   });
-
   shopDescriptionInput.addEventListener("input", () => {
     storeIntroduceDisplay.textContent = shopDescriptionInput.value || "這裡是賣場介紹文字";
   });
-
   storeImgInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -75,16 +68,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // ========================
   // 3️⃣ 新增 / 更新商店
-  // ========================
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const name = shopNameInput.value.trim();
     const introduce = shopDescriptionInput.value.trim();
     const store_Img = storeImgInput.files[0];
-
     if (!name) {
       result.textContent = "⚠️ 請輸入賣場名稱";
       return;
@@ -109,12 +98,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       const data = await response.json();
-
-      // ✅ 新增完成後右側顯示卡片
       addStoreCardToRight(data);
-
       result.textContent = `✅ 新增成功！商店名稱：「${data.name}」`;
-
       previewImg.style.display = "none";
       form.reset();
 
@@ -124,18 +109,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // ========================
   // 4️⃣ 顯示右側商店清單
-  // ========================
   function renderStoreList(stores) {
     const container = document.getElementById("storeItems");
     container.innerHTML = "";
     stores.forEach((store) => addStoreCardToRight(store));
   }
 
-  // ========================
   // 5️⃣ 動態新增右側卡片
-  // ========================
   function addStoreCardToRight(store) {
     const container = document.getElementById("storeItems");
     if (!container) return;
