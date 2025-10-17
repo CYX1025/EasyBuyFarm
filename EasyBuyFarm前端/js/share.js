@@ -105,9 +105,19 @@ function initNavbarEvents() {
         });
     }
 
+    document.getElementById("member-btn").addEventListener("click", e=> {
+        alert('enter');
+        e.preventDefault();
+        loadMember2();
+    });
+
     // 下拉選單初始化
     initDropdown();
 }
+
+function loadMember2(){
+    alert('test');
+} 
 
 function initDropdown() {
     const dropdownBtn = document.querySelector(".dropbtn");
