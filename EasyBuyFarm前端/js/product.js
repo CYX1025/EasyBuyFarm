@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>$${p.price}元</p>
           <p>重量 ${p.weight}</p>
         `;
+
+        div.addEventListener("click", () => {
+          window.location.href = '/html/product/productdetail.html?id=' + p.id;
+        
+        });
         productList.appendChild(div);
       });
     })
