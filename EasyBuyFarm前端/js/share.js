@@ -11,58 +11,161 @@ function saveCart() {
 // DOMContentLoaded 主程式
 // ======================================
 document.addEventListener("DOMContentLoaded", async () => {
-    // 1️⃣ 取得 Navbar 佔位符
+    // -------------------------------
+    // 1️⃣ 載入 Navbar
+    // -------------------------------
     const navbarContainer = document.getElementById("navbar-placeholder");
 
     if (navbarContainer) {
         try {
-            // 請求 header.html
             const headerResponse = await fetch('../../html/order/header.html');
             if (!headerResponse.ok) throw new Error(`載入 header.html 失敗 (HTTP ${headerResponse.status})`);
-
             const headerHtml = await headerResponse.text();
-            navbarContainer.innerHTML = headerHtml; // ✅ 插入 Navbar HTML
+            navbarContainer.innerHTML = headerHtml;
 
-            // 初始化 Navbar 相關功能
+            // 初始化 Navbar
             initNavbarEvents();
             updateNavbarStatus();
             updateCartCount();
             initSellerButton();
-
         } catch (err) {
             console.error("載入 Navbar 失敗:", err.message);
-            // 即使載入失敗，也初始化其他功能
-            updateNavbarStatus(); 
-            updateCartCount(); 
+            updateNavbarStatus();
+            updateCartCount();
         }
     } else {
-        // 沒有佔位符時，直接初始化
+        // 沒有佔位符
         initNavbarEvents();
         updateNavbarStatus();
         updateCartCount();
         initSellerButton();
     }
 
+    // -------------------------------
     // 2️⃣ 載入 Footer
+    // -------------------------------
     await loadFooter();
 
-    // 3️⃣ 頁面通用初始化（與 Navbar 無關）
+    // -------------------------------
+    // 3️⃣ 通用初始化
+    // -------------------------------
     renderCartItems();
-
-    // 4️⃣ 頁面特有功能初始化
     initRegisterForm();
     initEditProfile();
 
-    // 5️⃣ 如果是會員頁面，載入會員資料
+    // -------------------------------
+    // 4️⃣ 會員資料載入
+    // -------------------------------
     if (document.getElementById('edit-profile-form') || document.getElementById('profile-lastName')) {
         loadMemberProfile();
     }
 
-    // 6️⃣ 登入表單監聽
+    // -------------------------------
+    // 5️⃣ 登入表單監聽
+    // -------------------------------
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
         loginForm.removeEventListener("submit", loginUser);
         loginForm.addEventListener("submit", loginUser);
+    }
+
+    // -------------------------------
+    // 6️⃣ 賣場表單/卡片權限控制
+    // -------------------------------
+    const user = getLoggedInUser();
+    const createForm = document.getElementById("create-marketplace-form");
+    const storeCardsContainer = document.getElementById("storeCardsContainer");
+
+    // 如果不是賣家或未登入，隱藏左側建立賣場表單
+    if (createForm && (!user || user.role?.toUpperCase() !== 'SELLER')) {
+        createForm.style.display = "none";
+    }
+
+    // 如果沒有右側賣場清單容器，不執行以下
+    if (storeCardsContainer) {
+        try {
+            const res = await fetch("http://localhost:8080/easybuyfarm/stores");
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const stores = await res.json();
+
+            storeCardsContainer.innerHTML = "";
+            if (stores.length === 0) {
+                storeCardsContainer.innerHTML = "<p>目前尚無建立任何賣場。</p>";
+            } else {
+                stores.forEach(store => {
+                    const card = document.createElement("div");
+                    card.classList.add("store-card");
+
+                    // 圖片
+                    const img = document.createElement("img");
+                    img.classList.add("store-img");
+                    img.src = store.storeImg ? `/uploads/store/${store.storeImg}` : "https://placehold.co/200x150?text=No+Image";
+                    img.alt = store.name;
+
+                    // 名稱
+                    const name = document.createElement("h3");
+                    name.textContent = store.name;
+
+                    // 簡介
+                    const intro = document.createElement("p");
+                    intro.textContent = store.introduce || "（尚無介紹）";
+
+                    // 修改 / 刪除按鈕（僅賣家可見）
+                    const actionsDiv = document.createElement("div");
+                    actionsDiv.classList.add("store-actions");
+
+                    if (user?.role?.toUpperCase() === 'SELLER') {
+                        const editBtn = document.createElement("button");
+                        editBtn.textContent = "修改";
+                        editBtn.addEventListener("click", e => {
+                            e.stopPropagation();
+                            window.location.href = `/html/store/editstore.html?storeId=${store.storeId}`;
+                        });
+
+                        const deleteBtn = document.createElement("button");
+                        deleteBtn.textContent = "刪除";
+                        deleteBtn.addEventListener("click", async e => {
+                            e.stopPropagation();
+                            if (confirm("確定要刪除此賣場嗎？")) {
+                                try {
+                                    const delRes = await fetch(`http://localhost:8080/easybuyfarm/stores/${store.storeId}`, {
+                                        method: "DELETE",
+                                        credentials: "include"
+                                    });
+                                    if (delRes.ok) {
+                                        alert("刪除成功");
+                                        card.remove();
+                                    } else {
+                                        alert("刪除失敗");
+                                    }
+                                } catch (err) {
+                                    console.error(err);
+                                    alert("網路錯誤，無法刪除");
+                                }
+                            }
+                        });
+
+                        actionsDiv.appendChild(editBtn);
+                        actionsDiv.appendChild(deleteBtn);
+                    }
+
+                    card.appendChild(img);
+                    card.appendChild(name);
+                    card.appendChild(intro);
+                    card.appendChild(actionsDiv);
+
+                    // 點擊卡片進入賣場商品頁
+                    card.addEventListener("click", () => {
+                        window.location.href = `/html/product/productlist.html?storeId=${store.storeId}`;
+                    });
+
+                    storeCardsContainer.appendChild(card);
+                });
+            }
+        } catch (err) {
+            console.error("載入賣場清單失敗:", err);
+            storeCardsContainer.innerHTML = `<p class="error">❌ 載入失敗：${err.message}</p>`;
+        }
     }
 });
 
@@ -172,7 +275,7 @@ function updateNavbarStatus() {
 // ======================================
 async function logoutUser() {
     try {
-        await fetch("/easybuyfarm/api/members/logout", { method: "POST" });
+        await fetch("/easybuyfarm/api/members/logout", { method: "POST", credentials: "include" });
     } catch (err) {
         console.error("登出 API 錯誤:", err);
     }
@@ -183,13 +286,14 @@ async function logoutUser() {
 }
 
 function getLoggedInUser() {
-    const userString = localStorage.getItem("loggedInUser");
+    const userStr = localStorage.getItem("loggedInUser");
     try {
-        return userString ? JSON.parse(userString) : null;
-    } catch {
-        return userString || null;
-    }
+        return userStr ? JSON.parse(userStr) : null;
+    } catch { return null; }
 }
+
+
+
 
 
 
@@ -339,6 +443,7 @@ function initSellerButton() {
                 try {
                     const res = await fetch(`/easybuyfarm/api/members/upgradeSeller`, {
                         method: "PUT",
+                        credentials: "include",
                         headers: { "Content-Type": "application/json" }
                     });
 
