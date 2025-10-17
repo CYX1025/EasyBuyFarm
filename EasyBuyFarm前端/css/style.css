@@ -810,7 +810,7 @@ body.modal-open #be-seller-btn {
 .modal-independent {
     display: none; /* 預設隱藏 */
     position: fixed;
-    z-index: 2000; /* 確保比 navbar、dropdown 高 */
+    z-index: 10000; /* 確保比 navbar、dropdown 高 */
     top: 0;
     left: 0;
     width: 100%;
