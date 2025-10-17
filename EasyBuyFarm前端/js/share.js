@@ -301,7 +301,7 @@ function initSellerButton() {
 			if (user.role === 'seller'|| user.role === 'SELLER'){
 			                // 如果用戶物件本身就標記為 'seller'，直接導向賣家中心，阻止重複註冊
 			                alert("您已是賣家，即將導向我的賣場。");
-			                window.location.href = "/html/storelist/storelist.html"; // 替換為你的賣家中心頁面
+			                window.location.href = "/html/storelist/editStore.html"; // 替換為你的賣家中心頁面
 			                return; // 執行完畢，結束函式
 			            }
 
@@ -311,7 +311,7 @@ function initSellerButton() {
             if (currentRole === 'SELLER') {
                 // 狀況一：已是賣家 (按鈕顯示「我的賣場」)
                 // 直接導向賣家儀表板
-                window.location.href = "/html/storelist/storelist.html"; // 替換為你的賣家中心頁面
+                window.location.href = "/html/storelist/editStore.html"; // 替換為你的賣家中心頁面
             } else {
                 // 狀況二：一般會員 (按鈕顯示「成為賣家」)
                 
