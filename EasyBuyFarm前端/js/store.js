@@ -1,4 +1,3 @@
-// store.js
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("storeCardsContainer");
   if (!container) {
@@ -7,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const user = getLoggedInUser(); // 取得登入會員資訊
+  const token = localStorage.getItem("authToken"); // 假設 token 存 localStorage
 
   fetch("http://localhost:8080/easybuyfarm/stores")
     .then(response => {
@@ -25,11 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.createElement("div");
         card.classList.add("store-card");
 
+        // 賣場圖片
         const img = document.createElement("img");
         img.classList.add("store-img");
         img.src = store.storeImg
           ? `/uploads/store/${store.storeImg}`
-          : "https://placehold.co/200x150?text=No+Image";
+          : "/images/no-image.png"; // 本地預設圖
         img.alt = store.name;
 
         const name = document.createElement("h3");
@@ -47,14 +48,56 @@ document.addEventListener("DOMContentLoaded", () => {
           const btnWrapper = document.createElement("div");
           btnWrapper.classList.add("store-btn-wrapper");
 
+          // 編輯賣場
+          const editStoreBtn = document.createElement("button");
+          editStoreBtn.textContent = "編輯賣場";
+          editStoreBtn.classList.add("store-btn");
+          editStoreBtn.addEventListener("click", e => {
+            e.stopPropagation();
+            window.location.href = `/html/store/editstore.html?Id=${store.id}`;
+          });
+
+          // 刪除賣場
+          const deleteStoreBtn = document.createElement("button");
+          deleteStoreBtn.textContent = "刪除賣場";
+          deleteStoreBtn.classList.add("store-btn");
+          deleteStoreBtn.addEventListener("click", async e => {
+            e.stopPropagation();
+
+            if (!store.id) return alert("商店 ID 不存在，無法刪除");
+            if (!token) return alert("未取得登入憑證，無法刪除商店");
+            if (!confirm(`確定要刪除 ${store.name} 嗎？`)) return;
+
+            try {
+              const res = await fetch(`http://localhost:8080/easybuyfarm/stores/delete/${store.id}`, {
+                method: "DELETE",
+                headers: { "Authorization": "Bearer " + token }
+              });
+
+              if (res.ok) {
+                alert("刪除成功");
+                card.remove();
+              } else {
+                const text = await res.text();
+                alert("刪除失敗：" + res.status + " " + text);
+              }
+            } catch (err) {
+              console.error(err);
+              alert("刪除失敗，網路錯誤");
+            }
+          });
+
+          // 新增商品
           const addProductBtn = document.createElement("button");
           addProductBtn.textContent = "新增商品";
           addProductBtn.classList.add("store-btn");
           addProductBtn.addEventListener("click", e => {
             e.stopPropagation();
-            window.location.href = `/html/product/addproduct.html?storeId=${store.storeId}`;
+            window.location.href = `/html/product/addproduct.html?storeId=${store.id}`;
           });
 
+          btnWrapper.appendChild(editStoreBtn);
+          btnWrapper.appendChild(deleteStoreBtn);
           btnWrapper.appendChild(addProductBtn);
           card.appendChild(btnWrapper);
 
@@ -63,9 +106,9 @@ document.addEventListener("DOMContentLoaded", () => {
           productList.classList.add("product-list");
 
           try {
-            const res = await fetch(`http://localhost:8080/easybuyfarm/products?storeId=${store.storeId}`);
-            if (res.ok) {
-              const products = await res.json();
+            const prodRes = await fetch(`http://localhost:8080/easybuyfarm/products?storeId=${store.id}`);
+            if (prodRes.ok) {
+              const products = await prodRes.json();
               products.forEach(product => {
                 const li = document.createElement("li");
                 li.textContent = `${product.name} - NT$${product.price}`;
@@ -94,7 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
                       if (delRes.ok) {
                         li.remove();
                       } else {
-                        alert("刪除商品失敗");
+                        const text = await delRes.text();
+                        alert("刪除商品失敗：" + text);
                       }
                     } catch (err) {
                       console.error(err);
@@ -118,8 +162,9 @@ document.addEventListener("DOMContentLoaded", () => {
           card.appendChild(productList);
         }
 
+        // 點擊卡片導向商品清單頁
         card.addEventListener("click", () => {
-          window.location.href = `/html/product/productlist.html?storeId=${store.storeId}`;
+          window.location.href = `/html/product/productlist.html?storeId=${store.id}`;
         });
 
         container.appendChild(card);
@@ -131,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// 取得登入會員資料
 function getLoggedInUser() {
   const userString = localStorage.getItem("loggedInUser");
   try {
