@@ -827,6 +827,12 @@ body.modal-open #be-seller-btn {
 
 /* 彈窗內容 */
 .modal-content-independent {
+  /*彈窗視窗*/
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
     background-color: #fefefe;
     padding: 30px;
     border: 1px solid #ddd;
@@ -836,7 +842,6 @@ body.modal-open #be-seller-btn {
     overflow-y: auto;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative;
 }
 
 /* 關閉按鈕 */
