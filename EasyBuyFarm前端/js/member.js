@@ -1,5 +1,5 @@
 
-/*
+
 //頁頭
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("DOM 加載完成"); // 確認 DOM 加載完成
@@ -63,7 +63,7 @@ async function loadFooter() {
         console.error("載入 Footer 時發生錯誤:", error);
     }
 }
-*/
+
 
 
 // ==============================
@@ -182,7 +182,6 @@ async function loginUser(event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(loginData),
-            credentials: "include"
         });
 
         // 檢查回應狀態
@@ -361,10 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('更新會員資料時發生錯誤，請稍後再試');
             }
         });
+        
+        // 初始載入會員資料
+        loadMemberProfile();
     }
-
-    // 初始載入會員資料
-    loadMemberProfile();
 });
 
 // ==============================

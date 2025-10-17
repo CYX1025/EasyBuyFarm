@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
   <meta charset="UTF-8">
   <title>EasyBuyFarm好農易</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/share.js" defer></script>
   <script src="/js/member.js"></script>
+  <script src="/js/order.js"></script>
 </head>
+
 <body>
 
-<div id="navbar-placeholder"></div>
+  <div id="navbar-placeholder"></div>
 
   <!-- 會員中心內容 -->
   <div class="member-container">
@@ -29,17 +32,17 @@
       <section id="profile" class="section">
         <h3>個人資料</h3>
         <div class="profile-info">
-    
-    <div class="info">
-      <p><strong>姓：</strong><span id="profile-lastName">*</span></p>
-	<p><strong>名：</strong><span id="profile-firstName">*</span></p>
-	<p><strong>Email：</strong><span id="profile-email">*</span></p>
-	<p><strong>電話：</strong><span id="profile-phone">*</span></p>
-	<p><strong>生日：</strong><span id="profile-birthday">*</span></p>
-	<p><strong>地址：</strong><span id="profile-address">*</span></p>
-      <button id="edit-profile-btn" class="btn">編輯個人資料</button>
-    </div>
-</div>
+
+          <div class="info">
+            <p><strong>姓：</strong><span id="profile-lastName">*</span></p>
+            <p><strong>名：</strong><span id="profile-firstName">*</span></p>
+            <p><strong>Email：</strong><span id="profile-email">*</span></p>
+            <p><strong>電話：</strong><span id="profile-phone">*</span></p>
+            <p><strong>生日：</strong><span id="profile-birthday">*</span></p>
+            <p><strong>地址：</strong><span id="profile-address">*</span></p>
+            <button id="edit-profile-btn" class="btn">編輯個人資料</button>
+          </div>
+        </div>
       </section>
 
       <!-- 訂單紀錄 -->
@@ -48,28 +51,17 @@
         <table>
           <thead>
             <tr>
+              <th>訂單ID</th>
               <th>訂單編號</th>
-              <th>日期</th>
-              <th>狀態</th>
+              <th>客戶編號</th>
+              <th>訂單日期</th>
+              <th>付款方式</th>
               <th>總金額</th>
               <th>操作</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>#12345</td>
-              <td>2025/09/20</td>
-              <td>已出貨</td>
-              <td>NT$1,200</td>
-              <td><a href="#">查看</a></td>
-            </tr>
-            <tr>
-              <td>#12346</td>
-              <td>2025/09/18</td>
-              <td>待處理</td>
-              <td>NT$800</td>
-              <td><a href="#">查看</a></td>
-            </tr>
+          <tbody id="orders-tbody">
+            <tr><td colspan="6">載入中…</td></tr>
           </tbody>
         </table>
       </section>
@@ -91,39 +83,44 @@
 
       <!-- 帳戶設定 -->
       <section id="settings" class="section">
-        
+
       </section>
       <!-- 編輯資料 Modal -->
-<div id="edit-profile-modal" class="modal-independent">
-    <div class="modal-content-independent">
-        <span class="close-btn">&times;</span>
-    <h3>編輯個人資料</h3>
-    <form id="edit-profile-form">
+      <div id="edit-profile-modal" class="modal-independent">
+        <div class="modal-content-independent">
+          <span class="close-btn">&times;</span>
+          <h3>編輯個人資料</h3>
+          <form id="edit-profile-form">
 
-<label for="lastName">姓：</label>
-<input type="text" id="lastName" name="lastName" required><p>
+            <label for="lastName">姓：</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <p>
 
-<label for="firstName">名：</label>
-<input type="text" id="firstName" name="firstName" required><p>
+              <label for="firstName">名：</label>
+              <input type="text" id="firstName" name="firstName" required>
+            <p>
 
-<label for="passwordEdit">密碼：</label>
-<input type="password" id="passwordEdit" name="passwordEdit"><p>
+              <label for="passwordEdit">密碼：</label>
+              <input type="password" id="passwordEdit" name="passwordEdit">
+            <p>
 
-<label for="birthday">生日：</label>
-<input type="date" id="birthday" name="birthday"><p>
+              <label for="birthday">生日：</label>
+              <input type="date" id="birthday" name="birthday">
+            <p>
 
-<label for="address">地址：</label>
-<input type="text" id="address" name="address">
-      
-      <button type="submit">儲存變更</button>
-    </form>
-  </div>
-</div>
-      
-      
+              <label for="address">地址：</label>
+              <input type="text" id="address" name="address">
+
+              <button type="submit">儲存變更</button>
+          </form>
+        </div>
+      </div>
+
+
     </main>
   </div>
 
-<div id="loadFooter"></div>
+  <div id="loadFooter"></div>
 </body>
+
 </html>

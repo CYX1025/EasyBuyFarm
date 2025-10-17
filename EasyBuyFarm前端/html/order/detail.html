@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>訂單明細</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/share.js" defer></script>
+  <script src="/js/member.js"></script>
+  <script src="/js/order-detail.js" defer></script>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <main class="member-main">
+    <section class="section">
+      <h3>訂單明細</h3>
+      <div id="order-meta" style="margin: 8px 0;"></div>
+      <br>
+      <br>
+      <table>
+        <thead>
+          <tr>
+            <th>產品編號</th>
+            <th>產品名稱</th>
+            <th>商店名稱</th>
+            <th>單價</th>
+            <th>數量</th>
+            <th>小計</th>
+          </tr>
+        </thead>
+        <tbody id="detail-tbody">
+          <tr><td colspan="6">載入中…</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5" class="text-right">總金額</td>
+            <td id="detail-total" class="text-right">NT$0.00</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p style="margin-top:12px;"><a href="/html/member/member.html#order">← 返回訂單列表</a></p>
+    </section>
+  </main>
+
+  <div id="loadFooter"></div>
+</body>
+</html>
