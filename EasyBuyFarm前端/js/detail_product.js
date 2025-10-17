@@ -21,13 +21,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (product.productImg && product.productImg.trim() !== "") {
       imgElement.src = `http://localhost:8080/uploads/product/${product.productImg}`;
     } else {
-      imgElement.src = "/images/default.png"; // 預設圖片
+      imgElement.src = "../../images/default.png"; // 預設圖片
     }
-
-    // ✅ 如果載入圖片失敗（例如檔案不存在），改用預設圖
-    imgElement.onerror = () => {
-      imgElement.src = "/images/default.png";
-    };
 
     // ✅ 填入其他資料
     document.getElementById("productName").textContent = product.name || "未命名商品";

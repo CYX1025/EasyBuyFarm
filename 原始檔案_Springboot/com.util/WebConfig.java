@@ -13,6 +13,9 @@ public class WebConfig implements WebMvcConfigurer{
 		//讓前端可以抓取圖片資料用的程式碼
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:uploads/");
+        
+        registry.addResourceHandler("/images/**")
+        .addResourceLocations("classpath:/static/images/");
     }
 	
 	
