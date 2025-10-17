@@ -172,7 +172,7 @@ function updateNavbarStatus() {
 // ======================================
 async function logoutUser() {
     try {
-        await fetch("/easybuyfarm/api/members/logout", { method: "POST", credentials: "include" });
+        await fetch("/easybuyfarm/api/members/logout", { method: "POST" });
     } catch (err) {
         console.error("登出 API 錯誤:", err);
     }
@@ -339,7 +339,6 @@ function initSellerButton() {
                 try {
                     const res = await fetch(`/easybuyfarm/api/members/upgradeSeller`, {
                         method: "PUT",
-                        credentials: "include",
                         headers: { "Content-Type": "application/json" }
                     });
 
