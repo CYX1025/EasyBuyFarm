@@ -291,7 +291,7 @@ main {
 /* ======================================
    首頁商品區排版 Home
    ====================================== */
-.home {
+main.home {
     background: linear-gradient(to bottom, #8ab2f8, #1bdee8,#49e97e, #efa417); 
     display: flex;              /* 啟用 Flex */
     flex-direction: column;     /* 垂直排列 */
@@ -299,6 +299,7 @@ main {
     align-items: center;        /* 水平置中 */
     min-height: calc(100vh - 100px); /* 扣掉 navbar 高度 */
     padding: 20px;
+    padding-top: 100px;
 }
 
 /* 登入頁容器 */
@@ -952,4 +953,37 @@ body.modal-open-independent > *:not(.modal-independent) {
     cursor: pointer;
     margin-left: 5px;
     color: #40a9ff;
+}
+.store-buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.store-card {
+  display: flex;           /* 左右排列 */
+  gap: 15px;
+  width: 300px;            /* 每張卡片寬度 */
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.store-card img {
+  width: 120px;            /* 左側圖片固定寬度 */
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.store-card .card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;                 /* 文字區自動填滿剩餘空間 */
 }

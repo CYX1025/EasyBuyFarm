@@ -304,9 +304,11 @@ button:hover, .btn:hover {
 }
 
 .store-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  flex: 1.5;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 
 .store-item {
@@ -434,3 +436,130 @@ table th { background: #f7f7f7; }
 .seller-card .card-content { padding: 15px; }
 .seller-card .card-title { font-weight: bold; margin-bottom: 5px; }
 .seller-card .card-desc { font-size: 14px; color: #555; margin-bottom: 10px; }
+
+/* ========== 賣場右側卡片 ========== */
+#result {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.store-card {
+  width: 200px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.store-card img {
+  width: 100%;
+  height: 120px;        /* ✅ 控制圖片高度 */
+  object-fit: cover;    /* ✅ 自動縮放裁切 */
+  border-radius: 6px;
+}
+
+.market-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.form-container {
+  flex: 1;
+  max-width: 400px;
+}
+
+/* 右側賣場清單 */
+.store-list {
+  flex: 1.5;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+/* 卡片排列 */
+.store-buttons-wrapper {
+  display: flex;
+  flex-direction: row;   /* 橫排 */
+  flex-wrap: wrap;       /* 超出換行 */
+  gap: 20px;
+  margin-top: 15px;
+}
+
+/* 單張賣場卡片樣式 */
+.store-card {
+  display: flex;         /* 左右排列 */
+  gap: 15px;
+  width: 350px;          /* 卡片寬度 */
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.store-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* 卡片圖片 */
+.store-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* 名稱與簡介 */
+.store-card h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.store-card p {
+  margin: 5px 0 0;
+  font-size: 0.95em;
+  color: #555;
+}
+
+/* 文字區域自動填滿剩餘空間 */
+.store-card .card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.product-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+}
