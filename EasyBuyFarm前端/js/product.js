@@ -16,23 +16,39 @@ document.addEventListener("DOMContentLoaded", () => {
         productList.innerHTML = "<p>暫無商品資料</p>";
         return;
       }
+products.forEach(p => {
+  const div = document.createElement("div");
+  div.classList.add("product-card");
 
-      products.forEach(p => {
-        const div = document.createElement("div");
-        div.classList.add("product-card");
-        div.innerHTML = `
-          <img src="http://localhost:8080/uploads/product/${p.productImg}" alt="${p.name}">
-          <h3>${p.name}</h3>
-          <p>$${p.price}元</p>
-          <p>重量 ${p.weight}</p>
-        `;
+  //  判斷圖片是否存在
+  const imgSrc = p.productImg && p.productImg.trim() !== ""
+    ? `http://localhost:8080/uploads/product/${p.productImg}`
+    : "/images/default.png"; // 預設圖片路徑
 
-        div.addEventListener("click", () => {
-          window.location.href = '/html/product/productdetail.html?id=' + p.id;
-        
-        });
-        productList.appendChild(div);
-      });
+  //  建立商品卡內容
+  div.innerHTML = `
+    <img src="${imgSrc}" alt="${p.name}">
+    <h3>${p.name}</h3>
+    <p>$${p.price}元</p>
+    <p>重量 ${p.weight}</p>
+  `;
+
+  // 若圖片載入失敗，改用預設圖片
+  const img = div.querySelector("img");
+  img.onerror = function () {
+    this.onerror = null; // 防止無限觸發
+    this.src = "/images/default.png";
+  };
+
+  //  點擊跳轉商品詳情頁
+  div.addEventListener("click", () => {
+    window.location.href = `/html/product/productdetail.html?id=${p.id}`;
+  });
+
+  // ✅ 加入商品卡片到列表
+  productList.appendChild(div);
+});
+
     })
     .catch(err => {
       console.error("載入商品列表失敗:", err);

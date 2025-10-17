@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
 
+  const detailContainer = document.querySelector(".product-detail");
   if (!productId) {
-    document.querySelector(".product-detail").innerHTML = "<p>❌ 找不到商品 ID。</p>";
+    if (detailContainer) detailContainer.innerHTML = "<p>❌ 找不到商品 ID。</p>";
     return;
   }
 
@@ -15,23 +16,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const product = await response.json();
 
-    // ✅ 圖片顯示邏輯（含預設圖片）
+    // ------------------------
+    // 圖片處理（含預設圖片 + 載入失敗）
+    // ------------------------
     const imgElement = document.getElementById("productImg");
+    if (imgElement) {
+      imgElement.src = (product.productImg && product.productImg.trim() !== "")
+        ? `http://localhost:8080/uploads/product/${product.productImg}`
+        : "/images/default.png";
 
-    if (product.productImg && product.productImg.trim() !== "") {
-      imgElement.src = `http://localhost:8080/uploads/product/${product.productImg}`;
-    } else {
-      imgElement.src = "../../images/default.png"; // 預設圖片
+      imgElement.onerror = function() {
+        this.onerror = null; // 避免循環
+        this.src = "/images/default.png";
+      };
     }
 
-    // ✅ 填入其他資料
-    document.getElementById("productName").textContent = product.name || "未命名商品";
-    document.getElementById("productIntroduce").textContent = product.introduce || "暫無商品描述";
-    document.getElementById("productPrice").textContent = product.price ? `$${product.price}` : "未定價";
-    document.getElementById("productWeight").textContent = product.weight || "無資料";
-    document.getElementById("productSalequantity").textContent = product.salequantity || "無庫存資料";
+    // ------------------------
+    // 填入其他商品資料
+    // ------------------------
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value || "無資料";
+    };
 
-    // ✅ 加入購物車按鈕事件
+    setText("productName", product.name || "未命名商品");
+    setText("productIntroduce", product.introduce || "暫無商品描述");
+    setText("productPrice", product.price ? `$${product.price}` : "未定價");
+    setText("productWeight", product.weight || "無資料");
+    setText("productSalequantity", product.salequantity || "無庫存資料");
+
+    // ------------------------
+    // 購物車按鈕事件
+    // ------------------------
     const buyBtn = document.getElementById("buyBtn");
     if (buyBtn) {
       buyBtn.addEventListener("click", () => {
@@ -41,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   } catch (error) {
     console.error("載入商品失敗:", error);
-    document.querySelector(".product-detail").innerHTML =
+    if (detailContainer) detailContainer.innerHTML =
       "<p>❌ 商品資料載入失敗，請稍後再試。</p>";
   }
 });
