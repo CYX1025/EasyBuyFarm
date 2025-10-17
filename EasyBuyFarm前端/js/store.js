@@ -7,13 +7,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const user = getLoggedInUser(); // 取得登入會員資訊
   const token = localStorage.getItem("token"); // 假設 token 存 localStorage
-  console.log(user.memberId)
+  
 
   try {
     const res = await fetch("http://localhost:8080/easybuyfarm/stores");
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const stores = await res.json();
     container.innerHTML = "";
+    console.log(stores)
+    console.log(user.memberId)
 
     if (stores.length === 0) {
       container.innerHTML = "<p>目前尚無建立任何賣場。</p>";
@@ -58,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // ------------------------
       // 賣場操作按鈕（僅自己賣場）
       // ------------------------
-      if (user && user.role?.toUpperCase() === "SELLER" && user.memberId === store.memberToStore.memberId) {
+      if (user && user.role?.toUpperCase() === "SELLER" && user.memberId === store.memberToStore?.memberId) {
         const btnWrapper = document.createElement("div");
         btnWrapper.classList.add("store-btn-wrapper");
 
