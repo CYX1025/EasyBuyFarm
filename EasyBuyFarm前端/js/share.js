@@ -282,7 +282,7 @@ async function logoutUser() {
     localStorage.removeItem("loggedInUser");
     alert("已登出");
     updateNavbarStatus();
-    window.location.href = "./html/index/index.html";
+    window.location.href = "/html/index/index.html";
 }
 
 function getLoggedInUser() {
