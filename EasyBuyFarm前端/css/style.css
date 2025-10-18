@@ -137,6 +137,11 @@ body {
     font-size: 18px;
 }
 
+/* 調整成為賣家的按鈕位置 */
+#be-seller-btn{
+  margin-right: 50px;
+}
+
 /* 按鈕樣式 (通用) */
 button {
     background: linear-gradient(to right, #ff7e5f, #ee4d2d);
