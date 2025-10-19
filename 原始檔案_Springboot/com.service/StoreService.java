@@ -100,6 +100,12 @@ public class StoreService {
 		return storedao.findById(id).orElse(null);
 	}
 	
+	//根據商店id找商店
+	public Store findByStoreId(String storeId)
+	{
+		return storedao.findByStoreId(storeId);
+	}
+	
 	//根據會員ID找商店
 	public List<Store> findByMemberId(String memberId)
 	{

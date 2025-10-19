@@ -101,11 +101,18 @@ public class StoreController {
 	}
 	
 	//根據ID找商店
-		@GetMapping("/id/{id}")
-	    public Store getStoreById(@PathVariable int id) 
-		{
-	        return storeservice.findById(id);
-	    }
+	@GetMapping("/id/{id}")
+	public Store getStoreById(@PathVariable int id) 
+	{
+	      return storeservice.findById(id);
+	}
+	
+	//根據商店ID找商店
+	@GetMapping("/storeId/{storeId}")
+	public Store getStoreByStoreId(@PathVariable String storeId) 
+	{
+	      return storeservice.findByStoreId(storeId);
+	}
 	
 	//根據會員ID找商店
 	@GetMapping("/member/{memberId}")
