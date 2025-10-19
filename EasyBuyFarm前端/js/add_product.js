@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const productDetailInput = document.getElementById("productDetail");
   const productImgInput = document.getElementById("productImg");
   const previewImg = document.getElementById("previewImg");
-
   const result = document.getElementById("result") || document.createElement("div");
-
+  
+  //驗證登入
   const token = localStorage.getItem("token");
   const loginuser = localStorage.getItem("loggedInUser");
   if (!token||!loginuser) {
@@ -19,8 +19,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const storeId = urlParams.get("storeId");
+  if (storeId) {
+    storeIdInput.value = storeId;
+    storeIdInput.readOnly = true; // 避免使用者修改
+  }
 
-  // 🔹 新增/更新商品
+  // 提交新增商品的表單
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const storeid=storeIdInput.value;
@@ -65,7 +71,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const data = await response.json();
       result.textContent = `✅ 新增/更新成功！商品名稱：「${data.name}」`;
-      //要寫一個導向的語法在這邊喔
       previewImg.style.display = "none";
     } catch (err) {
       console.error(err);

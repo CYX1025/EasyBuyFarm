@@ -2,7 +2,7 @@
   flex: 1.5;
   background: #fafafa;
   border-radius: 12px;
-  padding: 140px 20px 40px;
+  padding: 140px 20px 40px; /* ⬅️ 上方加大空間，避免被 header 蓋住 */
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
   min-height: 100vh;
 }
@@ -76,4 +76,25 @@
   font-size: 0.9rem;
   color: #666;
   margin-top: 6px;
+}
+
+.product-header-actions {
+  display: flex;
+  justify-content: flex-end; /* 靠右對齊 */
+  margin: 10px 0 20px 0;     /* 上下間距，可調整 */
+}
+
+#addProductBtn {
+  padding: 8px 16px;
+  background-color: #2b8a3e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+#addProductBtn:hover {
+  background-color: #238636;
 }

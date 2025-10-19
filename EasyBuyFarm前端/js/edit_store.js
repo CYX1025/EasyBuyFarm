@@ -139,15 +139,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           btnWrapper.classList.add("store-btn-wrapper");
 
          // ====== 取得 DOM 元素 ======
-const editBtn = document.createElement("button");
-const editProfileModal = document.getElementById("edit-profile-modal");
-const closeModalBtn = document.querySelector('.close-btn');
-const editProfileForm = document.getElementById('edit-profile-form');
-let currentStoreId = null;
+        const editBtn = document.createElement("button");
+        const editProfileModal = document.getElementById("edit-profile-modal");
+        const closeModalBtn = document.querySelector('.close-btn');
+        const editProfileForm = document.getElementById('edit-profile-form');
+        let currentStoreId = null;
 
-const editshopNameInput = document.getElementById("name");
-const editshopDescriptionInput = document.getElementById("introduce");
-const editstoreImgInput = document.getElementById("store_img");
+        const editshopNameInput = document.getElementById("name");
+        const editshopDescriptionInput = document.getElementById("introduce");
+        const editstoreImgInput = document.getElementById("store_img");
 
 // ====== 設置「編輯商店」按鈕 ======
 editBtn.textContent = "編輯賣場";
@@ -262,7 +262,7 @@ if (editProfileForm) {
         }
 
         card.addEventListener("click", () => {
-          window.location.href = `/html/product/productlist.html?storeId=${store.storeId}`;
+          window.location.href = `/html/product/editproduct.html?storeId=${store.storeId}`;
         });
 
         container.appendChild(card);

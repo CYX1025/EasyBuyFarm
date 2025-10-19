@@ -1,427 +1,95 @@
-/* ======================================
-   全局樣式 Global Styles
-   ====================================== */
-:root {
-  --z-base: 0;
-  --z-header: 100;
-  --z-dropdown: 200;
-  --z-modal-overlay: 900;
-  --z-modal: 1000;
-  --z-top-modal: 2000;
-}
-
-html, body {
-  font-family: "Microsoft JhengHei", Arial, sans-serif;
-  margin: 0;
-  height: 100%;
-  background: linear-gradient(to right, #fdfbfb, #ebedee);
-  position: relative;
-  z-index: var(--z-base);
-}
-
-body {
-  padding-top: 100px;
-}
-
-.main-content {
-  position: relative;
-  z-index: var(--z-base);
-  padding-top: 120px;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  transition: all 0.3s;
-}
-
-a {
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-/* ======================================
-   導覽列 Navbar
-   ====================================== */
-.navbar {
+.addproduct-page
+{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(to bottom, #8ab2f8);
-  padding: 10px 20px;
-  color: white;
-  position: fixed;
-  top: 0;
+  padding: 140px 20px 40px;
+  justify-content: center; /* 水平置中 */
+}
+
+.form-container {
   width: 100%;
-  z-index: var(--z-header);
-}
-
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 0;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.nav-icons a {
-  color: white;
-  transition: color 0.3s;
-}
-
-.nav-icons a:hover {
-  color: #ffd7c2;
-}
-
-#welcome-message {
-  color: white;
-  font-size: 16px;
-  white-space: nowrap;
-}
-
-.logo {
-  width: 120px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.logo img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* 搜尋框 */
-.search-box {
-  width: 300px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: none;
-  font-size: 14px;
-}
-
-/* ======================================
-   分類選單 Categories
-   ====================================== */
-.categories {
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(to right, #ff9966, #ff5e62);
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.categories a {
-  margin: 0 15px;
-  color: #fff;
-  font-weight: bold;
-  transition: transform 0.2s, color 0.2s;
-}
-
-.categories a:hover {
-  color: #ffe082;
-  transform: scale(1.1);
-}
-
-/* ======================================
-   商品卡片 Product Card
-   ====================================== */
-.product-card {
+  max-width: 600px; /* 表單最大寬度 */
+  height: 90vh; 
+  margin: 20px 0;
   background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin: 10px;
-  padding: 15px;
-  width: 160px;
-  height: 300px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow-y: auto;      /* 超出內容可垂直滾動 */
+  overflow-x: hidden; 
+}
+
+.form-container h2 {
   text-align: center;
-  transition: box-shadow 0.3s, transform 0.2s;
+  margin-bottom: 20px;
 }
 
-.product-card:hover {
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-  transform: translateY(-5px);
+.form-container label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
 }
 
-.product-card img {
-  max-width: 100%;
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-container input[type="file"] {
+  padding: 5px 0;
+}
+
+#previewImg {
+  display: none;
+  width: 150px;
+  margin-top: 10px;
   border-radius: 5px;
 }
 
-.price {
-  color: #ee4d2d;
-  font-weight: bold;
-  font-size: 18px;
+/* ======================================
+   表單按鈕
+   ====================================== */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
 }
 
-/* 按鈕通用樣式 */
-button, .btn {
+.form-actions input[type="submit"] {
+  flex: 1;
   background: linear-gradient(to right, #ff7e5f, #ee4d2d);
   color: white;
-  padding: 8px 12px;
+  padding: 10px;
   border-radius: 20px;
   cursor: pointer;
-  margin-top: 5px;
   transition: all 0.3s;
 }
 
-button:hover, .btn:hover {
+.form-actions input[type="submit"]:hover {
   background: linear-gradient(to right, #ff9966, #ff5e62);
   transform: scale(1.05);
 }
 
 /* ======================================
-   購物車樣式
+   Result 訊息
    ====================================== */
-.cart-page {
-  padding: 20px;
-  background: white;
-  margin: 20px;
-  border-radius: 5px;
-}
-
-#cart-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 15px;
-}
-
-#cart-table th, #cart-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-}
-
-.total {
-  font-size: 18px;
-  font-weight: bold;
-  color: #ee4d2d;
-}
-
-#cart-count {
-  background: red;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 50%;
-  margin-left: 4px;
-}
-
-.continue-shopping {
-  font-size: 16px;
-  color: #185a9d;
-}
-
-.continue-shopping:hover {
-  text-decoration: underline;
+#result {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
 }
 
 /* ======================================
-   表單樣式
+   響應式 (手機/窄螢幕)
    ====================================== */
-.form-container {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  background: white;
-  padding: 40px 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+@media (max-width: 640px) {
+    main.home {
+        padding: 10px;
+    }
+    .form-container {
+        padding: 20px;
+    }
 }
-
-.form-container h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.form-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-container label {
-  margin: 8px 0 4px;
-  font-weight: bold;
-}
-
-.form-container input, .form-container textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-bottom: 15px;
-  box-sizing: border-box;
-}
-
-.form-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.form-actions button {
-  flex: 1;
-}
-
-.btn-primary { background-color: #4CAF50; color: white; }
-.btn-danger { background-color: #f44336; color: white; }
-
-#previewImg {
-  width: 150px;
-  margin-top: 10px;
-  display: block;
-  border-radius: 5px;
-}
-
-/* ======================================
-   賣場管理 Store Management
-   ====================================== */
-.store-management {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-
-}
-
-.left-panel {
-  flex: 1 1 300px;
-  max-width: 400px;
-}
-
-.right-panel {
-  flex: 2 1 500px;
-  max-width: 400px;
-}
-
-.store-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-.store-buttons-List {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  width: 180px;
-  text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.store-buttons-List:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.store-buttons-List img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-.seller-cards {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  width: 180px;
-  text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.store-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.store-item img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.store-item.selected {
-  background-color: #e0f7fa;
-  border-color: #4dd0e1;
-}
-
-@media (max-width: 768px) {
-  .store-management {
-    flex-direction: column;
-  }
-  .left-panel, .right-panel {
-    max-width: 100%;
-  }
-  .store-item {
-    width: 45%;
-  }
-}
-
-@media (max-width: 480px) {
-  .store-item {
-    width: 100%;
-  }
-}
-
-/* ======================================
-   Modal / Overlay
-   ====================================== */
-.modal, .modal-independent {
-  display: none;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.6);
-}
-
-.modal.show, .modal-independent.show {
-  display: flex;
-}
-
-.modal-content, .modal-content-independent {
-  background-color: #fefefe;
-  padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  max-width: 800px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  position: relative;
-}
-
-.close-btn {
-  color: #aaa;
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.close-btn:hover, .close-btn:focus {
-  color: #000;
-}
-
-/* ======================================
-   賣場列表頁面
-   ====================================== */
-.seller-list-container { display: flex; align-items: flex-start; max-width: 1200px; margin: 20px auto; gap: 20px; }
-.seller-cards { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-.seller-card { width: 250px; background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.3s; }
-.seller-card:hover { transform: translateY(-5px); }
-.seller-card img { width: 100%; height: 150px; object-fit: cover; }
-.seller-card .card-content { padding: 15px; }
-.seller-card .card-title { font-weight: bold; margin-bottom: 5px; }
-.seller-card .card-desc { font-size: 14px; color: #555; margin-bottom: 10px; }
