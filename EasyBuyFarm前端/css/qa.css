@@ -1,15 +1,18 @@
-/* ======================================
-   FAQ 常見問題樣式設計（優化版）
-   ====================================== */
 body {
   font-family: "Microsoft JhengHei", Arial, sans-serif;
   background-color: #f6f9f4;
   margin: 0;
-  padding: 40px 20px;
+  padding: 0;
   color: #333;
 }
 
-/* 標題 */
+main.qahome {
+  padding: 80px 20px 20px 20px; /* 上方空間避免 navbar 遮住 */
+}
+.content-offset {
+  margin-top: 300px; /* 調整這個數值對應你的 navbar 高度 */
+}
+
 h2 {
   text-align: center;
   color: #2e7d32;
@@ -19,7 +22,6 @@ h2 {
   font-weight: 700;
 }
 
-/* FAQ 主表格容器 */
 table {
   width: 90%;
   max-width: 900px;
@@ -27,14 +29,12 @@ table {
   border-collapse: collapse;
 }
 
-/* 問題列 */
 th {
   background-color: #e8f5e9;
   border-radius: 8px;
   padding: 0;
 }
 
-/* 問題按鈕 */
 .q {
   width: 100%;
   text-align: left;
@@ -56,7 +56,6 @@ th {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* 展開內容 */
 .desc {
   background-color: #ffffff;
   border-left: 5px solid #66bb6a;
@@ -68,19 +67,13 @@ th {
   color: #333;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: none;
-  animation: fadeIn 0.3s ease;
+  width: 100%;
 }
 
-/* 淡入動畫 */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 響應式調整（手機版） */
+/* 手機版響應式 */
 @media (max-width: 768px) {
-  body {
-    padding: 25px 10px;
+  main.home {
+    padding: 60px 10px 10px 10px;
   }
 
   h2 {
