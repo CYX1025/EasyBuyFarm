@@ -32,6 +32,9 @@ public class OrderController {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("id", o.getId());
         body.put("orderNumber", o.getOrderNumber());
+        if (o.getMemberToOrder() != null) {
+            body.put("customer_id", o.getMemberToOrder().getMemberId());
+        }
         body.put("orderDate", o.getOrderDate());
         body.put("totalAmount", o.getTotalAmount());
         body.put("paymentMethod", o.getPaymentMethod());
@@ -78,12 +81,13 @@ public class OrderController {
             Order created = orderservice.addOrderWithDetails(req.memberId, order, req.details);
             return ResponseEntity.status(HttpStatus.CREATED).body(toOrderBody(created));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增訂單（含明細）失敗");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", e.getClass().getName(), "message", e.getMessage()));
         }
     }
 
     // ---------- 查詢全部 ----------
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAll() {
         return ResponseEntity.ok(toOrderBodyList(orderservice.getAllOrders()));
     }
