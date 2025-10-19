@@ -48,6 +48,37 @@ async function loadOrderDetails(){
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const list = await res.json();
 
+    // 取得商品與商店列表，建立映射以補上商店名稱
+    let products = [];
+    let stores = [];
+    try{
+      const [prodRes, storeRes] = await Promise.all([
+        fetch(`${DETAIL_API_BASE}/products`),
+        fetch(`${DETAIL_API_BASE}/stores`)
+      ]);
+      if (prodRes.ok) products = await prodRes.json();
+      if (storeRes.ok) stores = await storeRes.json();
+    }catch(_){/* 忍受失敗 */}
+
+    // 產品索引：依 id 與 productId（大小寫不敏感）
+    const prodById = new Map();
+    const prodByCodeLower = new Map();
+    (Array.isArray(products)?products:[]).forEach(p=>{
+      const idStr = p?.id!=null ? String(p.id) : null;
+      const codeRaw = p?.productId!=null ? String(p.productId) : (p?.product_id!=null ? String(p.product_id) : null);
+      if (idStr) prodById.set(idStr, p);
+      if (codeRaw) prodByCodeLower.set(codeRaw.trim().toLowerCase(), p);
+    });
+
+    // 商店索引：同時支援數字 id 與字串 storeId
+    const storeNameByAny = new Map();
+    (Array.isArray(stores)?stores:[]).forEach(s=>{
+      const idNum = s?.id!=null ? String(s.id) : null;
+      const sid = s?.storeId!=null ? String(s.storeId) : (s?.store_id!=null ? String(s.store_id) : null);
+      if (idNum) storeNameByAny.set(idNum, s?.name||'');
+      if (sid)   storeNameByAny.set(sid,   s?.name||'');
+    });
+
     if(!Array.isArray(list) || list.length===0){
       tbody.innerHTML = `<tr><td colspan="6">此訂單沒有明細</td></tr>`;
       totalEl.textContent = 'NT$0.00';
@@ -60,11 +91,31 @@ async function loadOrderDetails(){
       const qty = Number(d.quantity || 0);
       const subtotal = Number(d.subtotal || unitPrice * qty);
       sum += subtotal;
+      // 比對商店名稱
+      const keyLower = d.productId!=null ? String(d.productId).trim().toLowerCase() : '';
+      let prod = prodByCodeLower.get(keyLower);
+      if (!prod && d.productId!=null && !isNaN(Number(d.productId))) {
+        prod = prodById.get(String(Number(d.productId)));
+      }
+
+      let computedStoreName = '';
+      if (prod) {
+        // product.storeId 可能是物件，亦可能是字串/數字
+        const pStore = prod.storeId ?? prod.store_id;
+        if (pStore && typeof pStore === 'object') {
+          computedStoreName = pStore.name || '';
+        } else if (pStore != null) {
+          computedStoreName = storeNameByAny.get(String(pStore)) || '';
+        }
+      }
+
+      const storeName = d.storeName || computedStoreName;
+
       return `
         <tr>
           <td>${escapeHtml(d.productId)}</td>
           <td>${escapeHtml(d.productName)}</td>
-          <td>${escapeHtml(d.storeName)}</td>
+          <td>${escapeHtml(storeName)}</td>
           <td class="text-right">${fmtCurrency(unitPrice)}</td>
           <td class="text-right">${qty}</td>
           <td class="text-right">${fmtCurrency(subtotal)}</td>

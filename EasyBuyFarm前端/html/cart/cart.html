@@ -2,9 +2,11 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>EasyBuyFarm好農易</title>
+  <title>EasyBuyFarm 購物車</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/share.js" defer></script>
+  <script src="/js/checkout.js" defer></script>
 </head>
 <body>
 
@@ -13,11 +15,32 @@
 <main class="login-container">
   <h2>購物車</h2>
   <ul id="cart-items"></ul>
-  <p id="cart-total">總金額: $0</p>
-  <button onclick="clearCart()">清空購物車</button>
-  <button class="btn">結帳</button>
+  <p id="cart-total">合計: $0</p>
+  <div style="margin-top:8px;">
+    <button onclick="clearCart()">清空購物車</button>
+    <button id="checkout-btn" class="btn">結帳</button>
+  </div>
+
+  <section id="checkout-section" style="display:none; margin-top:16px;">
+    <h3>結帳確認</h3>
+    <ul id="checkout-items" style="margin-bottom:8px;"></ul>
+    <p id="checkout-total" style="font-weight:bold;">合計: $0</p>
+
+    <div style="margin:12px 0;">
+      <label style="margin-right:8px;">支付方式：</label>
+      <label><input type="radio" name="payment" value="CREDIT_CARD" checked> 信用卡</label>
+      <label style="margin-left:12px;"><input type="radio" name="payment" value="CASH"> 現金</label>
+    </div>
+
+    <div style="margin-top:8px;">
+      <button id="confirm-order-btn" class="btn">確認訂單</button>
+      <button id="cancel-checkout-btn" type="button">取消</button>
+    </div>
+  </section>
 </main>
-  <!-- 頁腳 -->
-    <div id="loadFooter"></div>
+
+<div id="loadFooter"></div>
+
 </body>
 </html>
+
