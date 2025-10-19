@@ -33,8 +33,8 @@
         </div>
 
         <div class="form-group">
-          <label for="storeImg">賣場封面圖片</label>
-          <input type="file" id="storeImg" accept="images/*">
+          <label for="store_img">賣場封面圖片</label>
+          <input type="file" id="store_img" accept="images/*">
           <img id="previewImg" style="display:none; width:150px; margin-top:10px;">
         </div>
 
@@ -53,6 +53,30 @@
         </div>
       </div>
     </div>
+
+    <!-- 編輯資料 Modal -->
+      <div id="edit-profile-modal" class="modal-independent">
+        <div class="modal-content-independent">
+          <span class="close-btn">&times;</span>
+          <h3>編輯賣場資料</h3>
+          <form id="edit-profile-form">
+
+            <label for="name">賣場名稱：</label>
+            <input type="text" id="name" name="name" required>
+            <p>
+
+              <label for="introduce">賣場描述：</label>
+              <input type="text" id="introduce" name="introduce" required>
+              
+            <p>
+              <label for="store_img">賣場封面圖片</label>
+              <input type="file" id="store_img" accept="images/*">
+
+              <button type="submit">儲存變更</button>
+          </form>
+        </div>
+      </div>
+
   </main>
 
   <div id="loadFooter"></div>

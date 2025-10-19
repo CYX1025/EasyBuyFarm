@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
 
-  // 🔹 新增/更新商店
+  // 🔹 新增/更新商品
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const storeid=storeIdInput.value;
