@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>商品詳情 - EasyBuyFarm好農易</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/StoreStyle.css">
+  <link rel="stylesheet" href="/css/productDetail.css">
+  <script src="/js/share.js" defer></script>
+</head>
+<body>
+
+<div id="navbar-placeholder"></div>
+
+<main class="product-detail-container">
+  <div class="product-detail">
+    <div class="product-image">
+      <img id="productImg" src="/images/default.png" alt="商品圖片">
+    </div>
+
+    <div class="product-info">
+      <h1 id="productName">商品名稱</h1>
+      <p id="productIntroduce" class="product-intro">商品描述載入中...</p>
+
+      <div class="product-meta">
+        <p><strong>價格：</strong><span id="productPrice">--</span> 元</p>
+        <p><strong>重量：</strong><span id="productWeight">--</span></p>
+        <p><strong>庫存數量：</strong><span id="productSalequantity">--</span></p>
+      </div>
+
+      <button id="buyBtn" class="btn-buy">加入購物車</button>
+    </div>
+  </div>
+  <script src="/js/detail_product.js" defer></script>
+</main>
+
+<div id="loadFooter"></div>
+
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+.product-page {
+  flex: 1.5;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 140px 20px 40px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  min-height: 100vh;
+}
+
+.product-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2; 
+}
+
+.product-grid-wrapper {
+  width: 100vw; /* 佔滿整個視窗寬度 */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background-color: #fafafa; /* 可選：鋪底色讓全寬更明顯 */
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  justify-items: center;
+}
+
+.product-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.product-card-img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.product-card-info {
+  padding: 12px 14px;
+}
+
+.product-card-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.product-price {
+  color: #2b8a3e;
+  font-weight: bold;
+}
+
+.product-intro {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 6px;
+}

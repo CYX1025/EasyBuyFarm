@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>EasyBuyFarm好農易</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/StoreStyle.css">
+  <script src="/js/member.js" defer></script> 
+  <script src="/js/store.js" defer></script>
+   <script src="/js/share.js" defer></script>
+</head>
+<body>
+
+<div id="navbar-placeholder"></div>
+
+<main class="home">
+    
+
+<!-- 合約書彈窗 -->
+<div id="contract-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="close-modal-btn">&times;</span>
+    <h2>EastBuyFarm 賣家合作協議書</h2>
+    <div class="contract-text">
+      <p><strong>第一條：合作範圍</strong></p>
+      <p>本協議確立 EastBuyFarm（以下稱「平台」）與賣家之間...</p>
+      <p><strong>第二條：費用與結算</strong></p>
+      <p>賣家同意支付平台每筆交易金額的 3 % 作為服務費...</p>
+      <p><strong>第三條：產品責任</strong></p>
+      <p>賣家須獨立承擔所有產品的品質、包裝、運輸及食品安全責任...</p>
+      <p><strong>第四條：協議生效與終止</strong></p>
+      <p>本協議經賣家點擊「同意」後立即生效...</p>
+      <p style="margin-top: 20px;">**[ 此為模擬合約內容，實際內容請依據法律顧問建議 ]**</p>
+    </div>
+    <div class="modal-actions" style="text-align: center; margin-top: 20px;">
+      <button id="agree-contract-btn" class="btn">我同意並申請成為賣家</button>
+    </div>
+  </div>
+</div>
+
+<div class="store-list">
+        <h3>賣場清單</h3>
+        <div class="store-buttons-wrapper" id="storeCardsContainer">
+          <!-- 賣場卡片會由 JS 動態插入 -->
+        </div>
+      </div>
+
+    <div class="pagination">
+      <a href="#">«</a>
+      <a href="#" class="active">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">»</a>
+    </div>
+
+    <div id="modal-overlay"></div>
+  </main>
+
+  <!-- ======================================
+       頁腳 Footer
+       ====================================== -->
+<div id="loadFooter"></div>
+</body>
+</html>

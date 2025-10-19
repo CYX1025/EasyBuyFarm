@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>搜尋結果 - EasyBuyFarm</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/StoreStyle.css">
+  <script src="/js/share.js" defer></script>
+  <script src="/js/search.js" defer></script>
+  <!-- 本檔案以 UTF-8 儲存 -->
+  <!-- 搜尋結果頁：顯示販售關鍵字商品的商店清單 -->
+  
+  <style>
+    .search-header { margin: 20px 0 10px; }
+    .search-empty, .search-error { padding: 20px; color: #666; }
+  </style>
+</head>
+
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <main class="home">
+    <div class="market-layout">
+      <div class="store-list">
+        <h2 id="search-title" class="search-header">搜尋結果</h2>
+        <div id="results-container" class="store-buttons-wrapper">
+          <!-- 由 js/search.js 動態插入搜尋結果 -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="loadFooter"></div>
+</body>
+</html>
+

@@ -1,0 +1,103 @@
+.addproduct-page
+{
+  display: flex;
+  padding: 140px 20px 40px;
+  justify-content: center; /* 水平置中 */
+}
+
+.store-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 600px; /* 表單最大寬度 */
+  height: 90vh; 
+  margin: 20px 0;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow-y: auto;      /* 超出內容可垂直滾動 */
+  overflow-x: hidden; 
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-container input[type="file"] {
+  padding: 5px 0;
+}
+
+#previewImg {
+  display: none;
+  width: 150px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+/* ======================================
+   表單按鈕
+   ====================================== */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.form-actions input[type="submit"] {
+  flex: 1;
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.form-actions input[type="submit"]:hover {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+  transform: scale(1.05);
+}
+
+/* ======================================
+   Result 訊息
+   ====================================== */
+#result {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* ======================================
+   響應式 (手機/窄螢幕)
+   ====================================== */
+@media (max-width: 640px) {
+    main.home {
+        padding: 10px;
+    }
+    .form-container {
+        padding: 20px;
+    }
+}

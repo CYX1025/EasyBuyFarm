@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>EasyBuyFarm好農易</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/productAdd.css">
+  <script src="/js/share.js" defer></script>
+  <script src="/js/member.js" defer></script>
+</head>
+<body>
+
+<div id="navbar-placeholder"></div>
+
+<main class="addproduct-page"> 
+ <form id="create-marketplace-form" class="form-container">
+    <h2 id="store-title">新增商品</h2>
+    <button id="backToListBtn" type="button" class="btn-back">← 返回編輯商品頁面</button>
+    <div class="form-group">
+        <label for="storeId">商店Id</label>
+        <input type="text" id="storeId" required maxlength="50" placeholder="測試欄位" value="s001">
+    </div>
+
+    <div class="form-group">
+        <label for="productName">商品名稱 *</label>
+        <input type="text" id="productName" required maxlength="50" placeholder="例如：紅色番茄、小黃瓜">
+    </div>
+
+    <div class="form-group">
+        <label for="productPrice">價格</label>
+        <input type="text" id="productPrice" required maxlength="50" placeholder="填入商品價格">
+    </div>
+
+    <div class="form-group">
+        <label for="productSalequantity">販賣數量</label>
+        <input type="text" id="productSalequantity" required maxlength="50" placeholder="填寫販賣數量">
+    </div>
+
+    <div class="form-group">
+        <label for="productWeight">重量</label>
+        <input type="text" id="productWeight" required maxlength="50" placeholder="例如50公克、3公斤">
+    </div>
+
+    <div class="form-group">
+        <label for="productDetail">商品描述</label>
+        <textarea id="productDetail" rows="4" placeholder="介紹您的商品特色"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="productImg">上傳圖片</label>
+        <input type="file" id="productImg" accept="image/*">
+        <img id="previewImg" style="display:none; width:150px; margin-top:10px;">
+    </div>
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="新增商品"/>
+    </div>
+    <div id="result"></div>
+    <script src="/js/add_product.js" defer></script>
+</form>
+        <div class="pagination"></div>
+</main>
+
+     <div id="loadFooter"></div>
+</body>
+</html>
