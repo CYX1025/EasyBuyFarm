@@ -36,6 +36,7 @@
 .product-card {
   background: white;
   border-radius: 10px;
+  justify-content: space-between;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 250px;
@@ -80,9 +81,17 @@
 
 .product-header-actions {
   display: flex;
-  justify-content: flex-end; /* 靠右對齊 */
+  justify-content: space-between; /* 靠右對齊 */
   margin: 10px 0 20px 0;     /* 上下間距，可調整 */
 }
+
+.product-card-buttons {
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  gap: 8px; /* 按鈕間距 */
+  margin-top: auto; /* 將按鈕推到底部 */
+}
+
 
 #addProductBtn {
   padding: 8px 16px;

@@ -9,7 +9,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   const productImgInput = document.getElementById("productImg");
   const previewImg = document.getElementById("previewImg");
   const result = document.getElementById("result") || document.createElement("div");
-  
+  const storeTitle = document.getElementById("store-title");
+
+
+  const backBtn = document.getElementById("backToListBtn");
+  backBtn.addEventListener("click", () => {
+    window.history.back();
+  });
+
+  async function updateStoreTitle() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const storeId = urlParams.get("storeId");
+    if (!storeId) return;
+
+    try {
+        const res = await fetch(`http://localhost:8080/easybuyfarm/stores/storeId/${storeId}`);
+        if (!res.ok) throw new Error("無法取得商店資料");
+        const store = await res.json();
+        storeTitle.textContent = `新增「${store.name}」的商品`;
+    } catch (err) {
+        console.error(err);
+        storeTitle.textContent = "新增商品";
+    }
+}
+
+// 初次載入或商店 ID 變動時更新標題
+storeIdInput.addEventListener("change", updateStoreTitle);
+updateStoreTitle(); // 頁面載入就更新
+
+
+
   //驗證登入
   const token = localStorage.getItem("token");
   const loginuser = localStorage.getItem("loggedInUser");
@@ -70,11 +99,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       const data = await response.json();
-      result.textContent = `✅ 新增/更新成功！商品名稱：「${data.name}」`;
-      previewImg.style.display = "none";
-    } catch (err) {
-      console.error(err);
-      result.textContent = `❌ 新增/更新失敗：${err.message}`;
+      alert(`商品「${data.name}」新增成功！`);
+      const urlParams = new URLSearchParams(window.location.search);
+      const storeId = urlParams.get("storeId");
+
+      // 跳轉回商品編輯頁並重新載入
+      window.location.href = `editproduct.html?storeId=${storeId}`;
+      } 
+    catch (err) {
+    console.error(err);
+    result.textContent = `❌ 新增/更新失敗：${err.message}`;
     }
   });
 });

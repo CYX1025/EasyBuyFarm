@@ -6,6 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const addBtn = document.getElementById("addProductBtn");
 
+  const backBtn = document.getElementById("backToListBtn");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+        // 假設 storeId 已經存在
+        const storeId = document.getElementById("storeId")?.value || "";
+        window.location.href = `../store/editstore.html?storeId=${storeId}`;
+    });
+}
+
   if (!storeId) {
     productList.innerHTML = "<p>無效的商店 ID</p>";
     return;
@@ -77,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const editBtn = div.querySelector(".edit-btn");
   editBtn.addEventListener("click", (e) => {
   e.stopPropagation(); // 避免觸發點擊整個卡片跳頁
-  window.location.href = `/html/product/editProduct.html?id=${p.id}`;
+  window.location.href = `/html/product/updateproduct.html?id=${p.id}`;
   });
 
   const deleteBtn = div.querySelector(".delete-btn");
