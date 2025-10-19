@@ -11,6 +11,31 @@ function saveCart() {
 // DOMContentLoaded 主程式
 // ======================================
 document.addEventListener("DOMContentLoaded", async () => {
+
+    // -------------------------------
+  // ✅ 登入頁 / 註冊頁自動處理登入狀態
+  // -------------------------------
+  const token = localStorage.getItem("token");
+  const isAuth = isAuthPage();
+
+  // ✅ 如果已登入卻又打開 login/register → 強制登出並導回首頁
+  if (token && isAuth) {
+    await hardLogout(true); // 靜默登出
+    window.location.href = "/html/index/index.html";
+    return; // 不繼續載入後面內容
+  }
+
+  // ✅ 如果關閉瀏覽器重新開啟（session 已重啟），就清除登入資訊
+  //    （利用 sessionStorage 旗標檢測瀏覽器是否重啟）
+  if (!sessionStorage.getItem("browserSessionActive")) {
+    // 表示這是新開的瀏覽器 session
+    sessionStorage.setItem("browserSessionActive", "true");
+    // 若 token 存在代表是上次遺留的 → 清除
+    if (token) {
+      await hardLogout(true);
+    }
+  }
+//*************************************************************/
     // -------------------------------
     // 1️⃣ 載入 Navbar
     // -------------------------------
@@ -91,6 +116,33 @@ async function loadFooter() {
     } catch (error) {
         console.error("❌ 載入 Footer 時發生錯誤:", error.message);
     }
+}
+
+
+
+/** 判斷目前是否為登入或註冊頁 */
+function isAuthPage() {
+  const p = (location.pathname || "").replace(/\\/g, "/");
+  return (
+    p.endsWith("/html/login/login.html") ||
+    p.endsWith("/html/register/register.html")
+  );
+}
+
+/** 強制登出（可靜默） */
+async function hardLogout(silent = true) {
+  try {
+    await fetch("http://localhost:8080/easybuyfarm/members/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+  } catch (_) {
+    // 忽略網路錯誤
+  }
+  localStorage.removeItem("token");
+  localStorage.removeItem("loggedInUser");
+  if (!silent) alert("已登出");
+  if (typeof updateNavbarStatus === "function") updateNavbarStatus();
 }
 
 // ======================================
