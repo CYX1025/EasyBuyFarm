@@ -48,6 +48,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             const headerHtml = await headerResponse.text();
             navbarContainer.innerHTML = headerHtml;
 
+            // 初始化搜尋框（按 Enter 導向結果頁）
+            try {
+                const searchInput = document.querySelector('.search-box');
+                if (searchInput) {
+                    const goSearch = () => {
+                        const q = (searchInput.value || '').trim();
+                        if (q) {
+                            window.location.href = `/html/search/results.html?q=${encodeURIComponent(q)}`;
+                        }
+                    };
+                    searchInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            goSearch();
+                        }
+                    });
+                }
+            } catch (_) { /* noop */ }
+
             // 初始化 Navbar
             initNavbarEvents();
             updateNavbarStatus();
