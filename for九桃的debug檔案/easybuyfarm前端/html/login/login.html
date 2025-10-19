@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>EastBuyFarm好農易</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/member.js" defer></script>
+  <script src="/js/share.js" defer></script>
+</head>
+<body>
+  <!-- ======================================
+       導覽列 Navbar
+       ====================================== -->
+  <!-- Navbar 與彈窗結構保持不變 -->
+<div id="navbar-placeholder"></div>
+
+<main class="home">
+
+  <!-- ======================================
+       登入區 (Login Form)
+       ====================================== -->
+  <main class="login-container">
+    <h2>會員登入</h2>
+    <!-- 登入表單 -->
+    <form onsubmit="return loginUser(event)">
+      <!-- 使用者帳號輸入 -->
+      <label for="username">電話 / Email</label>
+      <input type="text" id="username" required>
+
+      <!-- 密碼輸入 -->
+      <label for="password">密碼</label>
+      <input type="password" id="password" required>
+
+      <!-- 登入按鈕 -->
+      <button type="submit" class="btn">登入</button>
+
+      <!-- 註冊 / 忘記密碼連結 -->
+      <div class="login-links">
+        <a href="/html/register/register.html">註冊新會員</a> | 
+        <a href="/html/forgot-password/forgot-password.html">忘記密碼？</a>
+      </div>
+    </form>
+  </main></main>
+
+  <!-- ======================================
+       頁腳 (Footer)
+       ====================================== -->
+  <div id="loadFooter"></div>
+  
+</body>
+</html>
