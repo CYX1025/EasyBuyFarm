@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>EasyBuyFarm好農易</title>
+  <title>EasyBuyFarm好農易 - FAQ</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/qa.css">
   <script src="/js/share.js" defer></script>
@@ -12,28 +12,28 @@
 <body>
   <div id="navbar-placeholder"></div>
 
-<main class="home">
- 
+  <main class="home">
+  <main class="qahome content-offset">
+    </main>
+
     <h2>常見問題 FAQ</h2>
 
-    <!-- ✅ FAQ 主體表格 -->
+    <!-- FAQ 主體表格 -->
     <div id="qabody">
       <table id="qabodyput" border="0"></table>
     </div>
-  </div>
+  
 
-  <!-- ✅ 主程式：原生 JS 版本 -->
+  <!-- FAQ JS -->
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       try {
-        // 1️⃣ 載入 JSON 資料
         const response = await fetch("/js/productQA.JSON");
         if (!response.ok) throw new Error("載入 JSON 失敗");
         const jsonData = await response.json();
 
         const table = document.getElementById("qabodyput");
 
-        // 2️⃣ 建立 FAQ 列表
         jsonData.forEach((item) => {
           // 問題列
           const row = document.createElement("tr");
@@ -64,13 +64,11 @@
           btn.addEventListener("click", () => {
             if (td.style.display === "none") {
               td.style.display = "table-cell";
-              td.style.animation = "fadeIn 0.3s";
             } else {
               td.style.display = "none";
             }
           });
 
-          // 放入表格
           table.appendChild(row);
           table.appendChild(descRow);
         });
@@ -78,10 +76,11 @@
         console.error("❌ 載入 FAQ 失敗：", error);
       }
     });
+    
   </script>
+</main>
 
- 
-  </main>
   <div id="loadFooter"></div>
 </body>
+
 </html>
