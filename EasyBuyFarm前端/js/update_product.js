@@ -22,17 +22,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");  // 編輯商品必須帶 id
-  const storeId = storeIdInput?.value?.trim();
+ 
 
   if (!productId) {
     alert("❌ 無法識別商品 ID");
     window.location.href = "editproduct.html";
     return;
-  }
-
-  if (storeId) {
-    storeIdInput.value = storeId;
-    storeIdInput.readOnly = true;
   }
 
   // 回上一頁按鈕
@@ -48,19 +43,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!res.ok) throw new Error("無法取得商品資料");
 
       const product = await res.json();
+      const storeId=product.storeId.storeId;
+      
+   // 填入表單
+      if (storeId) {
+      storeIdInput.value = storeId;
+      console.log(storeId);
+      storeIdInput.readOnly = true;
+      }
 
       // 擁有者檢查：比對 memberId（字串）
       const ownerMemberId = product.storeId.memberToStore.memberId?.trim();
       const loginMemberId = loginuser.memberId?.trim();
-      console.log("ownerMemberId", `"${ownerMemberId}"`);
-      console.log("loginuser.memberId", `"${loginMemberId}"`);
       if (ownerMemberId !== loginMemberId) {
         alert("❌ 您不是此商店的擁有者(前端錯誤)");
         window.location.href = `editproduct.html?storeId=${storeId}`;
         return;
       }
 
-      // 填入表單
       productNameInput.value = product.name || "";
       productPriceInput.value = product.price || "";
       productSalequantityInput.value = product.salequantity || "";
@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const weight = productWeightInput.value.trim();
     const introduce = productDetailInput.value.trim();
     const productImg = productImgInput.files[0];
+    const storeId=storeIdInput.value.trim();
 
     if (!name) {
       result.textContent = "⚠️ 請輸入商品名稱";
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const formData = new FormData();
-    formData.append("storeId", storeId); // 字串傳送 storeId
+    formData.append("storeId", storeId);
     formData.append("name", name);
     formData.append("price", price);
     formData.append("salequantity", salequantity);
