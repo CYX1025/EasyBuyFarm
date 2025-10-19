@@ -81,7 +81,8 @@ public class OrderController {
             Order created = orderservice.addOrderWithDetails(req.memberId, order, req.details);
             return ResponseEntity.status(HttpStatus.CREATED).body(toOrderBody(created));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增訂單（含明細）失敗");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", e.getClass().getName(), "message", e.getMessage()));
         }
     }
 

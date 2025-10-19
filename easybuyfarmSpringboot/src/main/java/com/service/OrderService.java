@@ -29,6 +29,7 @@ public class OrderService {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
     private AutoNumber autoNumber;    
 
     /** 新增訂單＋明細（同交易） **/

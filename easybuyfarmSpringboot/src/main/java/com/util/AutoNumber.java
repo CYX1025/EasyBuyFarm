@@ -17,12 +17,12 @@ import com.repository.OrderRepository;
 public class AutoNumber {
 
     private final MemberRepository memberdao;
+    private final OrderRepository orderRepo;
 
-    private OrderRepository orderRepo;
-    
     @Autowired
-    public AutoNumber(MemberRepository memberdao) {
+    public AutoNumber(MemberRepository memberdao, OrderRepository orderRepo) {
         this.memberdao = memberdao;
+        this.orderRepo = orderRepo;
     }
 
     public String generateMemberNo() {
