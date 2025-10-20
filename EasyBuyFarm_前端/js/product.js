@@ -3,6 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
    const storeTitle = document.getElementById("storeTitle");
   const urlParams = new URLSearchParams(window.location.search);
   const storeId = urlParams.get("storeId");
+  const backBtn = document.getElementById("backToListBtn");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+        // 假設 storeId 已經存在
+        const storeId = document.getElementById("storeId")?.value || "";
+        window.location.href = `../store/storelist.html`;
+    });
+  }
+  
 
   if (!storeId) {
     productList.innerHTML = "<p>無效的商店 ID</p>";
