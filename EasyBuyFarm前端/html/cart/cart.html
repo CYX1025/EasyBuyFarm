@@ -5,6 +5,7 @@
   <title>EasyBuyFarm 購物車</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/cart-overrides.css">
   <script src="/js/share.js" defer></script>
   <script src="/js/checkout.js" defer></script>
 </head>
@@ -13,12 +14,14 @@
 <div id="navbar-placeholder"></div>
 
 <main class="login-container">
-  <h2>購物車</h2>
+  <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin-bottom:12px;">
+    <button id="clear-cart-floating" class="btn btn-small" onclick="clearCart()" title="清空購物車">清空購物車</button>
+    <h2 style="margin:0;">購物車</h2>
+  </div>
   <ul id="cart-items"></ul>
   <p id="cart-total">合計: $0</p>
   <div style="margin-top:8px;">
-    <button onclick="clearCart()">清空購物車</button>
-    <button id="checkout-btn" class="btn">結帳</button>
+    <button id="checkout-btn" class="btn btn-primary">結帳</button>
   </div>
 
   <section id="checkout-section" style="display:none; margin-top:16px;">
@@ -33,8 +36,8 @@
     </div>
 
     <div style="margin-top:8px;">
-      <button id="confirm-order-btn" class="btn">確認訂單</button>
-      <button id="cancel-checkout-btn" type="button">取消</button>
+      <button id="confirm-order-btn" class="btn btn-primary">確認訂單</button>
+      <button id="cancel-checkout-btn" type="button" class="btn">取消</button>
     </div>
   </section>
 </main>

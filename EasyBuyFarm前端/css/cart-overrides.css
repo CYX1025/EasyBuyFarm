@@ -1,0 +1,83 @@
+/* Cart controls and quantity display overrides for cart page */
+#cart-items {
+  list-style: none;
+  padding-left: 0;
+}
+
+.cart-item-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 12px; /* 一欄一欄區隔 */
+}
+
+.cart-item-info {
+  flex: 1; /* 撐開左右距離，避免金額貼近減號 */
+  font-weight: 500;
+}
+
+.cart-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 16px; /* 再加一道保險距離 */
+}
+
+.cart-btn {
+  padding: 6px 10px;
+}
+
+.cart-qty {
+  min-width: 32px;
+  text-align: center;
+  display: inline-block;
+}
+
+/* 清空購物車按鈕（改為內嵌於內容列，靠左） */
+#clear-cart-floating {
+  position: static;
+}
+
+/* 小尺寸按鈕 */
+.btn.btn-small {
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 16px;
+}
+
+/* 讓結帳與確認訂單視覺一致（與全站 button 一致尺寸） */
+.btn.btn-primary {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 20px;
+}
+
+/* 結帳區的 radio 與文字對齊 */
+#checkout-section label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 支付方式：左側純文字，右側兩個選項同一排 */
+#checkout-section > div:first-of-type {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 保留「支付方式」文字，兩個選項各佔一行 */
+/* 確保本頁內容不被固定頁首/頁尾遮住（僅影響 cart 頁） */
+body {
+  padding-top: 120px !important; /* 增加頂部空間，避開固定 header */
+}
+
+main.login-container {
+  padding-bottom: 48px; /* 增加底部空間，避免貼近 footer */
+}
