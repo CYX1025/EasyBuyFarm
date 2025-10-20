@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!response.ok) throw new Error("無法取得商品資料");
 
     const product = await response.json();
+     const backBtn = document.getElementById("backToListBtn");
+    if (backBtn) {
+    backBtn.addEventListener("click", () => {
+        
+        window.location.href = `../product/procuctlist.html?storeId=${product.storeId.storeId}`;
+    });
+  }
+
 
     // ✅ 圖片顯示邏輯（含預設圖片）
     
@@ -23,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     : "/images/default.png"; // 預設圖片路徑
 
     // ✅ 填入其他資料
+    document.getElementById("productImg").src = imgSrc;
     document.getElementById("productName").textContent = product.name || "未命名商品";
     document.getElementById("productIntroduce").textContent = product.introduce || "暫無商品描述";
     document.getElementById("productPrice").textContent = product.price ? `$${product.price}` : "未定價";
