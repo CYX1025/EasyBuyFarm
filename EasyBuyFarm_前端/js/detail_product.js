@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (backBtn) {
     backBtn.addEventListener("click", () => {
         
-        window.location.href = `../product/procuctlist.html?storeId=${product.storeId.storeId}`;
+        window.location.href = `../product/productlist.html?storeId=${product.storeId.storeId}`;
     });
   }
 
