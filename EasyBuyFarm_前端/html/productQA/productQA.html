@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>EasyBuyFarm好農易 - FAQ</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/qa.css">
+  <script src="/js/share.js" defer></script>
+  <script src="/js/member.js" defer></script>
+</head>
+
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <main class="home">
+  <main class="qahome content-offset">
+    </main>
+
+    <h2>常見問題 FAQ</h2>
+
+    <!-- FAQ 主體表格 -->
+    <div id="qabody">
+      <table id="qabodyput" border="0"></table>
+    </div>
+  
+
+  <!-- FAQ JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const response = await fetch("/js/productQA.JSON");
+        if (!response.ok) throw new Error("載入 JSON 失敗");
+        const jsonData = await response.json();
+
+        const table = document.getElementById("qabodyput");
+
+        jsonData.forEach((item) => {
+          // 問題列
+          const row = document.createElement("tr");
+          const th = document.createElement("th");
+          const btn = document.createElement("input");
+          btn.type = "button";
+          btn.className = "q";
+          btn.value = item.title;
+          th.appendChild(btn);
+          row.appendChild(th);
+
+          // 答案列
+          const descRow = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 1;
+          td.className = "desc";
+          td.style.display = "none";
+
+          if (Array.isArray(item.description)) {
+            td.innerHTML = item.description.join("<br>");
+          } else {
+            td.innerHTML = item.description;
+          }
+
+          descRow.appendChild(td);
+
+          // 點擊按鈕：展開/收起答案
+          btn.addEventListener("click", () => {
+            if (td.style.display === "none") {
+              td.style.display = "table-cell";
+            } else {
+              td.style.display = "none";
+            }
+          });
+
+          table.appendChild(row);
+          table.appendChild(descRow);
+        });
+      } catch (error) {
+        console.error("❌ 載入 FAQ 失敗：", error);
+      }
+    });
+    
+  </script>
+</main>
+
+  <div id="loadFooter"></div>
+</body>
+
+</html>

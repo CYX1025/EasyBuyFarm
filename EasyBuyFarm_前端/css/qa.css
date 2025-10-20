@@ -1,0 +1,93 @@
+body {
+  font-family: "Microsoft JhengHei", Arial, sans-serif;
+  background-color: #f6f9f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+main.qahome {
+  padding: 80px 20px 20px 20px; /* 上方空間避免 navbar 遮住 */
+}
+.content-offset {
+  margin-top: 300px; /* 調整這個數值對應你的 navbar 高度 */
+}
+
+h2 {
+  text-align: center;
+  color: #2e7d32;
+  font-size: 26px;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+table {
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #e8f5e9;
+  border-radius: 8px;
+  padding: 0;
+}
+
+.q {
+  width: 100%;
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  background-color: #a5d6a7;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #1b5e20;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+}
+
+.q:hover {
+  background-color: #81c784;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.desc {
+  background-color: #ffffff;
+  border-left: 5px solid #66bb6a;
+  border-radius: 6px;
+  margin-top: 6px;
+  padding: 15px 18px;
+  line-height: 1.7;
+  font-size: 15.5px;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: none;
+  width: 100%;
+}
+
+/* 手機版響應式 */
+@media (max-width: 768px) {
+  main.home {
+    padding: 60px 10px 10px 10px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .q {
+    font-size: 15.5px;
+    padding: 12px 15px;
+  }
+
+  .desc {
+    font-size: 14.5px;
+    padding: 12px 15px;
+  }
+}
