@@ -532,6 +532,21 @@ form button {
   outline: none;
 }
 
+/* 訂單詳情頁：讓「返回訂單列表」看起來像主要按鈕（匹配 cart 確認訂單） */
+main.member-main a[href="/html/member/member.html#order"] {
+  display: inline-block;
+  padding: 8px 16px;
+  background: linear-gradient(to right, #ff7e5f, #ee4d2d);
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  transition: background 0.3s, transform 0.2s;
+}
+main.member-main a[href="/html/member/member.html#order"]:hover {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+  transform: scale(1.05);
+}
+
 /* ======================================
    ↓↓↓↓↓↓ 下拉選單 Dropdown 美化版 (最終修正) ↓↓↓↓↓↓
    ====================================== */

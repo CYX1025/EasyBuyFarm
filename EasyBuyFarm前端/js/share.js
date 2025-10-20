@@ -386,9 +386,10 @@ function renderCartItems() {
         const li = document.createElement("li");
         li.className = 'cart-item-detail';
         li.innerHTML = `
-            ${item.name} - NT$${item.price} x ${item.quantity}
+            <div class="cart-item-info">${item.name} - NT$${item.price}</div>
             <div class="cart-controls">
                 <button class="cart-btn" data-action="minus" data-index="${index}">-</button>
+                <span class="cart-qty" aria-label="數量">${item.quantity}</span>
                 <button class="cart-btn" data-action="plus" data-index="${index}">+</button>
                 <button class="cart-btn delete-btn" data-action="remove" data-index="${index}">刪除</button>
             </div>

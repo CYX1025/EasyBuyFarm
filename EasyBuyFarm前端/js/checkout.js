@@ -111,11 +111,15 @@
     if (!sec) return;
     renderCheckoutPreview();
     sec.style.display = '';
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) checkoutBtn.style.display = 'none';
   }
 
   function cancelCheckout() {
     const sec = document.getElementById('checkout-section');
     if (sec) sec.style.display = 'none';
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) checkoutBtn.style.display = '';
   }
 
   document.addEventListener('DOMContentLoaded', () => {
