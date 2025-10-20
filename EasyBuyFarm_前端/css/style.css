@@ -159,43 +159,42 @@ button:hover {
 /* ======================================
    頁腳 Footer
    ====================================== */
-html, body {
+html {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
 body {
+  font-family: "Microsoft JhengHei", Arial, sans-serif;
+  margin: 0;
+  padding-top: 100px; /* 頂部留 navbar 高度 */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
 }
 
 main {
   flex: 1; /* 推開 footer 到最底 */
-  display: block;
 }
+
 .footer {
-    background: linear-gradient(to right, #232526, #414345); /* 黑灰漸層 */
-    color: white;
-    text-align: center;
-    padding: 20px;
-    margin-top: auto;
+  background: linear-gradient(to right, #232526, #414345);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
 }
+
 .footer-links a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-.footer-links a:visited {
-    color: white;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
 }
 .footer-links a:hover {
-    color: #ffd700; /* hover 金色 */
-    text-decoration: underline;
-}
-.footer-links a:active {
-    color: #ccc;
+  color: #ffd700;
+  text-decoration: underline;
 }
 
 /* ======================================
