@@ -270,7 +270,6 @@ main {
    ====================================== */
 main.home {
     background: linear-gradient(to bottom, #8ab2f8, #1bdee8,#49e97e, #efa417); 
-    display: flex;              /* 啟用 Flex */
     flex-direction: column;     /* 垂直排列 */
     justify-content: center;    /* 垂直置中 */
     align-items: center;        /* 水平置中 */
@@ -346,7 +345,7 @@ main.home {
   gap: 20px;
   position: relative; /* 防止內容被彈窗遮蓋 */
   z-index: 1;
-  margin-top: 160px;
+  margin-top: 60px;
 }
 
 /* 側邊導航欄 */
