@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
 
-<head>
-  <meta charset="UTF-8">
   <title>EasyBuyFarm好農易</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/share.js" defer></script>
-  <script src="/js/member.js"></script>
-  <script src="/js/order.js"></script>
+  <script src="/js/member.js" defer></script>
+  <script src="/js/order.js" defer></script>
 </head>
 
 <body>
 
+
   <div id="navbar-placeholder"></div>
+  
 
   <!-- 會員中心內容 -->
   <div class="member-container">
@@ -21,7 +19,6 @@
       <ul>
         <li><a href="#profile">個人資料</a></li>
         <li><a href="#orders">訂單紀錄</a></li>
-        <li><a href="#coupons">優惠券</a></li>
         <li><a href="logout.html">登出</a></li>
       </ul>
     </nav>
@@ -30,22 +27,26 @@
     <main class="member-main">
       <!-- 個人資料 -->
       <section id="profile" class="section">
-        <h3>個人資料</h3>
-        <div class="profile-info">
+    <h3>個人資料</h3>
+    <div class="profile-info">
+        <div class="info">
+          
+    <p><strong>會員編號：</strong><span id="profile-memberId">未設定</span></p>
+    <p><strong>姓：</strong><span id="profile-lastName">未設定</span></p>
+    <p><strong>名：</strong><span id="profile-firstName">未設定</span></p>
+    <p><strong>Email：</strong><span id="profile-email">未設定</span></p>
+    <p><strong>電話：</strong><span id="profile-phone">未設定</span></p>
+    <p><strong>生日：</strong><span id="profile-birthday">未設定</span></p>
+    <p><strong>地址：</strong><span id="profile-address">未設定</span></p>
+    <p><strong>身分：</strong><span id="profile-role">未設定</span></p>
+    <p><strong>狀態：</strong><span id="profile-status">未設定</span></p>
+    <button id="edit-profile-btn" class="btn">編輯個人資料</button>
+</div>
+    </div>
 
-          <div class="info">
-            <p><strong>姓：</strong><span id="profile-lastName">*</span></p>
-            <p><strong>名：</strong><span id="profile-firstName">*</span></p>
-            <p><strong>Email：</strong><span id="profile-email">*</span></p>
-            <p><strong>電話：</strong><span id="profile-phone">*</span></p>
-            <p><strong>生日：</strong><span id="profile-birthday">*</span></p>
-            <p><strong>地址：</strong><span id="profile-address">*</span></p>
-            <button id="edit-profile-btn" class="btn">編輯個人資料</button>
-          </div>
-        </div>
-      </section>
+</section>
 
-      <!-- 訂單紀錄 -->
+ <!-- 訂單紀錄 -->
       <section id="orders" class="section">
         <h3>訂單紀錄</h3>
         <table>
@@ -66,25 +67,12 @@
         </table>
       </section>
 
-      <!-- 優惠券 -->
-      <section id="coupons" class="section">
-        <h3>優惠券</h3>
-        <div class="coupon">
-          <p><strong>滿千折百</strong></p>
-          <p>有效期限：2025/12/31</p>
-          <button>使用</button>
-        </div>
-        <div class="coupon">
-          <p><strong>首購折扣</strong></p>
-          <p>有效期限：2025/09/30</p>
-          <button>使用</button>
-        </div>
       </section>
 
-      <!-- 帳戶設定 -->
-      <section id="settings" class="section">
 
-      </section>
+
+
+      <!-- 編輯個人資料的 Modal -->
       <!-- 編輯資料 Modal -->
       <div id="edit-profile-modal" class="modal-independent">
         <div class="modal-content-independent">
@@ -116,11 +104,14 @@
         </div>
       </div>
 
+      </section>
 
     </main>
   </div>
 
   <div id="loadFooter"></div>
+
+  
 </body>
 
 </html>
