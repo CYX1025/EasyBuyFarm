@@ -16,13 +16,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const product = await response.json();
 
     // ✅ 圖片顯示邏輯（含預設圖片）
-    const imgElement = document.getElementById("productImg");
-
-    if (product.productImg && product.productImg.trim() !== "") {
-      imgElement.src = `http://localhost:8080/uploads/product/${product.productImg}`;
-    } else {
-      imgElement.src = "../../images/default.png"; // 預設圖片
-    }
+    
+    //  判斷圖片是否存在
+    const imgSrc = product.productImg && product.productImg.trim() !== ""
+    ? `http://localhost:8080/uploads/product/${product.productImg}`
+    : "/images/default.png"; // 預設圖片路徑
 
     // ✅ 填入其他資料
     document.getElementById("productName").textContent = product.name || "未命名商品";
